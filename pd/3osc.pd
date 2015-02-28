@@ -1,0 +1,39 @@
+#N canvas 0 22 450 300 10;
+#X obj -45 217 myoscillator;
+#X obj 214 116 vsl 15 75 0 0.5 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 4 244 mysawtoothoscillator;
+#X obj 45 270 mysquareoscillator;
+#X obj 198 116 vsl 15 75 0 0.5 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 230 116 vsl 15 75 0 0.5 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 0 1;
+#X obj 103 20 inlet;
+#X obj 165 20 inlet;
+#X obj 222 20 inlet;
+#X obj 285 20 inlet;
+#X obj -94 51 inlet;
+#X obj -56 70 inlet;
+#X obj -18 91 inlet;
+#X floatatom 114 118 5 0 0 0 - - -;
+#X floatatom 114 150 5 0 0 0 - - -;
+#X floatatom 114 183 5 0 0 0 - - -;
+#X text 112 101 Frequency 1;
+#X text 113 133 Frequency 2;
+#X text 112 166 Frequency 3;
+#X connect 1 0 2 1;
+#X connect 4 0 0 1;
+#X connect 5 0 3 1;
+#X connect 6 0 4 0;
+#X connect 7 0 1 0;
+#X connect 8 0 5 0;
+#X connect 9 0 4 0;
+#X connect 9 0 1 0;
+#X connect 9 0 5 0;
+#X connect 10 0 0 0;
+#X connect 10 0 13 0;
+#X connect 11 0 2 0;
+#X connect 11 0 14 0;
+#X connect 12 0 3 0;
+#X connect 12 0 15 0;
+#X coords 0 -1 1 1 150 110 2 100 100;

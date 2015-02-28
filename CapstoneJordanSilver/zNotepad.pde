@@ -1,0 +1,17 @@
+//   checkbox = cp5.addCheckBox("checkBox")
+//                 .setPosition(20, 35)
+//                 .setColorForeground(color(120))
+//                 .setColorActive(color(255))
+//                 .setColorLabel(color(0))
+//                 .setSize(15, 15)
+//                 .setItemsPerRow(1)
+//                 //.setSpacingColumn(30)
+//                 .setSpacingRow(5)
+//                 .addItem("Send test message to PD", 0)
+//                 .addItem("50", 50)
+////                 .addItem("100", 100)
+////                 .addItem("150", 150)
+////                 .addItem("200", 200)
+////                 .addItem("255", 255)
+//                 ;
+

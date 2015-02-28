@@ -1,0 +1,21 @@
+#N canvas 0 22 450 300 10;
+#X obj 208 112 vsl 15 128 0 1000 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 3100 1;
+#X floatatom 127 120 5 0 0 0 - - -;
+#X obj 48 61 * 200;
+#X obj 83 23 inlet;
+#X obj 276 258 outlet;
+#X floatatom 127 212 5 0 0 0 - - -;
+#X text 125 196 Output;
+#X obj 214 24 inlet;
+#X text 110 104 Analog Input;
+#X floatatom 127 157 5 0 0 0 - - -;
+#X text 109 141 Ms/beat Input;
+#X connect 0 0 4 0;
+#X connect 0 0 5 0;
+#X connect 1 0 2 0;
+#X connect 2 0 0 0;
+#X connect 3 0 1 0;
+#X connect 7 0 0 0;
+#X connect 7 0 9 0;
+#X coords 0 -1 1 1 150 150 2 100 100;

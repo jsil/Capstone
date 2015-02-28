@@ -1,0 +1,219 @@
+#N canvas 318 99 794 553 10;
+#X floatatom 19 107 0 0 0 0 - - -;
+#X obj 82 338 *~;
+#X obj 205 275 line~;
+#X floatatom 237 118 0 0 0 0 - - -;
+#X obj 205 249 pack 0 200;
+#X obj 237 96 r window;
+#X obj 19 81 r transpose;
+#X obj 19 151 exp;
+#X floatatom 19 173 6 0 0 0 - - -;
+#X obj 19 243 /;
+#X obj 146 173 * 0.001;
+#X obj 314 345 line~;
+#X obj 314 320 pack 0 200;
+#X floatatom 314 269 0 0 0 0 - - -;
+#X obj 314 243 r delay;
+#X obj 82 364 +~;
+#X obj 19 388 cos~;
+#X obj 19 415 *~;
+#X obj 19 439 +~;
+#X obj 106 297 wrap~;
+#X obj 251 340 *~;
+#X obj 251 370 +~;
+#X obj 188 394 cos~;
+#X obj 188 416 *~;
+#X msg 412 57 \; transpose 0 \; window 100 \; delay 0;
+#X obj 412 31 loadbang;
+#X obj 146 200 t b f;
+#X floatatom 19 265 6 0 0 0 - - -;
+#X obj 106 270 +~ 0.5;
+#X obj 19 338 -~ 0.5;
+#X obj 19 364 *~ 0.5;
+#X obj 188 339 -~ 0.5;
+#X obj 188 372 *~ 0.5;
+#X obj 19 194 - 1;
+#X obj 19 129 * 0.05776;
+#X obj 19 216 * -1;
+#X text 53 106 <-- transposition;
+#X text 96 119 (halftones);
+#X text 62 167 speed;
+#X text 61 181 change;
+#X text 281 117 <--window (msec);
+#X text 54 236 tape head;
+#N canvas 0 22 612 637 test-input 0;
+#N canvas 0 22 450 300 (subpatch) 0;
+#X array array1 31371 float 0;
+#X coords 0 1 31370 -1 200 150 1;
+#X restore 150 141 graph;
+#X obj 139 518 tabread4~ array1;
+#X obj 139 333 r totsamps;
+#X obj 139 413 /;
+#X obj 139 465 *~ 0;
+#X obj 139 439 phasor~ 0;
+#X obj 139 492 +~ 1;
+#X msg 139 386 44100;
+#X obj 139 360 t b f;
+#X obj 182 469 r totsamps;
+#X text 153 538 sample loop for;
+#X text 153 555 test signal;
+#X obj 162 30 loadbang;
+#X obj 139 590 outlet~;
+#X obj 393 169 r readfile;
+#X obj 393 199 symbol;
+#X msg 392 228 read -resize \$1 array1;
+#X obj 392 256 soundfiler;
+#X obj 392 284 s totsamps;
+#X msg 161 64 \; readfile;
+#X connect 1 0 13 0;
+#X connect 2 0 8 0;
+#X connect 3 0 5 0;
+#X connect 4 0 6 0;
+#X connect 5 0 4 0;
+#X connect 6 0 1 0;
+#X connect 7 0 3 0;
+#X connect 8 0 7 0;
+#X connect 8 1 3 1;
+#X connect 9 0 4 1;
+#X connect 12 0 19 0;
+#X connect 14 0 15 0;
+#X connect 15 0 16 0;
+#X connect 16 0 17 0;
+#X connect 17 0 18 0;
+#X restore 264 31 pd test-input;
+#X obj 19 466 output~;
+#X obj 19 296 phasor~;
+#X obj 314 296 max 1.5;
+#X text 317 202 delay;
+#X text 314 220 (msec);
+#X obj 237 140 max 1;
+#X text 55 249 rotation freq;
+#X obj 82 388 vd~ G09-del;
+#X obj 251 392 vd~ G09-del;
+#X obj 264 53 delwrite~ G09-del 5000;
+#X obj 1 1 cnv 15 445 20 empty \$0-pddp.cnv.header pitch_shifter 20
+10 1 18 -261139 -33289 0;
+#X obj 407 2 pddp/pddplink http://puredata.info/dev/pddp -text pddp
+;
+#X text 457 320 This is a classic rotating-tape-head style pitch shifter
+using the [vd~] variable delay object. Ther are two moving tape heads
+\, each of which is loudest at the middle of its trajectory \, and
+enveloped out at the moment it has to jump back (or forward) to start
+another scratch. Most of the brain work is in computing how fast the
+tape heads have to move to get the desired transposition.;
+#X text 457 406 The "window size" is the total trajectory of the read
+points in the delay line \, in milliseconds. The delay times are controlled
+by a [phasor~] object. The second delay time \, 180 degrees out of
+phase from the first one \, is computed using the "wrap" object.;
+#X text 456 470 The "window size" is the total trajectory of the read
+points in the delay line \, in milliseconds. The delay times are controlled
+by a [phasor~] object. The second delay time \, 180 degrees out of
+phase from the first one \, is computed using the "wrap" object.;
+#X text 455 534 The [cos~] objects compute the fadein and fadeout of
+the two delay line outputs. They each traverse the positive half of
+the cosine waveform (phase -0.25 to +0.25) over the time the phase
+goes from one end to the other.;
+#X obj 1 531 cnv 15 445 20 empty \$0-pddp.cnv.footer empty 20 12 0
+14 -233017 -33289 0;
+#N canvas 44 246 494 284 META 0;
+#X text 12 125 WEBSITE http://crca.ucsd.edu/~msp/;
+#X text 12 105 AUTHOR Miller Puckette;
+#X text 12 85 LIBRARY PDDP;
+#X text 12 5 GENRE tutorial;
+#X text 12 45 LICENSE SIBSD;
+#X text 12 145 HELP_PATCH_AUTHORS Updated for release 0.37-1. Jonathan
+Wilkes revised the patch to conform to the PDDP template for Pd version
+0.42.;
+#X text 12 65 DESCRIPTION pitch shifter;
+#X text 12 25 KEYWORDS signal;
+#X restore 392 533 pd META;
+#N canvas 13 202 428 190 References 0;
+#X obj 1 1 cnv 15 425 20 empty \$0-pddp.cnv.subheading empty 3 12 0
+14 -261139 -33289 0;
+#X text 7 2 pitch shifter- Related Help Documents;
+#X text 19 37 links:;
+#X restore 103 533 pd References;
+#X obj 6 533 pddp/pddplink ../5.reference/pddp/help.pd -text help;
+#X obj 265 175 key;
+#X obj 246 197 route 49 50 51;
+#X msg 230 222 0;
+#X obj 491 177 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 496 201 f;
+#X msg 508 154 0;
+#X obj 496 236 + 45;
+#X obj 415 181 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 420 205 f;
+#X msg 432 158 0;
+#X obj 420 240 - 45;
+#X msg 179 79 100;
+#X msg 200 48 5000;
+#X connect 0 0 34 0;
+#X connect 1 0 15 0;
+#X connect 2 0 1 1;
+#X connect 2 0 20 1;
+#X connect 3 0 48 0;
+#X connect 4 0 2 0;
+#X connect 5 0 3 0;
+#X connect 6 0 0 0;
+#X connect 7 0 8 0;
+#X connect 8 0 33 0;
+#X connect 9 0 27 0;
+#X connect 10 0 26 0;
+#X connect 11 0 15 1;
+#X connect 11 0 21 1;
+#X connect 12 0 11 0;
+#X connect 13 0 45 0;
+#X connect 14 0 13 0;
+#X connect 15 0 50 0;
+#X connect 16 0 17 0;
+#X connect 17 0 18 0;
+#X connect 18 0 43 0;
+#X connect 18 0 43 1;
+#X connect 19 0 20 0;
+#X connect 19 0 31 0;
+#X connect 20 0 21 0;
+#X connect 21 0 51 0;
+#X connect 22 0 23 0;
+#X connect 23 0 18 1;
+#X connect 25 0 24 0;
+#X connect 26 0 9 0;
+#X connect 26 1 9 1;
+#X connect 27 0 44 0;
+#X connect 28 0 19 0;
+#X connect 29 0 30 0;
+#X connect 30 0 16 0;
+#X connect 31 0 32 0;
+#X connect 32 0 22 0;
+#X connect 33 0 35 0;
+#X connect 34 0 7 0;
+#X connect 35 0 9 0;
+#X connect 42 0 52 0;
+#X connect 44 0 1 0;
+#X connect 44 0 29 0;
+#X connect 44 0 28 0;
+#X connect 45 0 12 0;
+#X connect 48 0 10 0;
+#X connect 48 0 4 0;
+#X connect 50 0 17 1;
+#X connect 51 0 23 1;
+#X connect 63 0 64 0;
+#X connect 64 0 65 0;
+#X connect 64 1 70 0;
+#X connect 64 2 66 0;
+#X connect 65 0 13 0;
+#X connect 66 0 67 0;
+#X connect 67 0 69 0;
+#X connect 68 0 67 1;
+#X connect 69 0 67 1;
+#X connect 69 0 13 0;
+#X connect 69 0 71 1;
+#X connect 70 0 71 0;
+#X connect 71 0 73 0;
+#X connect 72 0 71 1;
+#X connect 73 0 71 1;
+#X connect 73 0 13 0;
+#X connect 73 0 67 1;
+#X connect 74 0 3 0;
+#X connect 75 0 3 0;
