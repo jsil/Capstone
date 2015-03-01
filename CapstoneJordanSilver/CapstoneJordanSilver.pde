@@ -27,6 +27,8 @@ float zRot = 0;
   
 Debug debug;
 
+Visualization vis;
+
 Slider abc;
 
 void setup() {
@@ -36,16 +38,17 @@ void setup() {
    ControlP5 cp5;
    cp5 = new ControlP5(this);
    debug = new Debug(cp5);
+   vis = new Visualization();
    oscP5 = new OscP5(this,9002);
    pureData = new NetAddress("127.0.0.1",9001);
    //doTwitter();
 }
 
 void draw() {
-  fill(255);
-  fill(227,16,87);
-  rect(0,0,displayWidth,displayHeight);
+  pushMatrix();
+
   
+  vis.draw();
   debug.draw();
   
 //  noFill();
@@ -53,6 +56,8 @@ void draw() {
 //  rotate(60,50+xRot,50+5*(yRot*yRot),0+zRot);
 //  box(50,50,50);
 //  translate(0,0,0);
+
+  popMatrix();
 }
 
 void keyPressed() {

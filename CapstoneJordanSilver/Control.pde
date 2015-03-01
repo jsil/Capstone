@@ -13,8 +13,9 @@ void slider(float tempo) {
 }
 
 void tempoSend() {
-   oscP5.send(new OscMessage("/tempo").add(debug.getTempo()), pureData);
-   println("Sent tempo: " + debug.getTempo()); 
+   oscP5.send(new OscMessage("/tempo").add(debug.getTempoControl()), pureData);
+   println("Sent tempo: " + debug.getTempoControl()); 
+   debug.setTempo();
 }
 
 void controlEvent(ControlEvent theEvent) {

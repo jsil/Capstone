@@ -7,6 +7,7 @@ class Debug {
   float h;
   color c;
   int tempo;
+  int tempoControl;
   
   Button offBtn;
   Button onBtn;
@@ -26,29 +27,27 @@ class Debug {
     h = 150;
     c = color(48,134,74);
     tempo = 50;
+    tempoControl = 50;
    }
   
   Debug(ControlP5 cp5) {
     isOpen = true;
-    xLoc = 00;//bug: setting these to non-0 breaks controllers
+    xLoc = 00;
     yLoc = 00;
     w = 250;
     h = 150;
     c = color(48,134,74);
     tempo = 100;
-    
-    //translate(xLoc,yLoc,0);
-    
-    //translate(0,0,0);
+    tempoControl = 100;
     
     onBtn = cp5.addButton("onSend");
-    onBtn.setPosition(20,35)
+    onBtn.setPosition(xLoc+20,yLoc+35)
      .setSize(15,15)
      .setLabelVisible(false)
      ; 
      
     offBtn = cp5.addButton("offSend");
-    offBtn.setPosition(65,35)
+    offBtn.setPosition(xLoc+65,yLoc+35)
      .setSize(15,15)
      .setLabelVisible(false)
      ; 
@@ -57,7 +56,7 @@ class Debug {
      onBtn.setVisible(true);
      
     note1 = cp5.addTextfield("Note1")
-     .setPosition(20,60)
+     .setPosition(xLoc+20,yLoc+60)
      .setSize(20,20)
      //.setFont(font)
      //.setFocus(true)
@@ -65,7 +64,7 @@ class Debug {
      ;
      
     note2 = cp5.addTextfield("Note2")
-     .setPosition(50,60)
+     .setPosition(xLoc+50,yLoc+60)
      .setSize(20,20)
      //.setFont(font)
      //.setFocus(true)
@@ -73,7 +72,7 @@ class Debug {
      ;
      
     note3 = cp5.addTextfield("Note3")
-     .setPosition(80,60)
+     .setPosition(xLoc+80,yLoc+60)
      .setSize(20,20)
      //.setFont(font)
      //.setFocus(true)
@@ -81,41 +80,34 @@ class Debug {
      ;
      
     note4 = cp5.addTextfield("Note4")
-     .setPosition(110,60)
+     .setPosition(xLoc+110,yLoc+60)
      .setSize(20,20)
      //.setFont(font)
      //.setFocus(true)
      .setColor(color(255,0,0))
      ;
      
-     
-//     int sliderValue = 100;
-//     int sliderTicks1 = 100;
-//     int sliderTicks2 = 30;
-//     Slider abc;
-     
-    slider = cp5.addSlider("tempo")
-     .setPosition(20,110)
+    slider = cp5.addSlider("tempoCtrl")
+     .setPosition(xLoc+20,yLoc+110)
      .setSize(150,30)
-     .setRange(0,400)
-     .setNumberOfTickMarks(350)
+     .setRange(50,400)
+     //.setNumberOfTickMarks(200)
      //.setLabelVisible(false)
      .setSliderMode(Slider.FLEXIBLE)
-  //.setAutoUpdate(true)
-     .plugTo(this, "tempo")
+     .plugTo(this, "tempoControl")
      ;
      
     tempoSend = cp5.addButton("tempoSend")
-     .setPosition(173,118)
+     .setPosition(xLoc+173,yLoc+118)
      .setSize(53,15)
      //.setLabelVisible(false)
      ; 
 
-     translate(0,0,0);
      
   }
   
   void draw() {
+    pushMatrix();
     translate(xLoc,yLoc,0);
     if(isOpen) {
         fill(c);
@@ -136,7 +128,7 @@ class Debug {
       fill(0);
       text("D",5,15); 
     }
-    translate(0,0,0);
+    popMatrix();
   }
   
   void click(float x, float y) {
@@ -209,10 +201,19 @@ class Debug {
      return tempo; 
   }
   
+  float getTempoControl() {
+     return tempoControl; 
+  }
+  
+  void setTempo() {
+     tempo = tempoControl;
+  }
+  
   void setTempo(int tempoSet) {
     if(tempo != tempoSet) {
       tempo = tempoSet;
-      slider.setValue(tempo*1.08);
+      tempoControl = tempoSet;
+      slider.setValue(tempo);
     }
   }
 }
