@@ -1,10 +1,10 @@
 void onSend() {
-  oscP5.send(new OscMessage("/on").add(1), pureData);
+  oscP5.send(new OscMessage("/sound/on").add(1), pureData);
   println("On");
 }
 
 void offSend() {
-  oscP5.send(new OscMessage("/off").add(1), pureData);
+  oscP5.send(new OscMessage("/sound/on").add(0), pureData);
   println("Off");
 }
 
@@ -13,7 +13,7 @@ void slider(float tempo) {
 }
 
 void tempoSend() {
-   oscP5.send(new OscMessage("/tempo").add(debug.getTempoControl()), pureData);
+   oscP5.send(new OscMessage("/sound/tempo").add(debug.getTempoControl()), pureData);
    println("Sent tempo: " + debug.getTempoControl()); 
    debug.setTempo();
 }

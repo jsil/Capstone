@@ -42,14 +42,20 @@ void setup() {
    oscP5 = new OscP5(this,9002);
    pureData = new NetAddress("127.0.0.1",9001);
    //doTwitter();
+   
+   //ortho(0, width, 0, height); 
 }
 
 void draw() {
+  
+  //blendMode(ADD);
+  
   pushMatrix();
+  
+  //beginCamera();
 
   
   vis.draw();
-  debug.draw();
   
 //  noFill();
 //  translate(displayWidth/2,displayHeight/2, 0);
@@ -57,7 +63,22 @@ void draw() {
 //  box(50,50,50);
 //  translate(0,0,0);
 
+
   popMatrix();
+
+  
+  //camera(mouseX, height/2, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);//rotate
+  //camera(mouseX, height/2, (height/2) / tan(PI/6), mouseX, height/2, 0, 0, 1, 0);//pan
+  
+  blendMode(BLEND);
+  
+  //endCamera();
+  
+  
+  
+  //translate(-screenX(0,0,0),-screenY(0,0,0),-screenZ(0,0,0));//makes console blurry.
+  
+  debug.draw();
 }
 
 void keyPressed() {
@@ -67,9 +88,21 @@ void keyPressed() {
            yRot = yRot + .5;
         } 
         if(keyCode == LEFT) {
-           oscP5.send(new OscMessage("/test").add(5), pureData);
-           println("Sent"); 
+           //oscP5.send(new OscMessage("/test").add(5), pureData);
+           //println("Sent"); 
+           vis.accelerateY(-1);
         } 
+        if(keyCode == RIGHT) {
+            vis.accelerateY(1);
+        }
+     }
+     else {
+        if(key == 'z') {
+           vis.zoomIn();
+        }
+        else if(key == 'x') {
+           vis.zoomOut(); 
+        }
      }
   } 
   
