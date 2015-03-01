@@ -8,7 +8,8 @@ class Debug {
   color c;
   int tempo;
   
-  Button btn;
+  Button offBtn;
+  Button onBtn;
   Textfield note1;
   Textfield note2;
   Textfield note3;
@@ -29,7 +30,7 @@ class Debug {
   
   Debug(ControlP5 cp5) {
     isOpen = true;
-    xLoc = 00;
+    xLoc = 00;//bug: setting these to non-0 breaks controllers
     yLoc = 00;
     w = 250;
     h = 150;
@@ -38,13 +39,22 @@ class Debug {
     
     //translate(xLoc,yLoc,0);
     
-    translate(0,0,0);
+    //translate(0,0,0);
     
-    btn = cp5.addButton("testSend");
-    btn.setPosition(20,35)
+    onBtn = cp5.addButton("onSend");
+    onBtn.setPosition(20,35)
      .setSize(15,15)
      .setLabelVisible(false)
      ; 
+     
+    offBtn = cp5.addButton("offSend");
+    offBtn.setPosition(65,35)
+     .setSize(15,15)
+     .setLabelVisible(false)
+     ; 
+     
+     offBtn.setVisible(true);
+     onBtn.setVisible(true);
      
     note1 = cp5.addTextfield("Note1")
      .setPosition(20,60)
@@ -87,7 +97,7 @@ class Debug {
     slider = cp5.addSlider("tempo")
      .setPosition(20,110)
      .setSize(150,30)
-     .setRange(50,400)
+     .setRange(0,400)
      .setNumberOfTickMarks(350)
      //.setLabelVisible(false)
      .setSliderMode(Slider.FLEXIBLE)
@@ -117,8 +127,8 @@ class Debug {
         line(w-15,0, w, 15);
         line(w, 0, w-15, 15);
         
-        //rect(xLoc + 20, yLoc+35, 15, 15);
-        text("Send test message to PD", 45,47);
+        text("On", 40,47);
+        text("Off", 85,47);
     }
     else {
       fill(c);
@@ -153,7 +163,8 @@ class Debug {
   
   void hide() {
     isOpen = false;
-    btn.setVisible(false);
+    offBtn.setVisible(false);
+    onBtn.setVisible(false);
     note1.setVisible(false);
     note2.setVisible(false);
     note3.setVisible(false);
@@ -165,7 +176,8 @@ class Debug {
   
   void show() {
     isOpen = true;
-    btn.setVisible(true);
+    offBtn.setVisible(true);
+    onBtn.setVisible(true);
     note1.setVisible(true);
     note2.setVisible(true);
     note3.setVisible(true);
@@ -195,5 +207,12 @@ class Debug {
   
   float getTempo() {
      return tempo; 
+  }
+  
+  void setTempo(int tempoSet) {
+    if(tempo != tempoSet) {
+      tempo = tempoSet;
+      slider.setValue(tempo*1.08);
+    }
   }
 }

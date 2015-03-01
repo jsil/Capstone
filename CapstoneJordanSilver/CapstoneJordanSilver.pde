@@ -1,10 +1,5 @@
 //Jordan Silver
 //Capstone
-<<<<<<< HEAD
-
-//test
-=======
->>>>>>> b28e00e5adda4918f0462945aa8312d081d23fef
   
 import oscP5.*;//sends messages to pure data
 import netP5.*;//connects to pure data
@@ -20,7 +15,7 @@ NetAddress pureData;
 
 //CheckBox checkbox;
 
-ConfigurationBuilder  cb = new ConfigurationBuilder();
+ConfigurationBuilder cb = new ConfigurationBuilder();
 Twitter twitterInstance;
 Query queryForTwitter;
 
@@ -43,7 +38,7 @@ void setup() {
    debug = new Debug(cp5);
    oscP5 = new OscP5(this,9002);
    pureData = new NetAddress("127.0.0.1",9001);
-   doTwitter();
+   //doTwitter();
 }
 
 void draw() {

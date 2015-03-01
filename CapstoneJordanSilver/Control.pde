@@ -1,7 +1,11 @@
-void testSend() {
-   //println("TODO:send test data");
-   oscP5.send(new OscMessage("/test").add(1), pureData);
-   println("Sent test signal."); 
+void onSend() {
+  oscP5.send(new OscMessage("/on").add(1), pureData);
+  println("On");
+}
+
+void offSend() {
+  oscP5.send(new OscMessage("/off").add(1), pureData);
+  println("Off");
 }
 
 void slider(float tempo) {
@@ -10,7 +14,7 @@ void slider(float tempo) {
 
 void tempoSend() {
    oscP5.send(new OscMessage("/tempo").add(debug.getTempo()), pureData);
-   println("Sent tempo:" + debug.getTempo()); 
+   println("Sent tempo: " + debug.getTempo()); 
 }
 
 void controlEvent(ControlEvent theEvent) {
@@ -19,8 +23,7 @@ void controlEvent(ControlEvent theEvent) {
             +theEvent.getName()+"': "
             +theEvent.getStringValue()
             );
-            
-            
+                  
     if(theEvent.getName() == "Note1") {
        println(theEvent.getStringValue()); 
        oscP5.send(new OscMessage("/seq/note1").add(Integer.parseInt(theEvent.getStringValue())), pureData);

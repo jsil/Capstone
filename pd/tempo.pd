@@ -5,7 +5,7 @@
 #X obj 355 135 + 1;
 #X floatatom 305 165 5 0 0 0 - - -;
 #X obj 305 231 hradio 15 1 0 8 empty empty empty 0 -8 0 10 -262144
--1 -1 7;
+-1 -1 2;
 #X msg 371 162 0;
 #X obj 301 105 metro;
 #X obj 69 28 inlet;
@@ -20,13 +20,14 @@
 #X floatatom 199 118 5 0 0 0 - - -;
 #X text 200 100 BEAT;
 #X text 154 100 TEMPO;
-#X obj 305 196 mod 8;
 #X obj 391 25 inlet;
+#X obj 305 196 mod 4;
+#X obj 145 270 outlet;
 #X connect 0 0 6 0;
 #X connect 1 0 2 0;
 #X connect 1 0 3 0;
 #X connect 2 0 1 1;
-#X connect 3 0 19 0;
+#X connect 3 0 20 0;
 #X connect 4 0 14 0;
 #X connect 4 0 16 0;
 #X connect 5 0 1 1;
@@ -36,8 +37,9 @@
 #X connect 7 0 9 0;
 #X connect 10 0 11 0;
 #X connect 11 0 6 1;
+#X connect 11 0 21 0;
 #X connect 13 0 5 0;
 #X connect 15 0 4 0;
-#X connect 19 0 4 0;
-#X connect 20 0 19 1;
+#X connect 19 0 20 1;
+#X connect 20 0 4 0;
 #X coords 0 -1 1 1 180 40 2 100 100;
