@@ -14,6 +14,8 @@ class Visualization {
   
   float zoom;
   
+  //float 
+  
   Visualization() {
     xRot = -25;
     yRot = 45;
@@ -226,5 +228,17 @@ class Visualization {
      zoom -= 50; 
      if(zoom < -1000)
        zoom = -1000;
+  }
+  
+  void dragOn() {
+    
+  }
+  
+  void dragOff() {
+    
+  }
+  
+  void drag(int x, int y) {
+    
   }
 }

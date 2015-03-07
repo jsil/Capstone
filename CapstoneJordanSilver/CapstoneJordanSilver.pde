@@ -10,6 +10,11 @@ import twitter4j.auth.*;
 import twitter4j.api.*;
 import java.util.*;
 
+import org.openkinect.*;
+import org.openkinect.processing.*;
+
+Kinect kinect;
+
 OscP5 oscP5;
 NetAddress pureData;   
 
@@ -44,6 +49,8 @@ void setup() {
    //doTwitter();
    
    //ortho(0, width, 0, height); 
+   
+   doKinect();
 }
 
 void draw() {
@@ -53,6 +60,8 @@ void draw() {
   pushMatrix();
   
   //beginCamera();
+  
+  translate(0,0,-150);
 
   
   vis.draw();
@@ -77,6 +86,15 @@ void draw() {
   
   
   //translate(-screenX(0,0,0),-screenY(0,0,0),-screenZ(0,0,0));//makes console blurry.
+  
+  
+  pushMatrix();
+  
+  translate(900,400,150);
+  
+  drawKinect();
+  
+  popMatrix();
   
   debug.draw();
 }
@@ -110,4 +128,16 @@ void keyPressed() {
 
 void mouseClicked() {
    debug.click(mouseX, mouseY); 
+}
+
+void mousePressed() {
+   vis.dragOn(); 
+}
+
+void mouseReleased() {
+   vis.dragOff(); 
+}
+
+void mouseDragged() {
+   vis.drag(mouseX, mouseY); 
 }
