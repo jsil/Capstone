@@ -8,6 +8,11 @@ void offSend() {
   println("Off");
 }
 
+void reTwit() {
+  println("hi");
+  doTwitter(); 
+}
+
 void slider(float tempo) {
   println(tempo);
 }
@@ -27,20 +32,37 @@ void controlEvent(ControlEvent theEvent) {
                   
     if(theEvent.getName() == "Note1") {
        println(theEvent.getStringValue()); 
-       oscP5.send(new OscMessage("/seq/note1").add(Integer.parseInt(theEvent.getStringValue())), pureData);
+       oscP5.send(new OscMessage("/sound/seq/note1").add(Integer.parseInt(theEvent.getStringValue())), pureData);
     }
     else if(theEvent.getName() == "Note2") {
        println(theEvent.getStringValue()); 
-       oscP5.send(new OscMessage("/seq/note2").add(Integer.parseInt(theEvent.getStringValue())), pureData);
+       oscP5.send(new OscMessage("/sound/seq/note2").add(Integer.parseInt(theEvent.getStringValue())), pureData);
     }
     else if(theEvent.getName() == "Note3") {
        println(theEvent.getStringValue()); 
-       oscP5.send(new OscMessage("/seq/note3").add(Integer.parseInt(theEvent.getStringValue())), pureData);
+       oscP5.send(new OscMessage("/sound/seq/note3").add(Integer.parseInt(theEvent.getStringValue())), pureData);
     }
     else if(theEvent.getName() == "Note4") {
        println(theEvent.getStringValue()); 
-       oscP5.send(new OscMessage("/seq/note4").add(Integer.parseInt(theEvent.getStringValue())), pureData);
+       oscP5.send(new OscMessage("/sound/seq/note4").add(Integer.parseInt(theEvent.getStringValue())), pureData);
     }
+    else if(theEvent.getName() == "root") {
+       println(theEvent.getStringValue()); 
+       debug.setRoot(theEvent.getStringValue().toCharArray()[0]);
+       int[] notes = debug.chord(debug.getRoot(),debug.getType());
+       oscP5.send(new OscMessage("/sound/seq/note1").add(notes[0]), pureData);
+       oscP5.send(new OscMessage("/sound/seq/note2").add(notes[1]), pureData);
+       oscP5.send(new OscMessage("/sound/seq/note3").add(notes[2]), pureData);
+    }
+    else if(theEvent.getName() == "type") {
+       println(theEvent.getStringValue()); 
+       debug.setType(Integer.parseInt(theEvent.getStringValue()));
+       int[] notes = debug.chord(debug.getRoot(),debug.getType());
+       oscP5.send(new OscMessage("/sound/seq/note1").add(notes[0]), pureData);
+       oscP5.send(new OscMessage("/sound/seq/note2").add(notes[1]), pureData);
+       oscP5.send(new OscMessage("/sound/seq/note3").add(notes[2]), pureData);
+    }
+    
   }
 }
 

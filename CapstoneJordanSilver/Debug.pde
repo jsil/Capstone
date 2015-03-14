@@ -9,14 +9,22 @@ class Debug {
   int tempo;
   int tempoControl;
   
+  int time;
+  
   Button offBtn;
   Button onBtn;
+  Button twitBtn;
   Textfield note1;
   Textfield note2;
   Textfield note3;
   Textfield note4;
   Slider slider;
   Button tempoSend;
+  
+  Textfield rootText;
+  Textfield typeText;
+  Character root;
+  int type;
   
   
    Debug() {
@@ -28,6 +36,10 @@ class Debug {
     c = color(48,134,74);
     tempo = 50;
     tempoControl = 50;
+    time = 0;
+    
+    root = 'c';
+    type = 1;
    }
   
   Debug(ControlP5 cp5) {
@@ -39,6 +51,14 @@ class Debug {
     c = color(48,134,74);
     tempo = 100;
     tempoControl = 100;
+    
+    time = 0;
+    
+    root = 'c';
+    type = 1;
+    
+    println("C: " + (int)'c');
+    //println(chord('c',1));
     
     onBtn = cp5.addButton("onSend");
     onBtn.setPosition(xLoc+20,yLoc+35)
@@ -52,8 +72,17 @@ class Debug {
      .setLabelVisible(false)
      ; 
      
+    twitBtn = cp5.addButton("reTwit");
+    twitBtn.setPosition(xLoc+165,yLoc+35)
+     .setSize(15,15)
+     .setLabelVisible(false)
+     ; 
+     
+     
+     
      offBtn.setVisible(true);
      onBtn.setVisible(true);
+     twitBtn.setVisible(true);
      
     note1 = cp5.addTextfield("Note1")
      .setPosition(xLoc+20,yLoc+60)
@@ -102,6 +131,22 @@ class Debug {
      .setSize(53,15)
      //.setLabelVisible(false)
      ; 
+     
+     rootText = cp5.addTextfield("root")
+     .setPosition(xLoc+150,yLoc+60)
+     .setSize(20,20)
+     //.setFont(font)
+     //.setFocus(true)
+     .setColor(color(255,0,0))
+     ;
+     
+     typeText = cp5.addTextfield("type")
+     .setPosition(xLoc+175,yLoc+60)
+     .setSize(20,20)
+     //.setFont(font)
+     //.setFocus(true)
+     .setColor(color(255,0,0))
+     ;
 
      
   }
@@ -121,6 +166,8 @@ class Debug {
         
         text("On", 40,47);
         text("Off", 85,47);
+        text("Time: " + time, 110, 47);
+        text("ReTwit", 185,47);
     }
     else {
       fill(c);
@@ -215,5 +262,87 @@ class Debug {
       tempoControl = tempoSet;
       slider.setValue(tempo);
     }
+  }
+  
+  void setTime(int timeSet) {
+     time = timeSet; 
+  }
+  
+  void sendNote(int noteNum, int val) {
+     String note;
+     if(noteNum == 1)
+        note = "note1";
+     else if(noteNum == 2)
+        note = "note2"; 
+     else if(noteNum == 3)
+        note = "note3"; 
+     else if(noteNum == 4)
+        note = "note4"; 
+     else {
+        return; 
+     }
+     
+      oscP5.send(new OscMessage("/sound/seq/" + note).add(val), pureData);
+  }
+
+  int[] chord(Character root, int type) {
+     //type: 1=major, 2=minor, 3=augmented triad, 4=diminished triad
+     int rootMidi = 0;
+     if(root == 'a') {
+        rootMidi = 69; 
+     }
+     else if(root == 'b') {
+        rootMidi = 71; 
+     }
+     else if(root == 'c') {
+        rootMidi = 60; 
+     }
+     else if(root == 'd') {
+        rootMidi = 62; 
+     }
+     else if(root == 'e') {
+        rootMidi = 64; 
+     }
+     else if(root == 'f') {
+        rootMidi = 65; 
+     }
+     else if(root == 'g') {
+        rootMidi = 67; 
+     }
+     else {
+        return new int[] {0,0,0}; 
+     }
+     
+     if(type==1) {
+        return new int[] {rootMidi, rootMidi+4, rootMidi+7};
+     } 
+     else if(type==2) {
+        return new int[] {rootMidi, rootMidi+3, rootMidi+7};
+     }
+     else if(type==3) {
+        return new int[] {rootMidi, rootMidi+4, rootMidi+8};
+     }
+     else if(type==4) {
+        return new int[] {rootMidi, rootMidi+3, rootMidi+6};
+     }
+     else
+        return new int[] {0,0,0}; 
+    
+  }
+  
+  Character getRoot() {
+     return root; 
+  }
+  
+  void setRoot(Character rootSet) {
+    root = rootSet; 
+  }
+  
+  int getType() {
+    return type;
+  }
+  
+  void setType(int typeSet) {
+    type = typeSet; 
   }
 }

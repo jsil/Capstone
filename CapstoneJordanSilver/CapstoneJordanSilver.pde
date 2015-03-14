@@ -9,32 +9,39 @@ import twitter4j.*;
 import twitter4j.auth.*;
 import twitter4j.api.*;
 import java.util.*;
-
-import org.openkinect.*;
+import org.openkinect.*;//Kinect library
 import org.openkinect.processing.*;
-
-Kinect kinect;
 
 OscP5 oscP5;
 NetAddress pureData;   
-
-//CheckBox checkbox;
 
 ConfigurationBuilder cb = new ConfigurationBuilder();
 Twitter twitterInstance;
 Query queryForTwitter;
 
-//float displayWidth = 800;
+Kinect kinect;
+
+//float displayWidth = 800;//uncomment for web use
 //float displayHeight = 600;
-float xRot = 0;
-float yRot = 0;
-float zRot = 0;
+
   
 Debug debug;
-
 Visualization vis;
 
-Slider abc;
+int ptsW, ptsH;
+
+PImage img;
+
+int numPointsW;
+int numPointsH_2pi; 
+int numPointsH;
+
+float[] coorX;
+float[] coorY;
+float[] coorZ;
+float[] multXZ;
+
+int drawCount;
 
 void setup() {
    size(displayWidth, displayHeight-150, P3D); 
@@ -46,68 +53,60 @@ void setup() {
    vis = new Visualization();
    oscP5 = new OscP5(this,9002);
    pureData = new NetAddress("127.0.0.1",9001);
-   //doTwitter();
    
-   //ortho(0, width, 0, height); 
+   oscP5.send(new OscMessage("/start").add(1), pureData);
    
-   doKinect();
+   startTwitter();
+   doTwitter();
+   //doKinect();
+   
+   //ortho(0, width, 0, height);
+  
+  ptsW=30;
+  ptsH=30;
+  // Parameters below are the number of vertices around the width and height
+  initializeSphere(ptsW, ptsH); 
+  
+  drawCount = 0;
+   
 }
 
 void draw() {
-  
   //blendMode(ADD);
-  
   pushMatrix();
-  
   //beginCamera();
-  
   translate(0,0,-150);
-
-  
   vis.draw();
-  
 //  noFill();
 //  translate(displayWidth/2,displayHeight/2, 0);
 //  rotate(60,50+xRot,50+5*(yRot*yRot),0+zRot);
 //  box(50,50,50);
 //  translate(0,0,0);
-
-
   popMatrix();
-
   
   //camera(mouseX, height/2, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);//rotate
   //camera(mouseX, height/2, (height/2) / tan(PI/6), mouseX, height/2, 0, 0, 1, 0);//pan
-  
   blendMode(BLEND);
-  
   //endCamera();
-  
-  
-  
   //translate(-screenX(0,0,0),-screenY(0,0,0),-screenZ(0,0,0));//makes console blurry.
   
-  
   pushMatrix();
-  
-  translate(900,400,150);
-  
-  drawKinect();
-  
+  translate(1110,86,150);
+  //drawKinect();
   popMatrix();
   
   debug.draw();
+  
+  drawCount++;
 }
 
 void keyPressed() {
   if(focused) {
      if(key == CODED) {
         if(keyCode == UP) {
-           yRot = yRot + .5;
+           ;
         } 
-        if(keyCode == LEFT) {
-           //oscP5.send(new OscMessage("/test").add(5), pureData);
-           //println("Sent"); 
+        if(keyCode == LEFT) { 
            vis.accelerateY(-1);
         } 
         if(keyCode == RIGHT) {

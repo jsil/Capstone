@@ -93,26 +93,23 @@ class Visualization {
     translate(-150,-150,0);
     
     noStroke();
-    sphere(debug.getTempo());
+    //sphere(debug.getTempo());
+    //textureSphere(200, 200, 200, kinect.getVideoImage());
+    //textureSphere(200, 200, 200, kinect.getDepthImage());
+    
     stroke(1);
-//    
+  
+//    box(debug.getTempo(),debug.getTempo(),debug.getTempo()); 
+//    translate(-150,-150,0);  
 //    box(debug.getTempo(),debug.getTempo(),debug.getTempo());
-//    
-//    translate(-150,-150,0);
-//    
-//    box(debug.getTempo(),debug.getTempo(),debug.getTempo());
-    
-    
-    
+      
 //    noStroke();
 //    sphereDetail(2);
 //    sphere(debug.getTempo());
 //    stroke(1);
 
     noLights();
-    
     popMatrix();
-    
     updateRot();
   }
   
@@ -122,7 +119,6 @@ class Visualization {
     zRotV += zRotA;
     
     accelerationDecay();
-    
     
     xRot += xRotV;
     yRot += yRotV;
