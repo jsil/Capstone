@@ -288,27 +288,20 @@ class Debug {
   int[] chord(Character root, int type) {
      //type: 1=major, 2=minor, 3=augmented triad, 4=diminished triad
      int rootMidi = 0;
-     if(root == 'a') {
+     if(root == 'a')
         rootMidi = 69; 
-     }
-     else if(root == 'b') {
+     else if(root == 'b')
         rootMidi = 71; 
-     }
-     else if(root == 'c') {
+     else if(root == 'c')
         rootMidi = 60; 
-     }
-     else if(root == 'd') {
+     else if(root == 'd')
         rootMidi = 62; 
-     }
-     else if(root == 'e') {
+     else if(root == 'e')
         rootMidi = 64; 
-     }
-     else if(root == 'f') {
+     else if(root == 'f')
         rootMidi = 65; 
-     }
-     else if(root == 'g') {
+     else if(root == 'g')
         rootMidi = 67; 
-     }
      else {
         return new int[] {0,0,0}; 
      }

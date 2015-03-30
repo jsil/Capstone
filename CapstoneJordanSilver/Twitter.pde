@@ -29,7 +29,7 @@ void doTwitter() {
   setMaps();
 
   try {
-    Query queryForTwitter = new Query("#music");
+    Query queryForTwitter = new Query("#twitbotdance");
     QueryResult result = twitterInstance.search(queryForTwitter);
     tweets = result.getTweets();
     
@@ -45,6 +45,20 @@ void doTwitter() {
   
       String message = status.getText().toLowerCase();
       println("\"" + status.getText().toLowerCase() + "\"");
+      
+      if(message.indexOf("tempo") != -1) {
+         //println("tempo command"); 
+         if(message.indexOf("up") != -1) {
+            //raise tempo 
+            println("tempo up");
+            debug.setTempo((int)debug.getTempo()+2);
+         }
+         else if(message.indexOf("down") != -1) {
+            //lower tempo 
+            println("tempo down");
+            debug.setTempo((int)debug.getTempo()-2);
+         }
+      }
   
       //String message = "abcdefghijklmnopqrstuvwxyz         $%^&*(*&^%$#@ EEEEEE";
   

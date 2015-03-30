@@ -9,7 +9,7 @@ void offSend() {
 }
 
 void reTwit() {
-  println("hi");
+  //println("hi");
   doTwitter(); 
 }
 
