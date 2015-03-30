@@ -4,13 +4,20 @@
 import oscP5.*;//sends messages to pure data
 import netP5.*;//connects to pure data
 import controlP5.*;//GUI controls for debug
-import twitter4j.conf.*;//Twitter library
+
+import twitter4j.util.*;
 import twitter4j.*;
-import twitter4j.auth.*;
+import twitter4j.management.*;
 import twitter4j.api.*;
+import twitter4j.conf.*;
+import twitter4j.json.*;
+import twitter4j.auth.*;
+
 import java.util.*;
-import org.openkinect.*;//Kinect library
-import org.openkinect.processing.*;
+//import org.openkinect.*;//Kinect library
+//import org.openkinect.processing.*;
+
+import SimpleOpenNI.*;
 
 OscP5 oscP5;
 NetAddress pureData;   
@@ -19,7 +26,8 @@ ConfigurationBuilder cb = new ConfigurationBuilder();
 Twitter twitterInstance;
 Query queryForTwitter;
 
-Kinect kinect;
+//Kinect kinect;
+SimpleOpenNI kinect;
 
 //float displayWidth = 800;//uncomment for web use
 //float displayHeight = 600;
@@ -58,7 +66,7 @@ void setup() {
    
    startTwitter();
    doTwitter();
-   //doKinect();
+   doKinect();
    
    //ortho(0, width, 0, height);
   
@@ -92,7 +100,7 @@ void draw() {
   
   pushMatrix();
   translate(1110,86,150);
-  //drawKinect();
+  drawKinect();
   popMatrix();
   
   debug.draw();

@@ -1,8 +1,8 @@
 import java.util.Map;
 
-  HashMap<Character, Integer> hm = new HashMap<Character, Integer>();
-  HashMap<Character, Integer> letters = new HashMap<Character, Integer>();
-  HashMap<Character, Integer> notes = new HashMap<Character, Integer>();
+HashMap<Character, Integer> hm = new HashMap<Character, Integer>();
+HashMap<Character, Integer> letters = new HashMap<Character, Integer>();
+HashMap<Character, Integer> notes = new HashMap<Character, Integer>();
 
 void startTwitter() {
   Table table = loadTable("twitterLogin.csv");
@@ -12,14 +12,10 @@ void startTwitter() {
   cb.setOAuthConsumerSecret(row.getString(1));
   cb.setOAuthAccessToken(row.getString(2));
   cb.setOAuthAccessTokenSecret(row.getString(3));
-  
+
 
   twitterInstance = new TwitterFactory(cb.build()
     ).getInstance();
-   
- 
-   
- 
 }
 
 void doTwitter() {
@@ -32,80 +28,78 @@ void doTwitter() {
     Query queryForTwitter = new Query("#twitbotdance");
     QueryResult result = twitterInstance.search(queryForTwitter);
     tweets = result.getTweets();
-    
+
     int delayCount = 0;
-    
-    for(int j=0;j<tweets.size();j++) {
-      
-      if(j%4 == 0)
+
+    for (int j=0; j<tweets.size (); j++) {
+
+      if (j%4 == 0)
         delayCount = drawCount;
-    
+
       Status status = tweets.get(j);
       //println(status.getText());
-  
+
       String message = status.getText().toLowerCase();
       println("\"" + status.getText().toLowerCase() + "\"");
-      
-      if(message.indexOf("tempo") != -1) {
-         //println("tempo command"); 
-         if(message.indexOf("up") != -1) {
-            //raise tempo 
-            println("tempo up");
-            debug.setTempo((int)debug.getTempo()+2);
-         }
-         else if(message.indexOf("down") != -1) {
-            //lower tempo 
-            println("tempo down");
-            debug.setTempo((int)debug.getTempo()-2);
-         }
+
+      if (message.indexOf("tempo") != -1) {
+        //println("tempo command"); 
+        if (message.indexOf("up") != -1) {
+          //raise tempo 
+          println("tempo up");
+          debug.setTempo((int)debug.getTempo()+2);
+        } else if (message.indexOf("down") != -1) {
+          //lower tempo 
+          println("tempo down");
+          debug.setTempo((int)debug.getTempo()-2);
+        }
       }
-  
+
       //String message = "abcdefghijklmnopqrstuvwxyz         $%^&*(*&^%$#@ EEEEEE";
-  
-      for (int i=0; i<message.length(); i++) { //weirdness is happening counting "e's, o's", etc.
-      
+
+      for (int i=0; i<message.length (); i++) { //weirdness is happening counting "e's, o's", etc.
+
         if (hm.get(message.charAt(i)) != null) {
           hm.put(message.charAt(i), hm.get(message.charAt(i))+1);
-          if(Character.isLetter(message.charAt(i))) {
-              letters.put(message.charAt(i), letters.get(message.charAt(i))+1);
+          if (Character.isLetter(message.charAt(i))) {
+            letters.put(message.charAt(i), letters.get(message.charAt(i))+1);
           }
-          if(((int)message.charAt(i) >= 97) && ((int)message.charAt(i) <= 103)) {
+          if (((int)message.charAt(i) >= 97) && ((int)message.charAt(i) <= 103)) {
             notes.put(message.charAt(i), notes.get(message.charAt(i))+1);
             //to do: stuff
             //println(message.charAt(i));
           }
         }
       }
-  //    for (Map.Entry me : hm.entrySet ()) {
-  //      print(me.getKey() + ": ");
-  //      println(me.getValue());
-  //    }
-  //    
-  //    
-  //    println("\n\n\n");
-  //    
-  //    for (Map.Entry me : letters.entrySet ()) {
-  //      print(me.getKey() + ": ");
-  //      println(me.getValue());
-  //    }
-  
-//      for (Map.Entry me : notes.entrySet ()) {
-//        print(me.getKey() + ": ");
-//        println(me.getValue());
-//      }
-      
-      println((mode(notes)));
-      
-      debug.sendNote(j%4, letterToMidi(mode(notes)));
-      
-      setMaps();
-      
-      if(j%4 == 3) {
-//         while(drawCount <= delayCount + 9000)
-//            draw();
-         println("delay over"); 
+      //    for (Map.Entry me : hm.entrySet ()) {
+      //      print(me.getKey() + ": ");
+      //      println(me.getValue());
+      //    }
+      //    
+      //    
+      //    println("\n\n\n");
+      //    
+      //    for (Map.Entry me : letters.entrySet ()) {
+      //      print(me.getKey() + ": ");
+      //      println(me.getValue());
+      //    }
+
+      //      for (Map.Entry me : notes.entrySet ()) {
+      //        print(me.getKey() + ": ");
+      //        println(me.getValue());
+      //      }
+
+      //      println((mode(notes)));
+      //      
+      //      debug.sendNote(j%4, letterToMidi(mode(notes)));
+      //      
+      //      setMaps();
+
+      if (j%4 == 3) {
+        //         while(drawCount <= delayCount + 9000)
+        //            draw();
+        println("delay over");
       }
-      
     }
 
     //println(hm.get("e"));
@@ -120,43 +114,43 @@ void doTwitter() {
 Character mode(HashMap<Character, Integer> map) {//clean up, allow multiple values to be returned
   Character highKey = ' ';
   int highVal = 0;
-  for (Map.Entry entry : map.entrySet()) {
-     int num = (Integer)entry.getValue();
-     //int num = 5;
-   if (num > highVal) {
+  for (Map.Entry entry : map.entrySet ()) {
+    int num = (Integer)entry.getValue();
+    //int num = 5;
+    if (num > highVal) {
       highVal = num;
       //highKey.clear();
       highKey = (Character)entry.getKey();
     } 
-//    else if (entry.getValue() == highVal) {
-//      highKey.append(entry.getKey());
-//    }
+    //    else if (entry.getValue() == highVal) {
+    //      highKey.append(entry.getKey());
+    //    }
   }
   return highKey;
 }
 
 
 int letterToMidi(Character l) {
-  if(l == 'a')
+  if (l == 'a')
     return 69;
-  else if(l == 'b')
+  else if (l == 'b')
     return 71;
-  else if(l == 'c')
+  else if (l == 'c')
     return 60;
-  else if(l == 'd')
+  else if (l == 'd')
     return 62;
-  else if(l == 'e')
+  else if (l == 'e')
     return 64;
-  else if(l == 'f')
+  else if (l == 'f')
     return 65;
-  else if(l == 'g')
+  else if (l == 'g')
     return 67;
   else
     return -1;
 }
 
 void setMaps() {
-    hm.put('a', 0);
+  hm.put('a', 0);
   hm.put('b', 0);
   hm.put('c', 0);
   hm.put('d', 0);
@@ -201,13 +195,13 @@ void setMaps() {
   hm.put('?', 0);
   hm.put('&', 0);
   hm.put(',', 0);
-  hm.put('_',0);
-  hm.put('-',0);
-  hm.put('*',0);
-  hm.put('|',0);
-  hm.put('…',0);
-  
-  
+  hm.put('_', 0);
+  hm.put('-', 0);
+  hm.put('*', 0);
+  hm.put('|', 0);
+  hm.put('…', 0);
+
+
   letters.put('a', 0);
   letters.put('b', 0);
   letters.put('c', 0);
@@ -234,12 +228,13 @@ void setMaps() {
   letters.put('x', 0);
   letters.put('y', 0);
   letters.put('z', 0);
-  
-  notes.put('a',0);
-  notes.put('b',0);
-  notes.put('c',0);
-  notes.put('d',0);
-  notes.put('e',0);
-  notes.put('f',0);
-  notes.put('g',0); 
+
+  notes.put('a', 0);
+  notes.put('b', 0);
+  notes.put('c', 0);
+  notes.put('d', 0);
+  notes.put('e', 0);
+  notes.put('f', 0);
+  notes.put('g', 0);
 }
+
