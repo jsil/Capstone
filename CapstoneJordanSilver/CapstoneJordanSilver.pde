@@ -1,6 +1,8 @@
 //Jordan Silver
 //Capstone
   
+ //test 
+  
 import oscP5.*;//sends messages to pure data
 import netP5.*;//connects to pure data
 import controlP5.*;//GUI controls for debug
@@ -51,6 +53,8 @@ float[] multXZ;
 
 int drawCount;
 
+PFont defaultFont;
+
 void setup() {
    size(displayWidth, displayHeight-150, P3D); 
    frameRate(25);
@@ -66,7 +70,8 @@ void setup() {
    
    startTwitter();
    doTwitter();
-   doKinect();
+   //doKinect();
+   //doCamera();
    
    //ortho(0, width, 0, height);
   
@@ -76,12 +81,15 @@ void setup() {
   initializeSphere(ptsW, ptsH); 
   
   drawCount = 0;
+  
+  defaultFont = loadFont("YeOldFont.vlw");
    
 }
 
 void draw() {
   //blendMode(ADD);
   pushMatrix();
+  textFont(defaultFont);
   //beginCamera();
   translate(0,0,-150);
   vis.draw();
@@ -100,10 +108,13 @@ void draw() {
   
   pushMatrix();
   translate(1110,86,150);
-  drawKinect();
   popMatrix();
   
   debug.draw();
+  
+  drawKinect();
+  drawTwitter();
+  drawCamera();
   
   drawCount++;
 }

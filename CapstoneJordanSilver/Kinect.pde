@@ -1,3 +1,5 @@
+boolean didKinect;
+
 void doKinect() {
   //LEDStatus LED_OFF;
   kinect = new SimpleOpenNI(this);
@@ -8,15 +10,19 @@ void doKinect() {
   //  kinect.tilt(0); 
   //  kinect.setLEDStatus(LED_OFF);
   //kinect.getDepthImage();
+
+  didKinect = true;
 }
 
 void drawKinect() {
-  kinect.update();
+  if (didKinect) {
+    kinect.update();
 
-  pushMatrix();
-  scale(-1.0, 1.0);
-  image(kinect.rgbImage(), 0, 0, 200, 150); 
-  popMatrix();
+    pushMatrix();
+    scale(-1.0, 1.0);
+    image(kinect.rgbImage(), 0, 0, 200, 150); 
+    popMatrix();
+  }
 }
 
 //void stop() {

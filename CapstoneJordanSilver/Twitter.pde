@@ -1,8 +1,15 @@
 import java.util.Map;
 
+import java.util.Date;
+
 HashMap<Character, Integer> hm = new HashMap<Character, Integer>();
 HashMap<Character, Integer> letters = new HashMap<Character, Integer>();
 HashMap<Character, Integer> notes = new HashMap<Character, Integer>();
+
+TweetDeck tweetDeck;
+
+boolean startedTwitter;
+
 
 void startTwitter() {
   Table table = loadTable("twitterLogin.csv");
@@ -16,98 +23,99 @@ void startTwitter() {
 
   twitterInstance = new TwitterFactory(cb.build()
     ).getInstance();
+    
+  tweetDeck = new TweetDeck();
+
+  startedTwitter = true;
 }
 
 void doTwitter() {
 
-  List<Status> tweets;
+  if (startedTwitter) {
+    List<Status> tweets;
 
-  setMaps();
+    setMaps();
 
-  try {
-    Query queryForTwitter = new Query("#twitbotdance");
-    QueryResult result = twitterInstance.search(queryForTwitter);
-    tweets = result.getTweets();
+    try {
+      Query queryForTwitter = new Query("#twitbotdance");
+      QueryResult result = twitterInstance.search(queryForTwitter);
+      tweets = result.getTweets();
 
-    int delayCount = 0;
+      int delayCount = 0;
 
-    for (int j=0; j<tweets.size (); j++) {
+      for (int j=0; j<tweets.size (); j++) {
 
-      if (j%4 == 0)
-        delayCount = drawCount;
+        if (j%4 == 0)
+          delayCount = drawCount;
 
-      Status status = tweets.get(j);
-      //println(status.getText());
+        Status status = tweets.get(j);
+        //println(status.getText());
 
-      String message = status.getText().toLowerCase();
-      println("\"" + status.getText().toLowerCase() + "\"");
+        tweetDeck.addToQueue(status);
+        
+        
+        Date tweetDate = status.getCreatedAt();
+        println(tweetDate);
 
-      if (message.indexOf("tempo") != -1) {
-        //println("tempo command"); 
-        if (message.indexOf("up") != -1) {
-          //raise tempo 
-          println("tempo up");
-          debug.setTempo((int)debug.getTempo()+2);
-        } else if (message.indexOf("down") != -1) {
-          //lower tempo 
-          println("tempo down");
-          debug.setTempo((int)debug.getTempo()-2);
+        String message = status.getText().toLowerCase();
+        println("\"" + status.getText().toLowerCase() + "\"");
+
+        
+
+        //String message = "abcdefghijklmnopqrstuvwxyz         $%^&*(*&^%$#@ EEEEEE";
+
+        for (int i=0; i<message.length (); i++) { //weirdness is happening counting "e's, o's", etc.
+
+          if (hm.get(message.charAt(i)) != null) {
+            hm.put(message.charAt(i), hm.get(message.charAt(i))+1);
+            if (Character.isLetter(message.charAt(i))) {
+              letters.put(message.charAt(i), letters.get(message.charAt(i))+1);
+            }
+            if (((int)message.charAt(i) >= 97) && ((int)message.charAt(i) <= 103)) {
+              notes.put(message.charAt(i), notes.get(message.charAt(i))+1);
+              //to do: stuff
+              //println(message.charAt(i));
+            }
+          }
+        }
+        //    for (Map.Entry me : hm.entrySet ()) {
+        //      print(me.getKey() + ": ");
+        //      println(me.getValue());
+        //    }
+        //    
+        //    
+        //    println("\n\n\n");
+        //    
+        //    for (Map.Entry me : letters.entrySet ()) {
+        //      print(me.getKey() + ": ");
+        //      println(me.getValue());
+        //    }
+
+        //      for (Map.Entry me : notes.entrySet ()) {
+        //        print(me.getKey() + ": ");
+        //        println(me.getValue());
+        //      }
+
+        //      println((mode(notes)));
+        //      
+        //      debug.sendNote(j%4, letterToMidi(mode(notes)));
+        //      
+        //      setMaps();
+
+        if (j%4 == 3) {
+          //         while(drawCount <= delayCount + 9000)
+          //            draw();
+          println("delay over");
         }
       }
 
-      //String message = "abcdefghijklmnopqrstuvwxyz         $%^&*(*&^%$#@ EEEEEE";
-
-      for (int i=0; i<message.length (); i++) { //weirdness is happening counting "e's, o's", etc.
-
-        if (hm.get(message.charAt(i)) != null) {
-          hm.put(message.charAt(i), hm.get(message.charAt(i))+1);
-          if (Character.isLetter(message.charAt(i))) {
-            letters.put(message.charAt(i), letters.get(message.charAt(i))+1);
-          }
-          if (((int)message.charAt(i) >= 97) && ((int)message.charAt(i) <= 103)) {
-            notes.put(message.charAt(i), notes.get(message.charAt(i))+1);
-            //to do: stuff
-            //println(message.charAt(i));
-          }
-        }
-      }
-      //    for (Map.Entry me : hm.entrySet ()) {
-      //      print(me.getKey() + ": ");
-      //      println(me.getValue());
-      //    }
-      //    
-      //    
-      //    println("\n\n\n");
-      //    
-      //    for (Map.Entry me : letters.entrySet ()) {
-      //      print(me.getKey() + ": ");
-      //      println(me.getValue());
-      //    }
-
-      //      for (Map.Entry me : notes.entrySet ()) {
-      //        print(me.getKey() + ": ");
-      //        println(me.getValue());
-      //      }
-
-      //      println((mode(notes)));
-      //      
-      //      debug.sendNote(j%4, letterToMidi(mode(notes)));
-      //      
-      //      setMaps();
-
-      if (j%4 == 3) {
-        //         while(drawCount <= delayCount + 9000)
-        //            draw();
-        println("delay over");
-      }
+      //println(hm.get("e"));
+      //println("Mode: " + mode(letters));
     }
-
-    //println(hm.get("e"));
-    //println("Mode: " + mode(letters));
-  }
-  catch (TwitterException te) {
-    System.out.println("Failed to search tweets: " + te.getMessage());
-    System.exit(-1);
+    catch (TwitterException te) {
+      System.out.println("Failed to search tweets: " + te.getMessage());
+      System.exit(-1);
+    }
   }
 }
 
@@ -128,6 +136,19 @@ Character mode(HashMap<Character, Integer> map) {//clean up, allow multiple valu
   }
   return highKey;
 }
+
+Tweet currentTweet;
+
+void drawTwitter() {
+
+  pushMatrix();
+
+  tweetDeck.draw();
+
+
+  popMatrix();
+}
+
 
 
 int letterToMidi(Character l) {
