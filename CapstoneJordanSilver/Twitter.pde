@@ -38,8 +38,8 @@ void startTwitter() {
   cb.setOAuthAccessTokenSecret(row.getString(3));
 
 
-//  twitterInstance = new TwitterFactory(cb.build()
-//    ).getInstance();
+  //  twitterInstance = new TwitterFactory(cb.build()
+  //    ).getInstance();
 
   tweetDeck = new TweetDeck();
 
@@ -68,21 +68,22 @@ void startTwitter() {
   };
   //TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
   twitterStream.addListener(listener);
-  
+
   twitterStream.addRateLimitStatusListener( new RateLimitStatusListener() {
     @Override
-    public void onRateLimitStatus( RateLimitStatusEvent event ) {
-        System.out.println("Limit["+event.getRateLimitStatus().getLimit() + "], Remaining[" +event.getRateLimitStatus().getRemaining()+"]");
+      public void onRateLimitStatus( RateLimitStatusEvent event ) {
+      System.out.println("Limit["+event.getRateLimitStatus().getLimit() + "], Remaining[" +event.getRateLimitStatus().getRemaining()+"]");
     }
 
     @Override
-    public void onRateLimitReached( RateLimitStatusEvent event ) {
-        System.out.println("Limit["+event.getRateLimitStatus().getLimit() + "], Remaining[" +event.getRateLimitStatus().getRemaining()+"]");
+      public void onRateLimitReached( RateLimitStatusEvent event ) {
+      System.out.println("Limit["+event.getRateLimitStatus().getLimit() + "], Remaining[" +event.getRateLimitStatus().getRemaining()+"]");
     }
-} );
-  
+  } 
+  );
+
   String keywords[] = {
-    "#twitbotdance"
+    "#swag"
   };
   // sample() method internally creates a thread which manipulates TwitterStream and calls these adequate listener methods continuously.
   twitterStream.filter(new FilterQuery().track(keywords));
@@ -106,8 +107,8 @@ void doTwitter() {
 
       for (int j=0; j<tweets.size (); j++) {
 
-        if (j%4 == 0)
-          delayCount = drawCount;
+        //        if (j%4 == 0)
+        //          delayCount = drawCount;
 
         Status status = tweets.get(j);
         //println(status.getText());
