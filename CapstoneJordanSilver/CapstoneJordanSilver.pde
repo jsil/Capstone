@@ -1,3 +1,4 @@
+
 //Jordan Silver
 //Capstone
   
@@ -69,7 +70,7 @@ void setup() {
    oscP5.send(new OscMessage("/start").add(1), pureData);
    
    startTwitter();
-   doTwitter();
+   //doTwitter();
    //doKinect();
    //doCamera();
    

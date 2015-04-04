@@ -11,6 +11,8 @@ class Tweet {
 
   PFont font = loadFont("TwitterFont.vlw");
   PFont fontSmall = loadFont("TwitterFontSmall.vlw");
+  
+  int position = -1;
 
   Status status;
 
@@ -21,6 +23,7 @@ class Tweet {
 
   Tweet(Status statusSet) {
     status = statusSet;
+    
   }
 
   void draw() {
@@ -29,10 +32,15 @@ class Tweet {
     float opacity;
     if (drawTime < 12) {
       opacity = map(drawTime % 24, 0, 24, 0, 255);
-    } else if (drawTime > drawLength - 12) {
+      drawTime++;
+    } else if (drawTime > drawLength - 12 && position == 0) {
       opacity = map(drawTime % 24, 0, 24, 255, 0);
-    } else
+      drawTime++;
+    } else {
       opacity = 255;
+      if(position == 0)
+        drawTime++;
+    }
 
     if (drawTime == 18) {
       execute();
@@ -53,9 +61,8 @@ class Tweet {
     stroke(0);
 
     popMatrix();
-
-    drawTime++;
-    if (drawTime >= drawLength) {
+    
+    if (drawTime >= drawLength && position == 0) {
       isDone = true;
     }
   }
@@ -78,6 +85,30 @@ class Tweet {
         debug.setTempo((int)debug.getTempo()-2);
       }
     }
+  }
+  
+  int importance() {
+    if(this.isCommand())
+      return 1; 
+    else
+      return 0;
+  }
+  
+  boolean isCommand() {
+    String message = status.getText();
+    if (message.indexOf("tempo") != -1) {
+      return true;
+    }
+    else
+      return false;
+  }
+  
+  void setPosition(int positionSet) {
+     position = positionSet; 
+  }
+  
+  int getPosition() {
+     return position; 
   }
 }
 

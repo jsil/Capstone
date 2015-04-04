@@ -2,6 +2,8 @@ import java.util.Map;
 
 import java.util.Date;
 
+import twitter4j.TwitterException;
+
 HashMap<Character, Integer> hm = new HashMap<Character, Integer>();
 HashMap<Character, Integer> letters = new HashMap<Character, Integer>();
 HashMap<Character, Integer> notes = new HashMap<Character, Integer>();
@@ -10,6 +12,21 @@ TweetDeck tweetDeck;
 
 boolean startedTwitter;
 
+//class StatusListener {
+//
+//  public void onStatus(Status status) {
+//    System.out.println(status.getUser().getName() + " : " + status.getText());
+//  }
+//  public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
+//  }
+//  public void onTrackLimitationNotice(int numberOfLimitedStatuses) {
+//  }
+//  public void onException(Exception ex) {
+//    ex.printStackTrace();
+//  }
+//};
+
+TwitterStream twitterStream;
 
 void startTwitter() {
   Table table = loadTable("twitterLogin.csv");
@@ -21,12 +38,56 @@ void startTwitter() {
   cb.setOAuthAccessTokenSecret(row.getString(3));
 
 
-  twitterInstance = new TwitterFactory(cb.build()
-    ).getInstance();
-    
+//  twitterInstance = new TwitterFactory(cb.build()
+//    ).getInstance();
+
   tweetDeck = new TweetDeck();
 
   startedTwitter = true;
+
+  twitterStream = new TwitterStreamFactory(cb.build()).getInstance();
+
+
+  StatusListener listener = new StatusListener() {
+    public void onStatus(Status status) {
+      System.out.println(status.getUser().getName() + " : " + status.getText());
+      tweetDeck.addToQueue(status);
+    }
+    public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
+    }
+    public void onTrackLimitationNotice(int numberOfLimitedStatuses) {
+    }
+    public void onStallWarning(StallWarning warning) {
+    }
+    public void onScrubGeo(long userId, long upToStatusId) {
+      System.out.println("Got scrub_geo event userId:" + userId + " upToStatusId:" + upToStatusId);
+    }
+    public void onException(Exception ex) {
+      ex.printStackTrace();
+    }
+  };
+  //TwitterStream twitterStream = new TwitterStreamFactory().getInstance();
+  twitterStream.addListener(listener);
+  
+  twitterStream.addRateLimitStatusListener( new RateLimitStatusListener() {
+    @Override
+    public void onRateLimitStatus( RateLimitStatusEvent event ) {
+        System.out.println("Limit["+event.getRateLimitStatus().getLimit() + "], Remaining[" +event.getRateLimitStatus().getRemaining()+"]");
+    }
+
+    @Override
+    public void onRateLimitReached( RateLimitStatusEvent event ) {
+        System.out.println("Limit["+event.getRateLimitStatus().getLimit() + "], Remaining[" +event.getRateLimitStatus().getRemaining()+"]");
+    }
+} );
+  
+  String keywords[] = {
+    "#twitbotdance"
+  };
+  // sample() method internally creates a thread which manipulates TwitterStream and calls these adequate listener methods continuously.
+  twitterStream.filter(new FilterQuery().track(keywords));
+  //twitterStream.sample();
+  //twitterInstance.sample();
 }
 
 void doTwitter() {
@@ -52,15 +113,16 @@ void doTwitter() {
         //println(status.getText());
 
         tweetDeck.addToQueue(status);
-        
-        
+        //        println("added tweet");
+
+
         Date tweetDate = status.getCreatedAt();
         println(tweetDate);
 
         String message = status.getText().toLowerCase();
         println("\"" + status.getText().toLowerCase() + "\"");
 
-        
+
 
         //String message = "abcdefghijklmnopqrstuvwxyz         $%^&*(*&^%$#@ EEEEEE";
 

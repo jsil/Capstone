@@ -1,8 +1,17 @@
 import java.util.PriorityQueue;
+import java.util.Comparator;
+
+class TweetSort implements Comparator<Tweet> {
+ 
+    int compare(Tweet one, Tweet two) {
+      return two.importance() - one.importance();
+    }
+  }
 
 class TweetDeck {
-
-  Queue<Tweet> tweetQueue = new PriorityQueue(15);
+  
+  TweetSort tweetSort = new TweetSort();
+  Queue<Tweet> tweetQueue = new PriorityQueue(15, tweetSort);
   ArrayList<Tweet> currentTweets = new ArrayList<Tweet>();
 
 
@@ -27,6 +36,7 @@ class TweetDeck {
       pushMatrix();
       translate(width-600, 240*i);
       //println("i: " + i);
+      currentTweets.get(i).setPosition(i);
       currentTweets.get(i).draw();
       popMatrix();
     }
