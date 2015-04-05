@@ -1,20 +1,23 @@
 class Tweet {
 
   private int drawTime = 0;
-  private int drawLength = 6*24;
+  private int drawLength = 2*24;
 
   private boolean isDone = false;
+  private boolean hasExecuted = false;
 
-  private float w = 600;
-  private float h = 180;
+  private PFont font = loadFont("TwitterFont16.vlw");
+  private PFont fontSmall = loadFont("TwitterFont12.vlw");
+
+  private float w = 350;
+  private float h;
   private int lineLength = 30;
-
-  private PFont font = loadFont("TwitterFont24.vlw");
-  private PFont fontSmall = loadFont("TwitterFontSmall.vlw");
 
   private int position = -1;
 
   private Status status;
+
+  private int bgMode = 0;
 
 
   //  Tweet() {
@@ -23,6 +26,9 @@ class Tweet {
 
   Tweet(Status statusSet) {
     status = statusSet;
+    
+    textFont(font);
+    h = (textAscent() + textDescent()) * 6 + 50;
   }
 
 
@@ -42,20 +48,21 @@ class Tweet {
         drawTime++;
     }
 
-    if (drawTime >= 18 && position == 0) {
+    if (drawTime >= 18 && position == 0 && !hasExecuted) {
       execute();
     }
 
 
     //translate(350, 350);
-    fill(47, 66, 120, opacity);
-    stroke(255, opacity);
-    rect(0, 0, w, h);
+    drawBG(opacity);
+    //fill(47, 66, 120, opacity);
+    //stroke(255, opacity);
+    //rect(0, 0, w, h);
     fill(255, opacity);
     textFont(font);
 
     //print tweet
-    text(status.getText(), 15, 10, 570, 160); 
+    text(status.getText(), 15, 10, w-30, h-20); 
 
     textFont(fontSmall);
 
@@ -67,6 +74,30 @@ class Tweet {
 
     if (drawTime >= drawLength && position == 0) {
       isDone = true;
+    }
+  }
+
+  private void drawBG() {
+    if (bgMode == 0) {
+      fill(47, 66, 120);
+      stroke(255);
+      rect(0, 0, w, h);
+    } else if (bgMode == 1) {
+      fill(238, 77, 73);
+      stroke(255);
+      rect(0, 0, w, h);
+    }
+  }
+
+  private void drawBG(float opacity) {
+    if (bgMode == 0) {
+      fill(47, 66, 120, opacity);
+      stroke(255, opacity);
+      rect(0, 0, w, h);
+    } else if (bgMode == 1) {
+      fill(238, 77, 73, opacity);
+      stroke(255, opacity);
+      rect(0, 0, w, h);
     }
   }
 
@@ -88,6 +119,11 @@ class Tweet {
         debug.setTempo((int)debug.getTempo()-2);
       }
     }
+    if (message.indexOf("swag") != -1 && message.indexOf("yolo") != -1) {
+      //println("#YOLO #SWAG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+      bgMode = 1;
+    }
+    hasExecuted = true;
   }
 
   public int getImportance() {
@@ -100,6 +136,8 @@ class Tweet {
   boolean isCommand() {
     String message = status.getText();
     if (message.indexOf("tempo") != -1) {
+      return true;
+    } else if (message.indexOf("swag") != -1 && message.indexOf("yolo") != -1) {
       return true;
     } else
       return false;

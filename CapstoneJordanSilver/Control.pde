@@ -60,3 +60,8 @@ void controlEvent(ControlEvent theEvent) {
   }
 }
 
+void sampleSend(int selection) {
+  oscP5.send(new OscMessage("/sample").add(selection), pureData);
+  println("Playing Sample #" + selection); 
+}
+

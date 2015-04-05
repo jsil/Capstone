@@ -1,6 +1,7 @@
 import java.util.PriorityQueue;
 import java.util.Comparator;
 
+//Custom Comparator for PriorityQueue w/ Tweet class
 class TweetSort implements Comparator<Tweet> {
 
   int compare(Tweet one, Tweet two) {
@@ -11,7 +12,7 @@ class TweetSort implements Comparator<Tweet> {
 class TweetDeck {
 
   TweetSort tweetSort = new TweetSort();
-  Queue<Tweet> tweetQueue = new PriorityQueue(15, tweetSort);
+  Queue<Tweet> tweetQueue = new PriorityQueue(100, tweetSort);
   ArrayList<Tweet> currentTweets = new ArrayList<Tweet>();
 
 
@@ -34,17 +35,16 @@ class TweetDeck {
     //println("numTweets: " + numTweets);
     for (int i=0; i<currentTweets.size (); i++) {
       pushMatrix();
-      translate(width-600, currentTweets.get(i).getHeight()*i);
+      translate(width-currentTweets.get(i).getWidth(), currentTweets.get(i).getHeight()*i);
       //println("i: " + i);
       currentTweets.get(i).setPosition(i);
       currentTweets.get(i).draw();
       popMatrix();
     }
-    //
+    //check if Tweet is done & remove it
     for (int j=numTweets-1; j>=0; j--) {
       if (currentTweets.get(j).isDone()) {
         currentTweets.remove(j);
-        println("removed tweet");
       }
     }
   }

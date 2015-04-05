@@ -15,6 +15,8 @@ import twitter4j.json.*;
 import twitter4j.auth.*;
 
 import java.util.*;
+
+
 //import org.openkinect.*;//Kinect library
 //import org.openkinect.processing.*;
 
@@ -48,7 +50,15 @@ float[] multXZ;
 
 PFont defaultFont;
 
+boolean paused;
+
+
 void setup() {
+  frame.setTitle("Jordan Silver - Capstone");
+  frame.setResizable(true);
+
+  doMenu();
+
   size(displayWidth, displayHeight-150, P3D); 
   frameRate(25);
 
@@ -75,6 +85,8 @@ void setup() {
 
 
   defaultFont = loadFont("YeOldFont.vlw");
+
+  paused = false;
 }
 
 void draw() {
@@ -103,9 +115,11 @@ void draw() {
 
   debug.draw();
 
-  drawKinect();
-  drawTwitter();
-  drawCamera();
+  if (!paused) {
+    drawKinect();
+    drawTwitter();
+    drawCamera();
+  }
 }
 
 void keyPressed() {
@@ -125,6 +139,12 @@ void keyPressed() {
         vis.zoomIn();
       } else if (key == 'x') {
         vis.zoomOut();
+      } else if (key == 'p') {
+        paused = !paused;
+      } else if (key == '1') {
+        sampleSend(1);
+      } else if (key == '2') {
+        sampleSend(2);
       }
     }
   }

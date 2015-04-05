@@ -11,15 +11,15 @@ class Debug {
 
   int time;
 
-  Button offBtn;
-  Button onBtn;
-  Button twitBtn;
+  controlP5.Button offBtn;
+  controlP5.Button onBtn;
+  controlP5.Button twitBtn;
   Textfield note1;
   Textfield note2;
   Textfield note3;
   Textfield note4;
   Slider slider;
-  Button tempoSend;
+  controlP5.Button tempoSend;
 
   Textfield rootText;
   Textfield typeText;
