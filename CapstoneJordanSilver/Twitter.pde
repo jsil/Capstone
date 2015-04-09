@@ -33,8 +33,14 @@ void startTwitter() {
 
   StatusListener listener = new StatusListener() {
     public void onStatus(Status status) {
-      System.out.println(status.getUser().getName() + " : " + status.getText());
-      tweetDeck.addToQueue(status);
+      //System.out.println(status.getUser().getName() + " : " + status.getText());
+      //tweetDeck.addToQueue(status);
+      if(debug.getGameMode() == 1) {
+          game1.addTweet(status);
+      }
+      else if(debug.getGameMode() == 2) {
+         tweetDeck.addToQueue(status); 
+      }
     }
     public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
     }
@@ -67,7 +73,8 @@ void startTwitter() {
 
   String keywords[] = {
     "swag",
-    "yolo"
+    "yolo",
+    "#sheep"
   };
   // sample() method internally creates a thread which manipulates TwitterStream and calls these adequate listener methods continuously.
   twitterStream.filter(new FilterQuery().track(keywords));

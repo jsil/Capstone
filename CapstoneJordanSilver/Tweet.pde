@@ -1,7 +1,7 @@
 class Tweet {
 
   private int drawTime = 0;
-  private int drawLength = 2*24;
+  private int drawLength = 3*24;
 
   private boolean isDone = false;
   private boolean hasExecuted = false;
@@ -13,7 +13,16 @@ class Tweet {
   private float h;
   private int lineLength = 30;
 
+  //non-negative when tweet is in a queue
+  //execute() and other timing-based code will only execute when position == 0 OR 1
   private int position = -1;
+
+  //used when tweet is drawn to an area
+  private boolean isPositioned = false;
+  private float xPos;
+  private float yPos;
+
+
 
   private Status status;
 
@@ -26,7 +35,7 @@ class Tweet {
 
   Tweet(Status statusSet) {
     status = statusSet;
-    
+
     textFont(font);
     h = (textAscent() + textDescent()) * 6 + 50;
   }
@@ -39,16 +48,16 @@ class Tweet {
     if (drawTime < 12) {
       opacity = map(drawTime % 24, 0, 24, 0, 255);
       drawTime++;
-    } else if (drawTime > drawLength - 12 && position == 0) {
+    } else if (drawTime > drawLength - 12 && (position <= 0)) {
       opacity = map(drawTime % 24, 0, 24, 255, 0);
       drawTime++;
     } else {
       opacity = 255;
-      if (position == 0)
+      if (position <= 0)
         drawTime++;
     }
 
-    if (drawTime >= 18 && position == 0 && !hasExecuted) {
+    if (drawTime >= 18 && position <= 0 && !hasExecuted) {
       execute();
     }
 
@@ -58,7 +67,7 @@ class Tweet {
     //fill(47, 66, 120, opacity);
     //stroke(255, opacity);
     //rect(0, 0, w, h);
-    fill(255, opacity);
+
     textFont(font);
 
     //print tweet
@@ -72,7 +81,7 @@ class Tweet {
     stroke(0);
     popMatrix();
 
-    if (drawTime >= drawLength && position == 0) {
+    if (drawTime >= drawLength && position <= 0) {
       isDone = true;
     }
   }
@@ -82,22 +91,36 @@ class Tweet {
       fill(47, 66, 120);
       stroke(255);
       rect(0, 0, w, h);
+      fill(255);
     } else if (bgMode == 1) {
       fill(238, 77, 73);
       stroke(255);
       rect(0, 0, w, h);
+      fill(255);
+    } else if (bgMode == 2) {
+      fill(255);
+      stroke(0);
+      rect(0, 0, w, h);
+      fill(0);
     }
   }
 
   private void drawBG(float opacity) {
     if (bgMode == 0) {
-      fill(47, 66, 120, opacity);
-      stroke(255, opacity);
+      fill(47, 66, 120);
+      stroke(255);
       rect(0, 0, w, h);
+      fill(255, opacity);
     } else if (bgMode == 1) {
-      fill(238, 77, 73, opacity);
-      stroke(255, opacity);
+      fill(238, 77, 73);
+      stroke(255);
       rect(0, 0, w, h);
+      fill(255, opacity);
+    } else if (bgMode == 2) {
+      fill(255);
+      stroke(0);
+      rect(0, 0, w, h);
+      fill(0, opacity);
     }
   }
 
@@ -122,6 +145,11 @@ class Tweet {
     if (message.indexOf("swag") != -1 && message.indexOf("yolo") != -1) {
       //println("#YOLO #SWAG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       bgMode = 1;
+      sampleSend(1);
+    }
+    if (message.indexOf("#sheep") != -1) {
+      bgMode = 2;
+      sampleSend(2);
     }
     hasExecuted = true;
   }
@@ -139,8 +167,19 @@ class Tweet {
       return true;
     } else if (message.indexOf("swag") != -1 && message.indexOf("yolo") != -1) {
       return true;
+    } else if (message.indexOf("#sheep") != -1 ) {
+      return true;
     } else
       return false;
+  }
+
+  boolean contains(String substring) {
+    String message = status.getText();
+    if (message.indexOf(substring) != -1) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   void setPosition(int positionSet) {
@@ -157,6 +196,24 @@ class Tweet {
 
   float getHeight() {
     return h;
+  }
+
+  void setPosition(float x, float y) {
+    xPos = x;
+    yPos = y;
+    isPositioned = true;
+  }
+  
+  float getXPosition() {
+     return xPos; 
+  }
+  
+  float getYPosition() {
+     return yPos; 
+  }
+  
+  boolean isPositioned() {
+     return isPositioned; 
   }
 }
 

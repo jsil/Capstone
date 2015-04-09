@@ -52,6 +52,8 @@ PFont defaultFont;
 
 boolean paused;
 
+ThisOrThat game1;
+
 
 void setup() {
   frame.setTitle("Jordan Silver - Capstone");
@@ -60,7 +62,7 @@ void setup() {
   doMenu();
 
   size(displayWidth, displayHeight-150, P3D); 
-  frameRate(25);
+  frameRate(24);
 
   ControlP5 cp5;
   cp5 = new ControlP5(this);
@@ -71,55 +73,64 @@ void setup() {
 
   oscP5.send(new OscMessage("/start").add(1), pureData);
 
+
+
   startTwitter();
-  //doTwitter();
-  //doKinect();
-  //doCamera();
+  doTwitter();
 
 
-  ptsW=30;
-  ptsH=30;
-  // Parameters below are the number of vertices around the width and height
-  initializeSphere(ptsW, ptsH); 
+  //  ptsW=30;
+  //  ptsH=30;
+  //  // Parameters below are the number of vertices around the width and height
+  //  initializeSphere(ptsW, ptsH); 
 
 
 
   defaultFont = loadFont("YeOldFont.vlw");
 
-  paused = false;
+  paused = true;
+
+
+  loadGameMode(0);
 }
 
 void draw() {
   //blendMode(ADD);
-  pushMatrix();
-  textFont(defaultFont);
-  //beginCamera();
-  translate(0, 0, -150);
-  vis.draw();
-  //  noFill();
-  //  translate(displayWidth/2,displayHeight/2, 0);
-  //  rotate(60,50+xRot,50+5*(yRot*yRot),0+zRot);
-  //  box(50,50,50);
-  //  translate(0,0,0);
-  popMatrix();
 
-  //camera(mouseX, height/2, (height/2) / tan(PI/6), width/2, height/2, 0, 0, 1, 0);//rotate
-  //camera(mouseX, height/2, (height/2) / tan(PI/6), mouseX, height/2, 0, 0, 1, 0);//pan
-  blendMode(BLEND);
-  //endCamera();
-  //translate(-screenX(0,0,0),-screenY(0,0,0),-screenZ(0,0,0));//makes console blurry.
+  if (debug.getGameMode() == 0) {
+    pushMatrix();
+    background(48, 55, 95);
+    text("To Do: Add Menu", displayWidth/2-10, 300);
+    popMatrix();
+  } else if (debug.getGameMode() == 1) {
+    pushMatrix();
+    background(48, 55, 95);
+    //text("Game 1", displayWidth/2-10, 15);
+    game1.draw();
+    popMatrix();
+  } else {
 
-  pushMatrix();
-  translate(1110, 86, 150);
-  popMatrix();
+    pushMatrix();
+    textFont(defaultFont);
+    translate(0, 0, -150);
+    vis.draw();
 
-  debug.draw();
+    popMatrix();
 
-  if (!paused) {
-    drawKinect();
-    drawTwitter();
-    drawCamera();
+    blendMode(BLEND);
+
+    pushMatrix();
+    translate(1110, 86, 150);
+    popMatrix();
+
+
+    if (!paused) {
+      drawKinect();
+      drawTwitter();
+      drawCamera();
+    }
   }
+  debug.draw();
 }
 
 void keyPressed() {
@@ -164,5 +175,23 @@ void mouseReleased() {
 
 void mouseDragged() {
   vis.drag(mouseX, mouseY);
+}
+
+
+void loadGameMode(int mode) {
+  println("Loading Game " + mode);
+  if (mode == 0) {
+    debug.setGameMode(mode);
+  } else if (mode == 1) {
+    debug.setGameMode(mode);
+    game1 = new ThisOrThat();
+
+    paused = false;
+  } else if (mode == 2) {
+    debug.setGameMode(mode);
+    paused = false;
+  }
+
+  //doKinect();
 }
 

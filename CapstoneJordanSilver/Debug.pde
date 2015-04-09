@@ -1,10 +1,10 @@
 class Debug {
 
-  boolean isOpen;
-  float xLoc;
-  float yLoc;
-  float w;
-  float h;
+  boolean isOpen = true;
+  float xLoc = 0;
+  float yLoc = 0;
+  float w = 250;
+  float h = 150;
   color c;
   int tempo;
   int tempoControl;
@@ -27,12 +27,11 @@ class Debug {
   int type;
 
 
+  int gameMode = 0;
+  //gameMode 0 = menu
+  //1 = this/that
+
   Debug() {
-    isOpen = true;
-    xLoc = 0;
-    yLoc = 0;
-    w = 250;
-    h = 150;
     c = color(48, 134, 74);
     tempo = 50;
     tempoControl = 50;
@@ -43,11 +42,6 @@ class Debug {
   }
 
   Debug(ControlP5 cp5) {
-    isOpen = true;
-    xLoc = 00;
-    yLoc = 00;
-    w = 250;
-    h = 150;
     c = color(48, 134, 74);
     tempo = 100;
     tempoControl = 100;
@@ -147,6 +141,8 @@ class Debug {
           //.setFocus(true)
           .setColor(color(255, 0, 0))
             ;
+
+    hide();
   }
 
   void draw() {
@@ -347,6 +343,14 @@ class Debug {
 
   void setType(int typeSet) {
     type = typeSet;
+  }
+
+  int getGameMode() {
+    return gameMode;
+  }
+
+  void setGameMode(int gameModeSet) {
+    gameMode = gameModeSet;
   }
 }
 
