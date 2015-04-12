@@ -8,10 +8,18 @@ class ThisOrThat {
   int count1 = 0;
   int count2 = 0;
 
-
+  /* good word combinations:
+      sister - dad
+      
+  
+  
+  
+  
+  */
+  
   ThisOrThat() {
-    word1 = "swag";
-    word2 = "yolo";
+    word1 = "uncle";
+    word2 = "aunt";
   }
 
   void addTweet(Status status) {
@@ -48,7 +56,6 @@ class ThisOrThat {
       popMatrix();
       if (tweet.isDone()) {
         tweetList.remove(i);
-        println("trying to remove");
       }
     }
     

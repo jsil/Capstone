@@ -27,9 +27,6 @@ class Debug {
   int type;
 
 
-  int gameMode = 0;
-  //gameMode 0 = menu
-  //1 = this/that
 
   Debug() {
     c = color(48, 134, 74);
@@ -343,14 +340,6 @@ class Debug {
 
   void setType(int typeSet) {
     type = typeSet;
-  }
-
-  int getGameMode() {
-    return gameMode;
-  }
-
-  void setGameMode(int gameModeSet) {
-    gameMode = gameModeSet;
   }
 }
 

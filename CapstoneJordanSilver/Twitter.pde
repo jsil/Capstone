@@ -1,12 +1,23 @@
+import twitter4j.util.*;
+import twitter4j.*;
+import twitter4j.management.*;
+import twitter4j.api.*;
+import twitter4j.conf.*;
+import twitter4j.json.*;
+import twitter4j.auth.*;
+
 import java.util.Map;
 import java.util.Date;
+
+ConfigurationBuilder cb = new ConfigurationBuilder();
+Twitter twitterInstance;
+Query queryForTwitter;
 
 HashMap<Character, Integer> hm = new HashMap<Character, Integer>();
 HashMap<Character, Integer> letters = new HashMap<Character, Integer>();
 HashMap<Character, Integer> notes = new HashMap<Character, Integer>();
 
 TweetDeck tweetDeck;
-
 boolean startedTwitter;
 
 TwitterStream twitterStream;
@@ -35,12 +46,7 @@ void startTwitter() {
     public void onStatus(Status status) {
       //System.out.println(status.getUser().getName() + " : " + status.getText());
       //tweetDeck.addToQueue(status);
-      if(debug.getGameMode() == 1) {
-          game1.addTweet(status);
-      }
-      else if(debug.getGameMode() == 2) {
-         tweetDeck.addToQueue(status); 
-      }
+      gm.addTweet(status);
     }
     public void onDeletionNotice(StatusDeletionNotice statusDeletionNotice) {
     }
@@ -74,7 +80,11 @@ void startTwitter() {
   String keywords[] = {
     "swag",
     "yolo",
-    "#sheep"
+    "#sheep",
+    "sister",
+    "dad",
+    "uncle",
+    "aunt"
   };
   // sample() method internally creates a thread which manipulates TwitterStream and calls these adequate listener methods continuously.
   twitterStream.filter(new FilterQuery().track(keywords));

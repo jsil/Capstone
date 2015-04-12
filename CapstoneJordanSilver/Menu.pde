@@ -21,7 +21,7 @@ void doMenu() {
   item1.setShortcut(ms1);
   item1.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
-      loadGameMode(1);
+      gm.loadGameMode(1);
     }
   }
   );
@@ -32,7 +32,7 @@ void doMenu() {
   item2.setShortcut(ms2);
   item2.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
-      loadGameMode(2);
+      gm.loadGameMode(2);
     }
   }
   );
@@ -43,7 +43,18 @@ void doMenu() {
   item3.setShortcut(ms3);
   item3.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
-      loadGameMode(0);
+      gm.loadGameMode(0);
+    }
+  }
+  );
+  
+  MenuShortcut ms4 = new MenuShortcut(KeyEvent.VK_4, false);
+  
+  item4 = new MenuItem("TweetLane");
+  item4.setShortcut(ms4);
+  item4.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+      gm.loadGameMode(3);
     }
   }
   );
@@ -54,6 +65,7 @@ void doMenu() {
   topButton.add(item3);
   topButton.add(item1);
   topButton.add(item2);
+  topButton.add(item4);
 
 
   //add the button to the menu

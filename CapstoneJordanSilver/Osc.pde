@@ -22,6 +22,7 @@ void oscEvent(OscMessage theOscMessage) {
       int firstValue = theOscMessage.get(0).intValue(); 
       //println("/time value: "+firstValue);
       debug.setTime(firstValue);
+      gm.setTime(firstValue);
       return;
     }
   } 

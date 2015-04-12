@@ -11,8 +11,10 @@ class TweetSort implements Comparator<Tweet> {
 
 class TweetDeck {
 
+  
   TweetSort tweetSort = new TweetSort();
   Queue<Tweet> tweetQueue = new PriorityQueue(100, tweetSort);
+  
   ArrayList<Tweet> currentTweets = new ArrayList<Tweet>();
 
 
