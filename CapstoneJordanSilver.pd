@@ -46,7 +46,7 @@
 0.0649577 0.0590405 0.053389 0.0480064 0.0428961 0.0380612 0.0335045
 0.0292288 0.0252367 0.0215306 0.0181126 0.014985 0.0121495 0.00960786
 0.00736162 0.00541213 0.00376055 0.00240789 0.00135496 0.000602401
-0.000150656 7.04153e-012 0.000150525;
+0.000150656 7.04153e-12 0.000150525;
 #X coords 0 1 258 0 50 50 1 0 0;
 #X restore 988 89 graph;
 #X msg 956 39 \; hanning cosinesum 256 0.5 -0.5;
@@ -57,7 +57,7 @@
 #X obj -91 626 pd/4NoteOsc;
 #X obj -94 437 pd/4Notes;
 #X obj -110 509 vsl 15 75 0 0.5 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 3700 1;
 #X obj 334 310 pd/onOff;
 #X obj 276 406 pd/tempo;
 #X obj -168 349 routeOSC /note1 /note2 /note3 /note4;
@@ -94,7 +94,7 @@
 #X obj -196 480 receive volume;
 #X obj 320 606 receive volume;
 #X obj 544 182 vsl 60 75 0 0.45 0 0 empty empty empty 0 -9 0 10 -191407
--258113 -4160 7400 1;
+-258113 -4160 0 1;
 #X msg 595 625 0.25;
 #X obj 183 143 routeOSC /sound;
 #X obj 212 321 routeOSC /tempo;
@@ -124,7 +124,7 @@
 #X obj 111 745 pd/4NoteOsc;
 #X obj 108 556 pd/4Notes;
 #X obj 92 628 vsl 15 75 0 0.5 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 0 1;
+-1 -1 5300 1;
 #X obj 6 599 receive volume;
 #X obj -13 286 print;
 #X obj 637 510 send time;
@@ -150,7 +150,9 @@
 #X obj 226 235 send sample;
 #X obj 738 554 receive sample;
 #X obj 516 278 send volume2;
-#X obj 1020 580 receive volume3;
+#X floatatom 33 721 5 0 0 0 - - -;
+#X obj 1030 571 vsl 15 75 0 0.5 0 0 empty empty empty 0 -9 0 10 -262144
+-1 -1 2000 1;
 #X connect 1 0 47 0;
 #X connect 1 0 18 0;
 #X connect 1 0 80 0;
@@ -244,6 +246,7 @@
 #X connect 71 2 70 4;
 #X connect 71 3 70 5;
 #X connect 72 0 70 1;
+#X connect 72 0 96 0;
 #X connect 73 0 72 0;
 #X connect 76 0 78 0;
 #X connect 77 0 3 0;
@@ -265,4 +268,4 @@
 #X connect 90 0 21 0;
 #X connect 92 0 93 0;
 #X connect 94 0 91 0;
-#X connect 96 0 91 1;
+#X connect 97 0 91 1;

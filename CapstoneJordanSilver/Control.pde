@@ -65,3 +65,56 @@ void sampleSend(int selection) {
   println("Playing Sample #" + selection); 
 }
 
+
+void keyPressed() {
+  if (focused) {
+    if (key == CODED) {
+      if (keyCode == UP) {
+        ;
+      } 
+      if (keyCode == LEFT) { 
+        vis.accelerateY(-1);
+        if(gm.getGameMode() == 0) {
+           gm.incrementSelection(false); 
+        }
+      } 
+      if (keyCode == RIGHT) {
+        vis.accelerateY(1);
+        if(gm.getGameMode() == 0) {
+           gm.incrementSelection(true); 
+        }
+      }
+    } else {
+      if (key == 'z') {
+        vis.zoomIn();
+      } else if (key == 'x') {
+        vis.zoomOut();
+      } else if (key == 'p') {
+        paused = !paused;
+      } else if (key == '1') {
+        sampleSend(1);
+      } else if (key == '2') {
+        sampleSend(2);
+      }
+      if (keyCode == ENTER) {
+        gm.makeSelection(); 
+      }
+    }
+  }
+}
+
+void mouseClicked() {
+  debug.click(mouseX, mouseY);
+}
+
+void mousePressed() {
+  vis.dragOn();
+}
+
+void mouseReleased() {
+  vis.dragOff();
+}
+
+void mouseDragged() {
+  vis.drag(mouseX, mouseY);
+}

@@ -9,6 +9,11 @@ class GameManager {
   //1 = this/that
 
   private boolean paused = true;
+  PImage title = loadImage("title.png");
+  PImage totImage = loadImage("thisorthat.png");
+
+  int selection = 1;
+  int numSelections = 4;
 
   GameManager() {
   }
@@ -17,7 +22,41 @@ class GameManager {
     if (gameMode == 0) {
       pushMatrix();
       background(48, 55, 95);
-      text("To Do: Add Menu", displayWidth/2-10, 300);
+      //      text("To Do: Add Menu", displayWidth/2-10, 300);
+      imageMode(CENTER);
+      image(title, width/2, 130);
+      noFill();
+      //320,430
+      rect(0, 220, width, height-220);
+      line(width/4, 220, width/4, height);
+      line(width/2, 220, width/2, height);
+      line(width*.75, 220, width*.75, height);
+
+      imageMode(CORNER);
+
+
+      if (selection == 1) {
+        fill(40);
+        rect(0, 220, width/4, height-220);
+        noTint();
+        noStroke();
+        image(totImage, 0, 220, width/4, height-220);
+      } else {
+        fill(40);
+        rect(0, 220, width/4, height-220);
+        tint(60);
+        image(totImage, 0, 220, width/4, height-220);
+        if (selection == 2) {
+          rect(width/4, 220, width/4, height-220);
+        } else if (selection == 3) {
+          rect(width/2, 220, width/4, height-220);
+        } else if (selection == 4) {
+          rect(width*.75, 220, width/4, height-220);
+        }
+      }
+
+      stroke(0);
+      noTint();
       popMatrix();
     } else if (gameMode == 1) {
       pushMatrix();
@@ -103,13 +142,37 @@ class GameManager {
   }
 
   void addTweet(Status status) {
-    if (this.getGameMode() == 1) {
+    if (this.getGameMode() == 1 && game1.isActive()) {
       game1.addTweet(status);
     } else if (this.getGameMode() == 2) {
       tweetDeck.addToQueue(status);
     } else if (this.getGameMode() == 3) {
       game2.addToQueue(status);
     }
+  }
+
+  void setSelection(int selection) {
+    this.selection = selection;
+  }
+
+  void incrementSelection(boolean direction) {
+    if (!direction) {//left
+      selection--;
+      if (selection <= 0)
+        selection = 1;
+    } else {//right
+      selection++;
+      if (selection > numSelections)
+        selection = numSelections;
+    }
+  }
+
+  void makeSelection() {
+    loadGameMode(selection);
+  }
+
+  void makeSelection(int sel) {
+    loadGameMode(sel);
   }
 }
 

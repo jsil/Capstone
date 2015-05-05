@@ -22,7 +22,7 @@ class Tweet {
   private float xPos;
   private float yPos;
 
-
+  color bgColor;
 
   private Status status;
 
@@ -49,6 +49,15 @@ class Tweet {
       opacity = map(drawTime % 24, 0, 24, 0, 255);
       drawTime++;
     } else if (drawTime > drawLength - 12 && (position <= 0)) {
+      float rand = random(100);
+//      if (rand >= 80) {
+//        if(rand >= 95) {
+//          sampleSend(4);
+//        }
+//        else {
+//          sampleSend(3); 
+//        }
+//      }
       opacity = map(drawTime % 24, 0, 24, 255, 0);
       drawTime++;
     } else {
@@ -88,7 +97,7 @@ class Tweet {
 
   private void drawBG() {
     if (bgMode == 0) {
-      fill(47, 66, 120);
+      fill(bgColor);
       stroke(255);
       rect(0, 0, w, h);
       fill(255);
@@ -107,7 +116,7 @@ class Tweet {
 
   private void drawBG(float opacity) {
     if (bgMode == 0) {
-      fill(47, 66, 120);
+      fill(bgColor);
       stroke(255);
       rect(0, 0, w, h);
       fill(255, opacity);
@@ -146,6 +155,7 @@ class Tweet {
       //println("#YOLO #SWAG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       bgMode = 1;
       sampleSend(1);
+      postTweet();
     }
     if (message.indexOf("#sheep") != -1) {
       bgMode = 2;
@@ -203,17 +213,36 @@ class Tweet {
     yPos = y;
     isPositioned = true;
   }
-  
+
   float getXPosition() {
-     return xPos; 
+    return xPos;
   }
-  
+
   float getYPosition() {
-     return yPos; 
+    return yPos;
+  }
+
+  boolean isPositioned() {
+    return isPositioned;
   }
   
-  boolean isPositioned() {
-     return isPositioned; 
+  void setColor(color col) {
+     bgColor = col; 
+  }
+
+  //to do: figure out how to post a tweet despite using tweetStream
+  void postTweet() {
+    //    Twitter twitter = TwitterFactory.getSingleton();
+    //    try {
+    //      Status status2 = twitter.updateStatus("test post plz ignore");
+    //      println("posted " + status2.getText());
+    //    }
+    //    catch (TwitterException e) {
+    //      // TODO Auto-generated catch block
+    //      e.printStackTrace();
+    //    }
+    //
+    //
   }
 }
 

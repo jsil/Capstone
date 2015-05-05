@@ -1,6 +1,20 @@
 //Jordan Silver
 //Capstone
 
+/*
+TO DO:
+  Re-organize, clean, comment code
+  standardize classes
+  Kinect controls
+  timed game rounds
+  3-lane game
+  take/save picture
+  post a tweet
+  3rd game?
+
+
+*/
+
 
 import oscP5.*;//sends messages to pure data
 import netP5.*;//connects to pure data
@@ -37,27 +51,19 @@ GameManager gm;
 
 PFont defaultFont;
 
-
-int sketchWidth() {
-  return displayWidth;
-}
-
-int sketchHeight() {
-  return displayHeight-150;
-}
-
-String sketchRenderer() {
-  return P3D;
-}
-
+boolean installation = false;
+boolean DEBUG = false;
+boolean KINECT = false;
 
 void setup() {
   frame.setTitle("Jordan Silver - Capstone");
   frame.setResizable(true);
 
   doMenu();
+  if(KINECT)
+    doKinect();
 
-  size(sketchWidth(), sketchHeight(), sketchRenderer()); 
+  size(displayWidth, displayHeight, P3D); 
   frameRate(24);
 
   ControlP5 cp5;
@@ -68,7 +74,6 @@ void setup() {
   pureData = new NetAddress("127.0.0.1", 9001);
 
   oscP5.send(new OscMessage("/start").add(1), pureData);
-
 
 
   startTwitter();
@@ -96,49 +101,9 @@ void draw() {
   //blendMode(ADD);
 
   gm.draw();
-  debug.draw();
-}
-
-void keyPressed() {
-  if (focused) {
-    if (key == CODED) {
-      if (keyCode == UP) {
-        ;
-      } 
-      if (keyCode == LEFT) { 
-        vis.accelerateY(-1);
-      } 
-      if (keyCode == RIGHT) {
-        vis.accelerateY(1);
-      }
-    } else {
-      if (key == 'z') {
-        vis.zoomIn();
-      } else if (key == 'x') {
-        vis.zoomOut();
-      } else if (key == 'p') {
-        paused = !paused;
-      } else if (key == '1') {
-        sampleSend(1);
-      } else if (key == '2') {
-        sampleSend(2);
-      }
-    }
-  }
-}
-
-void mouseClicked() {
-  debug.click(mouseX, mouseY);
-}
-
-void mousePressed() {
-  vis.dragOn();
-}
-
-void mouseReleased() {
-  vis.dragOff();
-}
-
-void mouseDragged() {
-  vis.drag(mouseX, mouseY);
+  if(DEBUG)
+    debug.draw();
+  pushMatrix();
+  drawKinect();
+  popMatrix();
 }
