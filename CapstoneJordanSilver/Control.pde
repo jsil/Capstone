@@ -74,13 +74,23 @@ void keyPressed() {
       } 
       if (keyCode == LEFT) { 
         vis.accelerateY(-1);
-        if(gm.getGameMode() == 0) {
+        if(gm.getGameMode() == 0 && !gm.isInSubMenu()) {
            gm.incrementSelection(false); 
         }
       } 
       if (keyCode == RIGHT) {
         vis.accelerateY(1);
-        if(gm.getGameMode() == 0) {
+        if(gm.getGameMode() == 0 && !gm.isInSubMenu()) {
+           gm.incrementSelection(true); 
+        }
+      }
+      if (keyCode == UP) { 
+        if(gm.getGameMode() == 0 && gm.isInSubMenu()) {
+           gm.incrementSelection(false); 
+        }
+      } 
+      if (keyCode == DOWN) {
+        if(gm.getGameMode() == 0 && gm.isInSubMenu()) {
            gm.incrementSelection(true); 
         }
       }
@@ -98,6 +108,9 @@ void keyPressed() {
       }
       if (keyCode == ENTER) {
         gm.makeSelection(); 
+      }
+      if (keyCode == DELETE || keyCode == BACKSPACE) {
+        gm.backMenu(); 
       }
     }
   }

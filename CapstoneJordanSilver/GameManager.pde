@@ -15,49 +15,20 @@ class GameManager {
   int selection = 1;
   int numSelections = 4;
 
+  boolean inSubMenu = false;
+  
+  boolean SAFEMODE = false;
+
   GameManager() {
   }
 
   void draw() {
     if (gameMode == 0) {
-      pushMatrix();
-      background(48, 55, 95);
-      //      text("To Do: Add Menu", displayWidth/2-10, 300);
-      imageMode(CENTER);
-      image(title, width/2, 130);
-      noFill();
-      //320,430
-      rect(0, 220, width, height-220);
-      line(width/4, 220, width/4, height);
-      line(width/2, 220, width/2, height);
-      line(width*.75, 220, width*.75, height);
-
-      imageMode(CORNER);
-
-
-      if (selection == 1) {
-        fill(40);
-        rect(0, 220, width/4, height-220);
-        noTint();
-        noStroke();
-        image(totImage, 0, 220, width/4, height-220);
+      if (!inSubMenu) {
+        drawMainMenu();
       } else {
-        fill(40);
-        rect(0, 220, width/4, height-220);
-        tint(60);
-        image(totImage, 0, 220, width/4, height-220);
-        if (selection == 2) {
-          rect(width/4, 220, width/4, height-220);
-        } else if (selection == 3) {
-          rect(width/2, 220, width/4, height-220);
-        } else if (selection == 4) {
-          rect(width*.75, 220, width/4, height-220);
-        }
+        drawSubMenu();
       }
-
-      stroke(0);
-      noTint();
-      popMatrix();
     } else if (gameMode == 1) {
       pushMatrix();
       background(48, 55, 95);
@@ -142,12 +113,26 @@ class GameManager {
   }
 
   void addTweet(Status status) {
-    if (this.getGameMode() == 1 && game1.isActive()) {
-      game1.addTweet(status);
-    } else if (this.getGameMode() == 2) {
-      tweetDeck.addToQueue(status);
-    } else if (this.getGameMode() == 3) {
-      game2.addToQueue(status);
+    if ((SAFEMODE && !isVulgar(status)) || !SAFEMODE) {
+      if (this.getGameMode() == 1 && game1.isActive()) {
+        game1.addTweet(status);
+      } else if (this.getGameMode() == 2) {
+        tweetDeck.addToQueue(status);
+      } else if (this.getGameMode() == 3) {
+        game2.addToQueue(status);
+      }
+    } else {
+      if (DEBUG)
+        println("obscenity removed");
+    }
+  }
+
+  boolean isVulgar(Status status) {
+    String message = status.getText();
+    if (message.indexOf("fuck") != -1 || message.indexOf("shit") != -1 || message.indexOf("nigg") != -1) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -168,11 +153,126 @@ class GameManager {
   }
 
   void makeSelection() {
-    loadGameMode(selection);
+    makeSelection(selection);
   }
 
   void makeSelection(int sel) {
-    loadGameMode(sel);
+    if (!inSubMenu) {
+      if (sel != 4)
+        loadGameMode(sel);
+      else {
+        inSubMenu = true;
+        numSelections = 3;
+      }
+        selection = 1;
+    } else {
+      if (sel == 1) {
+          SAFEMODE = !SAFEMODE;
+      }
+    }
+  }
+
+  void backMenu() {
+    if (inSubMenu) {
+      inSubMenu = false;
+      numSelections = 4;
+    }
+  }
+
+  void drawMainMenu() {
+    pushMatrix();
+    background(48, 55, 95);
+    //      text("To Do: Add Menu", displayWidth/2-10, 300);
+    imageMode(CENTER);
+    image(title, width/2, 130);
+    noFill();
+    //320,430
+    rect(0, 220, width, height-220);
+    line(width/4, 220, width/4, height);
+    line(width/2, 220, width/2, height);
+    line(width*.75, 220, width*.75, height);
+
+    imageMode(CORNER);
+    if (selection == 1) {
+      fill(40);
+      rect(0, 220, width/4, height-220);
+      noTint();
+      noStroke();
+      image(totImage, 0, 220, width/4, height-220);
+    } else {
+      fill(40);
+      rect(0, 220, width/4, height-220);
+      tint(60);
+      image(totImage, 0, 220, width/4, height-220);
+      noTint();
+    }
+    if (selection == 2) {
+      tint(60);
+      rect(width/4, 220, width/4, height-220);
+      noTint();
+    }
+    if (selection == 3) {
+      tint(60);
+      rect(width/2, 220, width/4, height-220);
+      noTint();
+    }
+    if (selection == 4) {
+      tint(60);
+      rect(width*.75, 220, width/4, height-220);
+      fill(255);
+      textAlign(CENTER);
+      text("Sub-Menu", width*.875, height/2);
+      textAlign(LEFT);
+      noTint();
+    } else {
+      noTint();
+      textAlign(CENTER);
+      fill(255);
+      text("Sub-Menu", width*.875, height/2);
+      textAlign(LEFT);
+    }
+
+    stroke(0);
+    noTint();
+    popMatrix();
+  }
+
+  boolean isInSubMenu() {
+    return inSubMenu;
+  }
+
+  void drawSubMenu() {
+    pushMatrix();
+    background(48, 55, 95);
+
+    fill(255);
+    stroke(0);
+    rect(width/6, (height/8)*1, 125, 125);
+    if (SAFEMODE) {
+      line(width/6, (height/8)*1, width/6+125, (height/8)*1+125);
+      line(width/6+125, (height/8)*1, width/6, (height/8)*1+125);
+    }
+    text("\"Safe-Mode\" - Filters out tweets containing common obscenities.\n*NOTE* Offensive Language may still be visible even with Safe-Mode turned on!",width/6+175, (height/8)*1+75);
+
+    rect(width/6, (height/8)*3, 125, 125);
+
+    rect(width/6, (height/8)*5, 125, 125);
+
+    if (selection == 1) {
+      noFill();
+      stroke(0);
+      rect(width/6, (height/8)*1, (width/6)*4, 125);
+    } else if (selection == 2) {
+      noFill();
+      stroke(0);
+      rect(width/6, (height/8)*3, (width/6)*4, 125);
+    } else if (selection == 3) {
+      noFill();
+      stroke(0);
+      rect(width/6, (height/8)*5, (width/6)*4, 125);
+    }
+
+    popMatrix();
   }
 }
 

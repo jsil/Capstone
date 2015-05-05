@@ -148,61 +148,7 @@ class ThisOrThat {
     }
 
     if (timeRemaining <= 0) {      
-      pushMatrix();
-      translate(100, 200, 0);
-      stroke(255);
-      float graphH = height-300;
-      line(0, 0, 0, graphH);
-      line(0, graphH, width-200, graphH);
-      int maxCount = count1;
-      if (count2 > maxCount)
-        maxCount = count2;
-      println("size: " + postStats.size());
-      translate(0, graphH, 0);
-      
-      float xJump = 150;
-      rectMode(CENTER);
-      for (int i=0; i<postStats.size (); i++) {
-        translate(xJump, 0, 0);
-        int c1 = postStats.get(i)[0];
-        int c2 = postStats.get(i)[1];
-        
-        pushMatrix();
-        if(count1 >= count2) {
-           translate(0,0,1); 
-        }
-        translate(0, 0 - (float)graphH*((float)c1/(float)maxCount), 0);
-        fill(color1);
-        rect(0, 0, 15, 15);
-        if(i > 0) {
-           int prev = postStats.get(i-1)[0];
-           line(0,0,1-xJump, (float)graphH*((float)c1/(float)maxCount) - (float)graphH*((float)prev/(float)maxCount));
-        }
-        else {
-          line(0,0,1-xJump, (float)graphH*((float)c1/(float)maxCount));
-        }
-        popMatrix();
-
-        pushMatrix();
-        if(count1 < count2) {
-           translate(0,0,1); 
-        }
-        translate(0, 0 - (float)graphH*((float)c2/(float)maxCount), 0);
-        fill(color2);
-        rect(0, 0, 15, 15);
-        if(i > 0) {
-           int prev = postStats.get(i-1)[1];
-           line(0,0,1-xJump, (float)graphH*((float)c2/(float)maxCount) - (float)graphH*((float)prev/(float)maxCount));
-        }
-        else {
-          line(0,0,1-xJump, (float)graphH*((float)c2/(float)maxCount));
-        }
-        popMatrix();
-      }
-      
-      rectMode(CORNER);
-      stroke(0);
-      popMatrix();
+      drawGraph();
     }
   }
 
@@ -211,15 +157,70 @@ class ThisOrThat {
       roundEnded = true;
       active = false;
       //add final count
-//      postStats.add(new int[] {
-//        count1, count2
-//      }
-//      );
+      //      postStats.add(new int[] {
+      //        count1, count2
+      //      }
+      //      );
     }
   }
 
   boolean isActive() {
     return active;
+  }
+
+  void drawGraph() {
+    pushMatrix();
+    translate(100, 200, 0);
+    stroke(255);
+    float graphH = height-300;
+    line(0, 0, 0, graphH);
+    line(0, graphH, width-200, graphH);
+    int maxCount = count1;
+    if (count2 > maxCount)
+      maxCount = count2;
+    translate(0, graphH, 0);
+
+    float xJump = 150;
+    rectMode(CENTER);
+    for (int i=0; i<postStats.size (); i++) {
+      translate(xJump, 0, 0);
+      int c1 = postStats.get(i)[0];
+      int c2 = postStats.get(i)[1];
+
+      pushMatrix();
+      if (count1 >= count2) {
+        translate(0, 0, 1);
+      }
+      translate(0, 0 - (float)graphH*((float)c1/(float)maxCount), 0);
+      fill(color1);
+      rect(0, 0, 15, 15);
+      if (i > 0) {
+        int prev = postStats.get(i-1)[0];
+        line(0, 0, 1-xJump, (float)graphH*((float)c1/(float)maxCount) - (float)graphH*((float)prev/(float)maxCount));
+      } else {
+        line(0, 0, 1-xJump, (float)graphH*((float)c1/(float)maxCount));
+      }
+      popMatrix();
+
+      pushMatrix();
+      if (count1 < count2) {
+        translate(0, 0, 1);
+      }
+      translate(0, 0 - (float)graphH*((float)c2/(float)maxCount), 0);
+      fill(color2);
+      rect(0, 0, 15, 15);
+      if (i > 0) {
+        int prev = postStats.get(i-1)[1];
+        line(0, 0, 1-xJump, (float)graphH*((float)c2/(float)maxCount) - (float)graphH*((float)prev/(float)maxCount));
+      } else {
+        line(0, 0, 1-xJump, (float)graphH*((float)c2/(float)maxCount));
+      }
+      popMatrix();
+    }
+
+    rectMode(CORNER);
+    stroke(0);
+    popMatrix();
   }
 }
 
