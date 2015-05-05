@@ -28,18 +28,12 @@ class Tweet {
 
   private int bgMode = 0;
 
-
-  //  Tweet() {
-  //    status;
-  //  }
-
   Tweet(Status statusSet) {
     status = statusSet;
 
     textFont(font);
     h = (textAscent() + textDescent()) * 6 + 50;
   }
-
 
   public void draw() {
     pushMatrix();
@@ -69,7 +63,6 @@ class Tweet {
     if (drawTime >= 18 && position <= 0 && !hasExecuted) {
       execute();
     }
-
 
     //translate(350, 350);
     drawBG(opacity);
@@ -152,7 +145,6 @@ class Tweet {
       }
     }
     if (message.indexOf("swag") != -1 && message.indexOf("yolo") != -1) {
-      //println("#YOLO #SWAG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
       bgMode = 1;
       sampleSend(1);
       postTweet();

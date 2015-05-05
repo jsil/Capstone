@@ -8,11 +8,6 @@ void offSend() {
   println("Off");
 }
 
-void reTwit() {
-  //println("hi");
-  doTwitter();
-}
-
 void slider(float tempo) {
   println(tempo);
 }

@@ -1,6 +1,5 @@
 class GameManager {
 
-
   ThisOrThat game1;
   RhythmTweet game2;
 
@@ -16,7 +15,6 @@ class GameManager {
   int numSelections = 4;
 
   boolean inSubMenu = false;
-  
   boolean SAFEMODE = false;
 
   GameManager() {
@@ -49,11 +47,11 @@ class GameManager {
 
       popMatrix();
 
-      blendMode(BLEND);
+//      blendMode(BLEND);
 
-      pushMatrix();
-      translate(1110, 86, 150);
-      popMatrix();
+//      pushMatrix();
+//      translate(1110, 86, 150);
+//      popMatrix();
 
 
       if (!paused) {
@@ -90,8 +88,6 @@ class GameManager {
 
       paused = false;
     }
-
-    //doKinect();
   }
 
   boolean getPaused() {
@@ -164,10 +160,12 @@ class GameManager {
         inSubMenu = true;
         numSelections = 3;
       }
-        selection = 1;
+      selection = 1;
     } else {
       if (sel == 1) {
-          SAFEMODE = !SAFEMODE;
+        SAFEMODE = !SAFEMODE;
+      } else if (sel == 2) {
+        DEBUG = !DEBUG;
       }
     }
   }
@@ -175,6 +173,7 @@ class GameManager {
   void backMenu() {
     if (inSubMenu) {
       inSubMenu = false;
+      selection = 1;
       numSelections = 4;
     }
   }
@@ -252,9 +251,16 @@ class GameManager {
       line(width/6, (height/8)*1, width/6+125, (height/8)*1+125);
       line(width/6+125, (height/8)*1, width/6, (height/8)*1+125);
     }
-    text("\"Safe-Mode\" - Filters out tweets containing common obscenities.\n*NOTE* Offensive Language may still be visible even with Safe-Mode turned on!",width/6+175, (height/8)*1+75);
+    text("\"Safe-Mode\" - Filters out tweets containing common obscenities.\n*NOTE* Offensive Language may still be visible even with Safe-Mode turned on!", width/6+175, (height/8)*1+75);
 
     rect(width/6, (height/8)*3, 125, 125);
+
+    if (DEBUG) {
+      line(width/6, (height/8)*3, width/6+125, (height/8)*3+125);
+      line(width/6+125, (height/8)*3, width/6, (height/8)*3+125);
+    }
+    text("\"Debug\" - Toggles on screen debug window, as well as some handy print-line statements!", width/6+175, (height/8)*3+75);
+
 
     rect(width/6, (height/8)*5, 125, 125);
 

@@ -11,12 +11,10 @@ class TweetSort implements Comparator<Tweet> {
 
 class TweetDeck {
 
-  
   TweetSort tweetSort = new TweetSort();
   Queue<Tweet> tweetQueue = new PriorityQueue(100, tweetSort);
   
   ArrayList<Tweet> currentTweets = new ArrayList<Tweet>();
-
 
   TweetDeck() {
   }
@@ -26,7 +24,6 @@ class TweetDeck {
   }
 
   void draw() {
-
     while (currentTweets.size () < 5) {
       Tweet newTweet = tweetQueue.poll();
       if (newTweet == null) break;

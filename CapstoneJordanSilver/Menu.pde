@@ -7,7 +7,6 @@ MenuBar myMenu;
 Menu topButton;
 MenuItem item1, item2, item3, item4, item5;
 
-
 void doMenu() {
   myMenu = new MenuBar();
 
@@ -58,15 +57,12 @@ void doMenu() {
     }
   }
   );
-  
-  
 
   //add the items to the top level Button
   topButton.add(item3);
   topButton.add(item1);
   topButton.add(item2);
   topButton.add(item4);
-
 
   //add the button to the menu
   myMenu.add(topButton);

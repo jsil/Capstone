@@ -1,9 +1,6 @@
 /* TO DO:
- function when time hits 0
- end of round nonsense
- 
+ set up game flow (transitions, etc)
  find more words
- 
  */
 
 class ThisOrThat {
@@ -15,7 +12,7 @@ class ThisOrThat {
   String word1;
   String word2;
 
-  float roundTime = 30;
+  float roundTime = 20;//increment by 5 for compatibility with graph
   float timeRemaining = roundTime;
 
   int count1 = 0;
@@ -78,8 +75,8 @@ class ThisOrThat {
 
     fill(255);
 
-    text(word1 + ": " + count1, width/4, 50);
-    text(word2 + ": " + count2, 3*(width/4), 50);
+    text(word1, width/4, 50);
+    text(word2, 3*(width/4), 50);
 
     textFont(defaultFont);
 
@@ -147,7 +144,16 @@ class ThisOrThat {
       }
     }
 
-    if (timeRemaining <= 0) {      
+    if (timeRemaining <= 0) {  
+      textAlign(CENTER);    
+      if (count1 > count2) {
+        text(word1 + " is the winner with " + count1 + " tweets!", width/2, 150);
+      } else if (count1 < count2) {
+        text(word2 + " is the winner with " + count2 + " tweets!", width/2, 150);
+      } else {
+        text(word1 + " and " + word2 + " tied with " + count1 + " tweets each!", width/2, 150);
+      }
+      textAlign(LEFT);
       drawGraph();
     }
   }
@@ -172,18 +178,28 @@ class ThisOrThat {
     pushMatrix();
     translate(100, 200, 0);
     stroke(255);
-    float graphH = height-300;
+    float graphH = height-320;
     line(0, 0, 0, graphH);
     line(0, graphH, width-200, graphH);
     int maxCount = count1;
     if (count2 > maxCount)
       maxCount = count2;
+
+    pushMatrix();
+    //TODO: add graph's Y labels
+    popMatrix();
+
     translate(0, graphH, 0);
 
-    float xJump = 150;
+    float xJump = (width-200)/postStats.size();
     rectMode(CENTER);
+    textAlign(CENTER);
+    text("0", 0, 40);
     for (int i=0; i<postStats.size (); i++) {
       translate(xJump, 0, 0);
+      fill(255);
+      text((i+1)*5, 0, 40);
+
       int c1 = postStats.get(i)[0];
       int c2 = postStats.get(i)[1];
 
@@ -194,6 +210,7 @@ class ThisOrThat {
       translate(0, 0 - (float)graphH*((float)c1/(float)maxCount), 0);
       fill(color1);
       rect(0, 0, 15, 15);
+      translate(0, 0, -1);
       if (i > 0) {
         int prev = postStats.get(i-1)[0];
         line(0, 0, 1-xJump, (float)graphH*((float)c1/(float)maxCount) - (float)graphH*((float)prev/(float)maxCount));
@@ -209,6 +226,7 @@ class ThisOrThat {
       translate(0, 0 - (float)graphH*((float)c2/(float)maxCount), 0);
       fill(color2);
       rect(0, 0, 15, 15);
+      translate(0, 0, -1);
       if (i > 0) {
         int prev = postStats.get(i-1)[1];
         line(0, 0, 1-xJump, (float)graphH*((float)c2/(float)maxCount) - (float)graphH*((float)prev/(float)maxCount));
@@ -219,6 +237,7 @@ class ThisOrThat {
     }
 
     rectMode(CORNER);
+    textAlign(LEFT);
     stroke(0);
     popMatrix();
   }
