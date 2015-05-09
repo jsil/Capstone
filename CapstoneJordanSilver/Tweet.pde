@@ -40,7 +40,7 @@ class Tweet {
 
     float opacity;
     if (drawTime < 12) {
-      opacity = map(drawTime % 24, 0, 24, 0, 255);
+//      opacity = map(drawTime % 24, 0, 24, 0, 255);
       drawTime++;
     } else if (drawTime > drawLength - 12 && (position <= 0)) {
       float rand = random(100);
@@ -65,7 +65,8 @@ class Tweet {
     }
 
     //translate(350, 350);
-    drawBG(opacity);
+//    drawBG(opacity);
+      drawBG();
     //fill(47, 66, 120, opacity);
     //stroke(255, opacity);
     //rect(0, 0, w, h);

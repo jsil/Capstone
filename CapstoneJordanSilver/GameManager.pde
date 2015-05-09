@@ -1,26 +1,31 @@
 class GameManager {
 
-  ThisOrThat game1;
-  RhythmTweet game2;
+  private ThisOrThat game1;
+  private RhythmTweet game2;
+
+  private boolean paused = true;
+  public boolean SAFEMODE = false;
+  public boolean SHOWINTROS = false;
+  private boolean inSubMenu = false;
 
   private int gameMode = 0;
   //gameMode 0 = menu
   //1 = this/that
 
-  private boolean paused = true;
-  PImage title = loadImage("title.png");
-  PImage totImage = loadImage("thisorthat.png");
+  private int selection = 1;
+  private int numSelections = 4;
 
-  int selection = 1;
-  int numSelections = 4;
+  private PImage title = loadImage("title.png");
+  private PImage totImage = loadImage("thisorthat.png");
+  
+  Intro intro1 = new Intro();
+  boolean shownIntro1 = false;
 
-  boolean inSubMenu = false;
-  boolean SAFEMODE = false;
 
   GameManager() {
   }
 
-  void draw() {
+  public void draw() {
     if (gameMode == 0) {
       if (!inSubMenu) {
         drawMainMenu();
@@ -31,7 +36,16 @@ class GameManager {
       pushMatrix();
       background(48, 55, 95);
       //text("Game 1", displayWidth/2-10, 15);
-      game1.draw();
+      if(!shownIntro1 && SHOWINTROS) {
+        intro1.draw();
+        if(intro1.isDone()) {
+           shownIntro1 = true; 
+        }
+      }
+      else {
+        game1.draw();
+      }
+      
       popMatrix();
     } else if (gameMode == 3) {
       pushMatrix();
@@ -47,30 +61,23 @@ class GameManager {
 
       popMatrix();
 
-//      blendMode(BLEND);
-
-//      pushMatrix();
-//      translate(1110, 86, 150);
-//      popMatrix();
-
-
-      if (!paused) {
-        drawKinect();
-        drawTwitter();
-        drawCamera();
-      }
+//      if (!paused) {
+//        drawKinect();
+//        drawTwitter();
+//        drawCamera();
+//      }
     }
   }
 
-  int getGameMode() {
+  public int getGameMode() {
     return gameMode;
   }
 
-  void setGameMode(int gameModeSet) {
+  private void setGameMode(int gameModeSet) {
     gameMode = gameModeSet;
   }
 
-  void loadGameMode(int mode) {
+  public void loadGameMode(int mode) {
     println("Loading Game " + mode);
     if (mode == 0) {
       this.setGameMode(mode);
@@ -84,31 +91,31 @@ class GameManager {
       paused = false;
     } else if (mode == 3) {
       this.setGameMode(mode);
-      game2 = new RhythmTweet(2);
+      game2 = new RhythmTweet(3);
 
       paused = false;
     }
   }
 
-  boolean getPaused() {
+  public boolean getPaused() {
     return paused;
   }
 
-  void pause() {
+  public void pause() {
     paused = true;
   }
 
-  void unpause() {
+  public void unpause() {
     paused = false;
   }
 
-  void setTime(int val) {
+  public void setTime(int val) {
     if (this.getGameMode() == 3) {
       game2.setTime(val);
     }
   }
 
-  void addTweet(Status status) {
+  public void addTweet(Status status) {
     if ((SAFEMODE && !isVulgar(status)) || !SAFEMODE) {
       if (this.getGameMode() == 1 && game1.isActive()) {
         game1.addTweet(status);
@@ -123,7 +130,7 @@ class GameManager {
     }
   }
 
-  boolean isVulgar(Status status) {
+  public boolean isVulgar(Status status) {
     String message = status.getText();
     if (message.indexOf("fuck") != -1 || message.indexOf("shit") != -1 || message.indexOf("nigg") != -1) {
       return true;
@@ -132,11 +139,11 @@ class GameManager {
     }
   }
 
-  void setSelection(int selection) {
+  public void setSelection(int selection) {
     this.selection = selection;
   }
 
-  void incrementSelection(boolean direction) {
+  public void incrementSelection(boolean direction) {
     if (!direction) {//left
       selection--;
       if (selection <= 0)
@@ -148,11 +155,11 @@ class GameManager {
     }
   }
 
-  void makeSelection() {
+  public void makeSelection() {
     makeSelection(selection);
   }
 
-  void makeSelection(int sel) {
+  public void makeSelection(int sel) {
     if (!inSubMenu) {
       if (sel != 4)
         loadGameMode(sel);
@@ -166,11 +173,13 @@ class GameManager {
         SAFEMODE = !SAFEMODE;
       } else if (sel == 2) {
         DEBUG = !DEBUG;
+      } else if (sel == 3) {
+         SHOWINTROS = !SHOWINTROS; 
       }
     }
   }
 
-  void backMenu() {
+  public void backMenu() {
     if (inSubMenu) {
       inSubMenu = false;
       selection = 1;
@@ -178,7 +187,7 @@ class GameManager {
     }
   }
 
-  void drawMainMenu() {
+  private void drawMainMenu() {
     pushMatrix();
     background(48, 55, 95);
     //      text("To Do: Add Menu", displayWidth/2-10, 300);
@@ -236,11 +245,11 @@ class GameManager {
     popMatrix();
   }
 
-  boolean isInSubMenu() {
+  public boolean isInSubMenu() {
     return inSubMenu;
   }
 
-  void drawSubMenu() {
+  private void drawSubMenu() {
     pushMatrix();
     background(48, 55, 95);
 
@@ -263,6 +272,13 @@ class GameManager {
 
 
     rect(width/6, (height/8)*5, 125, 125);
+    
+    if (SHOWINTROS) {
+      line(width/6, (height/8)*5, width/6+125, (height/8)*5+125);
+      line(width/6+125, (height/8)*5, width/6, (height/8)*5+125);
+    }
+    text("\"Show Intros\" - Toggles intro display", width/6+175, (height/8)*5+75);
+
 
     if (selection == 1) {
       noFill();

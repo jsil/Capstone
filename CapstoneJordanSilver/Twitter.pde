@@ -77,13 +77,45 @@ void startTwitter() {
 
   //EVERY WORD USED FOR EVERY GAME MUST BE LISTED HERE
   String keywords[] = {
-    "swag",
-    "yolo",
-    "#sheep",
+//    "swag",
+//    "yolo",
+//    "#sheep",
     "sister",
     "dad",
     "uncle",
-    "aunt"
+    "aunt",
+    "black",
+    "white",
+    "wife",
+    "husband",
+    "soccer",
+    "futbol",
+    "goodbye",
+    "hello"
+//    "boss",
+//    "player",
+//    "police",
+//    "past",
+//    "future",
+//    "passed",
+//    "present",
+//    "league",
+//    "fact",
+//    "lie",
+//    "tweet",
+//    "post",
+//    "twitter",
+//    "yak",
+//    "finals",
+//    "depression",
+//    "obama",
+//    "hillary",
+//    "thanks",
+//    "fired",
+//    "hired",
+//    "hump",
+//    "dump"
+//    "sanders"
   };
   // sample() method internally creates a thread which manipulates TwitterStream and calls these adequate listener methods continuously.
   twitterStream.filter(new FilterQuery().track(keywords));

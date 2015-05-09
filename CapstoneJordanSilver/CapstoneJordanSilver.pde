@@ -3,14 +3,24 @@
 
 /*
 TO DO:
-  Re-organize, clean, comment code
-  standardize classes
-  Kinect controls
-  3-lane game
-  take/save picture
-  post a tweet
-  3rd game?
-*/
+ friday:
+ Kinect controls
+ round switching, etc for this/that
+ standardize classes
+ take/save picture
+ 3-lane game
+ post a tweet
+ make menu pretty (photoshop, etc)
+ 3rd game
+ 5 landscapes?
+ 4 self-portraits
+ 1.5 pages
+ saturday:
+ 1.5 pages
+ sunday:
+ 1.5 pages
+ 
+ */
 
 import oscP5.*;//sends messages to pure data
 import netP5.*;//connects to pure data
@@ -35,8 +45,8 @@ void setup() {
   frame.setResizable(false);
 
   doMenu();
-  
-  if(KINECT)
+
+  if (KINECT)
     doKinect();
 
   size(displayWidth, displayHeight, P3D); 
@@ -62,9 +72,10 @@ void setup() {
 
 void draw() {
   gm.draw();
-  if(DEBUG)
+  if (DEBUG)
     debug.draw();
   pushMatrix();
   drawKinect();
   popMatrix();
 }
+

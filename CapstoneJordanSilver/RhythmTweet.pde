@@ -21,20 +21,19 @@ class RhythmTweet {
 
   void draw() {
     pushMatrix();
-
+    moveTweets();
     //    camera(width/2.0, 0, (height/2.0) / tan(PI*30.0 / 180.0), width/2.0, height/2.0, 0, 0, 1, 0);
-
     translate(400, 100);
     for (int i=0; i<lanes.size (); i++) {
       pushMatrix();
 
-      translate(100, 0);
+      translate(100, width/(i+1));
 
       lanes.get(i).draw();
       popMatrix();
     } 
 
-//    camera();//reset camera
+    //    camera();//reset camera
     popMatrix();
   }
 
@@ -48,15 +47,14 @@ class RhythmTweet {
   void moveTweets() {
     Tweet newTweet = tweetQueue.poll();
     if (newTweet != null) {
-
-      int lane = (int)random(lanes.size());
+      int lane = (int)random(lanes.size()-1);
 
       println("adding tweet to lane " + lane);
       lanes.get(lane).addTweet(newTweet);
 
-      //      for (int i=0; i<lanes.size (); i++) {
-      //        lanes.get(i).addTweet(tweetQueue.poll());
-      //      }
+//      for (int i=0; i<lanes.size (); i++) {
+//        lanes.get(i).addTweet(tweetQueue.poll());
+//      }
     }
   }
 }
