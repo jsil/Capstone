@@ -3,22 +3,18 @@
 
 /*
 TO DO:
- friday:
+ saturday:
  Kinect controls
- round switching, etc for this/that
- standardize classes
  take/save picture
  3-lane game
  post a tweet
  make menu pretty (photoshop, etc)
  3rd game
- 5 landscapes?
- 4 self-portraits
- 1.5 pages
- saturday:
- 1.5 pages
+ 3 pages
  sunday:
- 1.5 pages
+ 3 pages
+ monday:
+ 2 pages
  
  */
 
@@ -38,11 +34,13 @@ PFont defaultFont;
 
 boolean installation = false;
 boolean DEBUG = false;
-boolean KINECT = false;
+boolean KINECT = true;
+
+Hands hands;
 
 void setup() {
   frame.setTitle("Jordan Silver - Capstone");
-  frame.setResizable(false);
+  frame.setResizable(true);
 
   doMenu();
 
@@ -63,6 +61,7 @@ void setup() {
 
   startTwitter();
 
+  hands = new Hands();
   gm = new GameManager();
 
   defaultFont = loadFont("YeOldFont.vlw");

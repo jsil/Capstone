@@ -1,14 +1,17 @@
 /* TO DO:
- set up game flow (transitions, etc)
  find more words
  add points system
  */
 
 class ThisOrThat {
 
+  private ArrayList<Integer> scores = new ArrayList<Integer>();
   private ArrayList<Tweet> tweetList = new ArrayList<Tweet>();
   private ArrayList<int[]> postStats = new ArrayList<int[]>();
   private ArrayList<String[]> allWords = new ArrayList<String[]>();
+
+  //  ArrayList<int> scores = new ArrayList<int>();
+
 
   private String word1;
   private String word2;
@@ -19,7 +22,7 @@ class ThisOrThat {
 
   private int dataInterval = 4;
   private float timeSinceData = 0;
-  private float roundTime = dataInterval * 2;
+  private float roundTime = dataInterval * 5;
   private float timeRemaining = roundTime;
 
 
@@ -42,27 +45,24 @@ class ThisOrThat {
 
   Intro intro = new Intro();
 
-
-  /* good word combinations:
-   sis - dad
-   black - white
-   husband - wife
-   soccer - futbol??
-   player - police??
-   passed - present??
-   league - ?
-   
-   tweet - post
-   
-   
-   
-   */
-
   ThisOrThat() {
     loadWords();
     generateNewWords();
-    //    word1 =  "sis";
-    //    word2 = "dad";
+    //        word1 =  "bed";
+    //        word2 = "bath";
+    ArrayList<Integer> initialHands = hands.getAllHands();
+    for (int i = 0; i< initialHands.size (); i++) {
+      addUser(initialHands.get(i));
+      println("adding initial hand");
+    }
+  }
+
+  void addUser(int id) {
+    scores.add(0);
+  }
+
+  void lostUser(int id) {
+    scores.remove(id);
   }
 
   public void addTweet(Status status) {
@@ -78,10 +78,10 @@ class ThisOrThat {
 
   public void draw() {
 
+
     //    if (!intro.isDone()) {
     //      intro.draw();
     //    } else {
-
     //update timeRemaining
     if (timeRemaining > 0) {
       timeRemaining = timeRemaining - 1/frameRate;
@@ -93,6 +93,17 @@ class ThisOrThat {
     }
 
     textFont(defaultFont, 24);
+
+    pushMatrix();
+    translate(0, height/2, 0);
+    fill(40);
+    rect(0, 0, 80, 120);
+    fill(255);
+    text("Scores:", 15, 15);
+    for (int i=0; i<scores.size (); i++) {
+      text(i + " - " + scores.get(i), 15, i*15);
+    }
+    popMatrix();
 
     //line(displayWidth/2, 0, displayWidth/2, displayHeight);
     line(0, 100, width, 100);
@@ -126,9 +137,16 @@ class ThisOrThat {
 
     rotate(-PI/2);
     stroke(0);
+    strokeWeight(4);
     noFill();
     arc(-50, 35, 80, 80, 0, 2*PI, PIE);
     fill(255);
+
+
+    arc(-50, 35, 80, 80, 0, 2*PI*(1-abs((timeRemaining-roundTime)/roundTime)), PIE);
+    strokeWeight(1);
+    popMatrix();
+
 
 
     //      if (timeSinceData >= dataInterval) {
@@ -144,10 +162,6 @@ class ThisOrThat {
       fill(255, 0, 0);
       text("Points awarded", 0, 250);
     }
-
-
-    arc(-50, 35, 80, 80, 0, 2*PI*(1-abs((timeRemaining-roundTime)/roundTime)), PIE);
-    popMatrix();
 
     if (timeRemaining>0) {
       translate(0, 0, 100);
@@ -262,7 +276,27 @@ class ThisOrThat {
     } 
     );
     allWords.add(new String[] {
-      "goodbye", "hello"
+      "bye", "hello"
+    } 
+    );
+    allWords.add(new String[] {
+      "want", "need"
+    } 
+    );
+    allWords.add(new String[] {
+      "any", "help"
+    } 
+    );
+    allWords.add(new String[] {
+      "change", "stay"
+    } 
+    );
+    allWords.add(new String[] {
+      "wait", "stop"
+    } 
+    );
+    allWords.add(new String[] {
+      "movie", "song"
     } 
     );
   }

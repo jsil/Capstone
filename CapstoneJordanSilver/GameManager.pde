@@ -296,5 +296,18 @@ class GameManager {
 
     popMatrix();
   }
+  
+  
+  void addUser(int id) {
+    if (gameMode == 1) {
+      game1.addUser(id);
+    }
+  }
+  
+  void lostUser(int id) {
+    if (gameMode == 1) {
+     game1.lostUser(id);
+    }
+  }
 }
 
