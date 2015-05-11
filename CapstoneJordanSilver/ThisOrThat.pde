@@ -5,7 +5,7 @@
 
 class ThisOrThat {
 
-  private ArrayList<Integer> scores = new ArrayList<Integer>();
+  private ArrayList<Integer> handIds = new ArrayList<Integer>();
   private ArrayList<Tweet> tweetList = new ArrayList<Tweet>();
   private ArrayList<int[]> postStats = new ArrayList<int[]>();
   private ArrayList<String[]> allWords = new ArrayList<String[]>();
@@ -57,12 +57,43 @@ class ThisOrThat {
     }
   }
 
+  void awardPoints() {
+    //    println("awarding points");
+    for (int i=0; i<handIds.size (); i++) {
+      //      println("hand " + handIds.get(i));
+      Hand hand = hands.getHand(handIds.get(i));
+      //      println("hand# " + hand.getHandId());
+      //      int handNum = hand.getHandId();
+      if (hands.getBinarySelection(handIds.get(i))) {
+        if (count2 >= count1) {
+          //               scores.get(i) = scores.get(i) + 1; 
+          hand.addPoints(1);
+          //          println("one ");
+        }
+      } else {
+        if (count1 >= count2) {
+          hand.addPoints(1);
+          //              scores.get(i) += 1;
+          //          println("two ");
+        }
+      }
+    }
+  }
+
   void addUser(int id) {
-    scores.add(0);
+    handIds.add(id);
   }
 
   void lostUser(int id) {
-    scores.remove(id);
+    println("removing user " + id);
+    for (int i=0; i<handIds.size (); i++) {
+      if (handIds.get(i) == id) {
+        println("found user");
+        handIds.remove(i);
+        println("successfully removed");
+        break;
+      }
+    }
   }
 
   public void addTweet(Status status) {
@@ -74,6 +105,23 @@ class ThisOrThat {
     if (tweet.contains(word2)) {
       count2++;
     }
+  }
+
+  void drawScores() {
+    pushMatrix();
+    translate(0, height/2, 0);
+    fill(40);
+    rect(0, 0, 80, 120);
+    fill(255);
+    text("Scores:", 15, 15);
+
+    for (int i=0; i<handIds.size (); i++) {
+      Hand hand = hands.getHand(handIds.get(i));
+
+      //    for (int i=0; i<scores.size (); i++) {
+      text(i + " - " + hand.getScore(), 15, 40 + i*15);
+    }
+    popMatrix();
   }
 
   public void draw() {
@@ -94,16 +142,7 @@ class ThisOrThat {
 
     textFont(defaultFont, 24);
 
-    pushMatrix();
-    translate(0, height/2, 0);
-    fill(40);
-    rect(0, 0, 80, 120);
-    fill(255);
-    text("Scores:", 15, 15);
-    for (int i=0; i<scores.size (); i++) {
-      text(i + " - " + scores.get(i), 15, i*15);
-    }
-    popMatrix();
+    drawScores();
 
     //line(displayWidth/2, 0, displayWidth/2, displayHeight);
     line(0, 100, width, 100);
@@ -157,6 +196,7 @@ class ThisOrThat {
         count1, count2
       }
       );
+      awardPoints();
     }
     if ((timeSinceData < .5 || timeSinceData > (float)(dataInterval*24) - 1) && (roundTime - timeRemaining) > .8) {
       fill(255, 0, 0);

@@ -2,7 +2,8 @@ class Hands {
 
 
   int handVecListSize = 20;
-  Map<Integer, ArrayList<PVector>>  handPathList = new HashMap<Integer, ArrayList<PVector>>();
+  //  Map<Integer, ArrayList<PVector>>  handPathList = new HashMap<Integer, ArrayList<PVector>>();
+  ArrayList<Hand> handList = new ArrayList<Hand>();
 
   color[]       userClr = new color[] { 
     color(255, 0, 0), 
@@ -17,39 +18,86 @@ class Hands {
   } 
 
   void doHands() {
-    if (handPathList.size() > 0)  
-    {    
-      Iterator itr = handPathList.entrySet().iterator();     
-      while (itr.hasNext ())
-      {
-        Map.Entry mapEntry = (Map.Entry)itr.next(); 
-        int handId =  (Integer)mapEntry.getKey();
-        ArrayList<PVector> vecList = (ArrayList<PVector>)mapEntry.getValue();
-        PVector p;
-        PVector p2d = new PVector();
+    for (int i=0; i<handList.size (); i++) {
+      int handId = handList.get(i).getHandId();
+      ArrayList<PVector> vecList = handList.get(i).getVectorList();
 
-        stroke(userClr[ (handId - 1) % userClr.length ]);
-        noFill(); 
-        strokeWeight(1);        
-        Iterator itrVec = vecList.iterator(); 
-        beginShape();
-        while ( itrVec.hasNext () ) 
-        { 
-          p = (PVector) itrVec.next(); 
+      PVector p;
+      PVector p2d = new PVector();
 
-          kinect.convertRealWorldToProjective(p, p2d);
-          vertex(p2d.x, p2d.y);
-        }
-        endShape();   
+      stroke(userClr[ (handId - 1) % userClr.length ]);
+      noFill(); 
+      strokeWeight(1);        
+      Iterator itrVec = vecList.iterator(); 
+      beginShape();
+      while ( itrVec.hasNext () ) 
+      { 
+        p = (PVector) itrVec.next(); 
 
-        stroke(userClr[ (handId - 1) % userClr.length ]);
-        strokeWeight(4);
-        p = vecList.get(0);
         kinect.convertRealWorldToProjective(p, p2d);
-        point(p2d.x, p2d.y);
+        vertex(p2d.x, p2d.y);
       }
+      endShape();   
+
+      stroke(userClr[ (handId - 1) % userClr.length ]);
+      strokeWeight(4);
+      p = vecList.get(0);
+      kinect.convertRealWorldToProjective(p, p2d);
+      point(p2d.x, p2d.y);
     }
+    
     strokeWeight(1);
+
+
+
+
+    //    if (handPathList.size() > 0)  
+    //    {    
+    //      Iterator itr = handPathList.entrySet().iterator();     
+    //      while (itr.hasNext ())
+    //      {
+    //        Map.Entry mapEntry = (Map.Entry)itr.next(); 
+    //        int handId =  (Integer)mapEntry.getKey();
+    //        ArrayList<PVector> vecList = (ArrayList<PVector>)mapEntry.getValue();
+    //        PVector p;
+    //        PVector p2d = new PVector();
+    //
+    //        stroke(userClr[ (handId - 1) % userClr.length ]);
+    //        noFill(); 
+    //        strokeWeight(1);        
+    //        Iterator itrVec = vecList.iterator(); 
+    //        beginShape();
+    //        while ( itrVec.hasNext () ) 
+    //        { 
+    //          p = (PVector) itrVec.next(); 
+    //
+    //          kinect.convertRealWorldToProjective(p, p2d);
+    //          vertex(p2d.x, p2d.y);
+    //        }
+    //        endShape();   
+    //
+    //        stroke(userClr[ (handId - 1) % userClr.length ]);
+    //        strokeWeight(4);
+    //        p = vecList.get(0);
+    //        kinect.convertRealWorldToProjective(p, p2d);
+    //        point(p2d.x, p2d.y);
+    //      }
+    //    }
+    //    strokeWeight(1);
+  }
+
+  int size() {
+    return handList.size();
+  }
+
+
+  Hand getHand(int handId) {
+    for(int i=0;i<handList.size();i++) {
+       if (handList.get(i).getHandId() == handId) {
+          return handList.get(i); 
+       }
+    }
+    return null;
   }
 
   void newHand(int handId, PVector pos) {
@@ -57,12 +105,13 @@ class Hands {
     ArrayList<PVector> vecList = new ArrayList<PVector>();
     vecList.add(pos);
 
-    handPathList.put(handId, vecList);
+//    handPathList.put(handId, vecList);
+    handList.add(new Hand(handId,vecList));
     gm.addUser(handId);
   }
 
   void trackedHand(int handId, PVector pos) {
-    ArrayList<PVector> vecList = handPathList.get(handId);
+    ArrayList<PVector> vecList = getHand(handId).getVectorList();
     if (vecList != null)
     {
       vecList.add(0, pos);
@@ -73,31 +122,38 @@ class Hands {
   }
 
   void lostHand(int handId) {
-    handPathList.remove(handId);
-    gm.lostUser(handId);
+    println("removing hand");
+    for(int i=0;i<handList.size();i++) {
+       if (handList.get(i).getHandId() == handId) {
+         println("found hand");
+         handList.remove(i);
+         println("removed hand");
+         gm.lostUser(handId);
+         println("removed from gm");
+         break;
+       }
+    }
   }
-  
+
   boolean getBinarySelection(int handId) {
-     if(getXPos(handId) >= 0) {
-        return true; 
-     }
-     else {
-       return false; 
-     }
+    if (getXPos(handId) >= 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
-  
+
   float getXPos(int handId) {
-     ArrayList<PVector> vecList = handPathList.get(handId);
-     return vecList.get(vecList.size()-1).x; 
+    ArrayList<PVector> vecList = getHand(handId).getVectorList();
+    return vecList.get(vecList.size()-1).x;
   }
-  
+
   ArrayList<Integer> getAllHands() {
-     ArrayList<Integer> returnedHands = new ArrayList<Integer>();
-     for(int i=0;i<handPathList.size();i++) {
-//        if(handPathList.containsKey(i)) {
-           returnedHands.add(i); 
-//        }
-     } 
-     return returnedHands;
+    ArrayList<Integer> returnedHands = new ArrayList<Integer>();
+    for (int i=0; i<handList.size (); i++) {
+      returnedHands.add(handList.get(i).getHandId()); 
+    } 
+    return returnedHands;
   }
 }
+
