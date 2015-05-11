@@ -62,6 +62,22 @@ class ThisOrThat {
     for (int i=0; i<handIds.size (); i++) {
       //      println("hand " + handIds.get(i));
       Hand hand = hands.getHand(handIds.get(i));
+
+      int diff1; 
+      int diff2; 
+
+      if (postStats.size() > 1) {
+        diff1 = postStats.get(postStats.size()-1)[0] - postStats.get(postStats.size()-2)[0];
+        diff2 = postStats.get(postStats.size()-1)[1] - postStats.get(postStats.size()-2)[1];
+      }
+      else {
+        diff1 = postStats.get(0)[0];
+        diff2 = postStats.get(0)[1];
+      }
+
+      println("diff 1: " + diff1);
+      println("diff 2: " + diff2);
+
       //      println("hand# " + hand.getHandId());
       //      int handNum = hand.getHandId();
       if (hands.getBinarySelection(handIds.get(i))) {
@@ -70,11 +86,17 @@ class ThisOrThat {
           hand.addPoints(1);
           //          println("one ");
         }
+        if (diff2 >= diff1) {
+          hand.addPoints(2);
+        }
       } else {
         if (count1 >= count2) {
           hand.addPoints(1);
           //              scores.get(i) += 1;
           //          println("two ");
+        }
+        if (diff1 >= diff2) {
+          hand.addPoints(2);
         }
       }
     }
@@ -85,12 +107,9 @@ class ThisOrThat {
   }
 
   void lostUser(int id) {
-    println("removing user " + id);
     for (int i=0; i<handIds.size (); i++) {
       if (handIds.get(i) == id) {
-        println("found user");
         handIds.remove(i);
-        println("successfully removed");
         break;
       }
     }
@@ -117,20 +136,12 @@ class ThisOrThat {
 
     for (int i=0; i<handIds.size (); i++) {
       Hand hand = hands.getHand(handIds.get(i));
-
-      //    for (int i=0; i<scores.size (); i++) {
-      text(i + " - " + hand.getScore(), 15, 40 + i*15);
+      text(hand.getHandId() + " - " + hand.getScore(), 15, 40 + i*15);
     }
     popMatrix();
   }
 
   public void draw() {
-
-
-    //    if (!intro.isDone()) {
-    //      intro.draw();
-    //    } else {
-    //update timeRemaining
     if (timeRemaining > 0) {
       timeRemaining = timeRemaining - 1/frameRate;
       timeSinceData = timeSinceData + 1/frameRate;
@@ -141,7 +152,7 @@ class ThisOrThat {
     }
 
     textFont(defaultFont, 24);
-
+    stroke(255);
     drawScores();
 
     //line(displayWidth/2, 0, displayWidth/2, displayHeight);
@@ -176,7 +187,7 @@ class ThisOrThat {
 
     rotate(-PI/2);
     stroke(0);
-    strokeWeight(4);
+    strokeWeight(3);
     noFill();
     arc(-50, 35, 80, 80, 0, 2*PI, PIE);
     fill(255);
@@ -311,10 +322,10 @@ class ThisOrThat {
       "husband", "wife"
     } 
     );
-    allWords.add(new String[] {
-      "aunt", "uncle"
-    } 
-    );
+//    allWords.add(new String[] {
+//      "aunt", "uncle"
+//    } 
+//    );
     allWords.add(new String[] {
       "bye", "hello"
     } 

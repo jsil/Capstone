@@ -45,7 +45,7 @@ class Hands {
       kinect.convertRealWorldToProjective(p, p2d);
       point(p2d.x, p2d.y);
     }
-    
+
     strokeWeight(1);
 
 
@@ -92,10 +92,10 @@ class Hands {
 
 
   Hand getHand(int handId) {
-    for(int i=0;i<handList.size();i++) {
-       if (handList.get(i).getHandId() == handId) {
-          return handList.get(i); 
-       }
+    for (int i=0; i<handList.size (); i++) {
+      if (handList.get(i).getHandId() == handId) {
+        return handList.get(i);
+      }
     }
     return null;
   }
@@ -105,8 +105,8 @@ class Hands {
     ArrayList<PVector> vecList = new ArrayList<PVector>();
     vecList.add(pos);
 
-//    handPathList.put(handId, vecList);
-    handList.add(new Hand(handId,vecList));
+    //    handPathList.put(handId, vecList);
+    handList.add(new Hand(handId, vecList));
     gm.addUser(handId);
   }
 
@@ -123,15 +123,15 @@ class Hands {
 
   void lostHand(int handId) {
     println("removing hand");
-    for(int i=0;i<handList.size();i++) {
-       if (handList.get(i).getHandId() == handId) {
-         println("found hand");
-         handList.remove(i);
-         println("removed hand");
-         gm.lostUser(handId);
-         println("removed from gm");
-         break;
-       }
+    for (int i=0; i<handList.size (); i++) {
+      if (handList.get(i).getHandId() == handId) {
+        println("found hand");
+        handList.remove(i);
+        println("removed hand");
+        gm.lostUser(handId);
+        println("removed from gm");
+        break;
+      }
     }
   }
 
@@ -143,15 +143,36 @@ class Hands {
     }
   }
 
+  int getQuadrantSelection(int handId) {
+    if (getXPos(handId) >= 0) {
+      if (getYPos(handId) >= 0) {
+        return 2;
+      } else {
+        return 4;
+      }
+    } else {
+      if (getYPos(handId) >= 0) {
+        return 1;
+      } else {
+        return 3;
+      }
+    }
+  }
+
   float getXPos(int handId) {
     ArrayList<PVector> vecList = getHand(handId).getVectorList();
-    return vecList.get(vecList.size()-1).x;
+    return vecList.get(0).x;
+  }
+
+  float getYPos(int handId) {
+    ArrayList<PVector> vecList = getHand(handId).getVectorList();
+    return vecList.get(0).y;
   }
 
   ArrayList<Integer> getAllHands() {
     ArrayList<Integer> returnedHands = new ArrayList<Integer>();
     for (int i=0; i<handList.size (); i++) {
-      returnedHands.add(handList.get(i).getHandId()); 
+      returnedHands.add(handList.get(i).getHandId());
     } 
     return returnedHands;
   }

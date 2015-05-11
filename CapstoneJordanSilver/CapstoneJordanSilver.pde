@@ -74,7 +74,6 @@ void draw() {
   if (DEBUG)
     debug.draw();
   pushMatrix();
-  drawKinect();
   popMatrix();
 }
 

@@ -14,6 +14,7 @@ void doKinect() {
   //  kinect.start();
   kinect.enableDepth();
   kinect.enableRGB();
+//  kinect.isInit();
   //kinect.enableIR();
   //  kinect.tilt(0); 
   //  kinect.setLEDStatus(LED_OFF);
@@ -26,12 +27,18 @@ void doKinect() {
   didKinect = true;
 }
 
-void drawKinect() {
+void drawKinect(int mode) {
   if (didKinect) {
     kinect.update();
 
     pushMatrix();
+    if(mode == 0) {
+      translate(width*.2, 220, 0);
+      scale((width*.6)/kinect.depthWidth(), 1.04);
+    }
+    if(mode == 1) {
     translate(250, 150, 0);
+    }
 //    scale(1+((4/3)-(16/9)),1);
     tint(255, 140);
     image(kinect.depthImage(), 0, 0); 
@@ -52,7 +59,7 @@ void onNewHand(SimpleOpenNI curContext, int handId, PVector pos)
 
 void onTrackedHand(SimpleOpenNI curContext, int handId, PVector pos)
 {
-//  println("onTrackedHand - handId: " + handId + ", pos: " + pos );
+  println("onTrackedHand - handId: " + handId + ", pos: " + pos );
   hands.trackedHand(handId, pos);
 }
 

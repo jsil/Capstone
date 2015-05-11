@@ -60,13 +60,9 @@ class GameManager {
       vis.draw();
 
       popMatrix();
-
-//      if (!paused) {
-//        drawKinect();
-//        drawTwitter();
-//        drawCamera();
-//      }
+      
     }
+    drawKinect(gameMode);
   }
 
   public int getGameMode() {
@@ -190,59 +186,70 @@ class GameManager {
   private void drawMainMenu() {
     pushMatrix();
     background(48, 55, 95);
-    //      text("To Do: Add Menu", displayWidth/2-10, 300);
     imageMode(CENTER);
     image(title, width/2, 130);
     noFill();
     //320,430
-    rect(0, 220, width, height-220);
-    line(width/4, 220, width/4, height);
-    line(width/2, 220, width/2, height);
-    line(width*.75, 220, width*.75, height);
-
+    
+    if(hands.getHand(1) != null) {
+       text(hands.getQuadrantSelection(1),width/2,20);
+    }
+    
+    translate(width*.2,220,0);
+    rect(0,0,width*.6,height-300);
+    
+    line(width*.3,0,width*.3,height-300);
+    line(0,(height-300)/2,width*.6,(height-300)/2);
+    
+//    rect(0, 220, width, height-220);
+//    line(width/4, 220, width/4, height);
+//    line(width/2, 220, width/2, height);
+//    line(width*.75, 220, width*.75, height);
+//
     imageMode(CORNER);
-    if (selection == 1) {
-      fill(40);
-      rect(0, 220, width/4, height-220);
-      noTint();
-      noStroke();
-      image(totImage, 0, 220, width/4, height-220);
-    } else {
-      fill(40);
-      rect(0, 220, width/4, height-220);
-      tint(60);
-      image(totImage, 0, 220, width/4, height-220);
-      noTint();
-    }
-    if (selection == 2) {
-      tint(60);
-      rect(width/4, 220, width/4, height-220);
-      noTint();
-    }
-    if (selection == 3) {
-      tint(60);
-      rect(width/2, 220, width/4, height-220);
-      noTint();
-    }
-    if (selection == 4) {
-      tint(60);
-      rect(width*.75, 220, width/4, height-220);
-      fill(255);
-      textAlign(CENTER);
-      text("Sub-Menu", width*.875, height/2);
-      textAlign(LEFT);
-      noTint();
-    } else {
-      noTint();
-      textAlign(CENTER);
-      fill(255);
-      text("Sub-Menu", width*.875, height/2);
-      textAlign(LEFT);
-    }
+//    if (selection == 1) {
+//      fill(40);
+//      rect(0, 220, width/4, height-220);
+//      noTint();
+//      noStroke();
+//      image(totImage, 0, 220, width/4, height-220);
+//    } else {
+//      fill(40);
+//      rect(0, 220, width/4, height-220);
+//      tint(60);
+//      image(totImage, 0, 220, width/4, height-220);
+//      noTint();
+//    }
+//    if (selection == 2) {
+//      tint(60);
+//      rect(width/4, 220, width/4, height-220);
+//      noTint();
+//    }
+//    if (selection == 3) {
+//      tint(60);
+//      rect(width/2, 220, width/4, height-220);
+//      noTint();
+//    }
+//    if (selection == 4) {
+//      tint(60);
+//      rect(width*.75, 220, width/4, height-220);
+//      fill(255);
+//      textAlign(CENTER);
+//      text("Sub-Menu", width*.875, height/2);
+//      textAlign(LEFT);
+//      noTint();
+//    } else {
+//      noTint();
+//      textAlign(CENTER);
+//      fill(255);
+//      text("Sub-Menu", width*.875, height/2);
+//      textAlign(LEFT);
+//    }
 
     stroke(0);
     noTint();
     popMatrix();
+    
   }
 
   public boolean isInSubMenu() {
