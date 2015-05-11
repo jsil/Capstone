@@ -59,7 +59,7 @@ void onNewHand(SimpleOpenNI curContext, int handId, PVector pos)
 
 void onTrackedHand(SimpleOpenNI curContext, int handId, PVector pos)
 {
-  println("onTrackedHand - handId: " + handId + ", pos: " + pos );
+//  println("onTrackedHand - handId: " + handId + ", pos: " + pos );
   hands.trackedHand(handId, pos);
 }
 

@@ -3,19 +3,10 @@
 
 /*
 TO DO:
- saturday:
- Kinect controls
  take/save picture
  3-lane game
  post a tweet
- make menu pretty (photoshop, etc)
- 3rd game
- 3 pages
- sunday:
- 3 pages
- monday:
- 2 pages
- 
+ 3rd game 
  */
 
 import oscP5.*;//sends messages to pure data
@@ -34,7 +25,7 @@ PFont defaultFont;
 
 boolean installation = false;
 boolean DEBUG = false;
-boolean KINECT = true;
+boolean KINECT = false;
 
 Hands hands;
 

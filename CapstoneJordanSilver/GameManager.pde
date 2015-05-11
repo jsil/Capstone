@@ -16,13 +16,105 @@ class GameManager {
   private int numSelections = 4;
 
   private PImage title = loadImage("title.png");
-  private PImage totImage = loadImage("thisorthat.png");
-  
+  private PImage menuImage1 = loadImage("thisorthat.png");
+  private PImage menuImage2 = loadImage("tweetbeat.png");
+  private PImage menuImage4 = loadImage("optionsmenu.png");
+
   Intro intro1 = new Intro();
   boolean shownIntro1 = false;
 
 
+  int selectionTime = 0;
+  int selectionTimeMax = 4 * 24;
+  int currentSelection;
+
+  float kinectWidth = 0;
+  float kinectHeight = 0;
+
   GameManager() {
+  }
+
+  void drawSelectionCircle(int num) {
+    pushMatrix();
+    switch(num) {
+    case 1: 
+      translate(kinectWidth/4, kinectHeight*.25, 0);
+      break;
+    case 2: 
+      translate(kinectWidth*.75, kinectHeight*.25, 0);
+      break;
+    case 3: 
+      translate(kinectWidth/4, kinectHeight*.75, 0);
+      break;
+    case 4: 
+      translate(kinectWidth*.75, kinectHeight*.75, 0);
+      break;
+    }
+    pushMatrix();
+    rotate(-PI/2);
+    stroke(0);
+    strokeWeight(3);
+    noFill();
+    arc(0, 0, 80, 80, 0, 2*PI, PIE);
+    fill(255);
+    
+    int selectionTimeFixed = 1;
+    String selectionTimeFixed2;
+    if(selectionTime == 0) {
+       selectionTimeFixed = 1; 
+       selectionTimeFixed2 = "0";
+    }
+    else {
+       selectionTimeFixed = selectionTime; 
+//       if(selectionTime <= 24) {
+//         selectionTimeFixed2 = "1";
+//       }
+//       else {
+         selectionTimeFixed2 = nf(((float)selectionTime/24)/4,0,2) + "%";
+//       }
+    }
+//    println("time: " + selectionTime + " out of " + selectionTimeMax + " = " + (float)selectionTimeFixed/selectionTimeMax);
+    arc(0, 0, 80, 80, 0, (float)2*PI/((float)selectionTimeMax/selectionTimeFixed), PIE);
+    popMatrix();
+    fill(0);
+    println("time " + selectionTimeFixed2);
+    textFont(defaultFont,20);
+    textAlign(CENTER);
+    translate(0,0,3);
+    text((selectionTimeFixed2),0,0);
+    textAlign(LEFT);
+//    text("time " + (selectionTimeFixed2),215,255);
+    noFill();
+    strokeWeight(1);
+    popMatrix();
+    println("time " + selectionTimeFixed2);
+    
+  }
+
+  void handleHands() {
+    ArrayList<Integer> handIds = hands.getAllHands();
+    //all hands must be on selection to make it
+    for (int i=0; i<handIds.size (); i++) {
+      Hand hand = hands.getHand(handIds.get(i));
+      text(hands.getQuadrantSelection2(hand.getHandId()), width/2, 20);
+      int selection = hands.getQuadrantSelection2(hand.getHandId());
+      if (selection != -1) {
+        if (currentSelection != selection) {
+          currentSelection = selection;
+          selectionTime = 0;
+        } else {
+          selectionTime++;
+          if (selectionTime >= selectionTimeMax) {
+            loadGameMode(selection);
+          }
+          drawSelectionCircle(selection);
+        }
+      }
+      else {
+        currentSelection = -1;
+        selectionTime = 0;
+      }
+    }
   }
 
   public void draw() {
@@ -36,16 +128,15 @@ class GameManager {
       pushMatrix();
       background(48, 55, 95);
       //text("Game 1", displayWidth/2-10, 15);
-      if(!shownIntro1 && SHOWINTROS) {
+      if (!shownIntro1 && SHOWINTROS) {
         intro1.draw();
-        if(intro1.isDone()) {
-           shownIntro1 = true; 
+        if (intro1.isDone()) {
+          shownIntro1 = true;
         }
-      }
-      else {
+      } else {
         game1.draw();
       }
-      
+
       popMatrix();
     } else if (gameMode == 3) {
       pushMatrix();
@@ -60,7 +151,6 @@ class GameManager {
       vis.draw();
 
       popMatrix();
-      
     }
     drawKinect(gameMode);
   }
@@ -170,7 +260,7 @@ class GameManager {
       } else if (sel == 2) {
         DEBUG = !DEBUG;
       } else if (sel == 3) {
-         SHOWINTROS = !SHOWINTROS; 
+        SHOWINTROS = !SHOWINTROS;
       }
     }
   }
@@ -183,6 +273,7 @@ class GameManager {
     }
   }
 
+
   private void drawMainMenu() {
     pushMatrix();
     background(48, 55, 95);
@@ -190,66 +281,77 @@ class GameManager {
     image(title, width/2, 130);
     noFill();
     //320,430
+
+
+    translate(width*.2, 220, 0);
     
-    if(hands.getHand(1) != null) {
-       text(hands.getQuadrantSelection(1),width/2,20);
-    }
+    handleHands();
     
-    translate(width*.2,220,0);
-    rect(0,0,width*.6,height-300);
+    kinectWidth = width*.6;
+    kinectHeight = height-300;
     
-    line(width*.3,0,width*.3,height-300);
-    line(0,(height-300)/2,width*.6,(height-300)/2);
-    
-//    rect(0, 220, width, height-220);
-//    line(width/4, 220, width/4, height);
-//    line(width/2, 220, width/2, height);
-//    line(width*.75, 220, width*.75, height);
-//
+    rect(0, 0, kinectWidth, kinectHeight);
+
+    line(kinectWidth/2, 0, kinectWidth/2, kinectHeight);
+    line(0, kinectHeight/2, kinectWidth, kinectHeight/2);
+
+    //    rect(0, 220, width, height-220);
+    //    line(width/4, 220, width/4, height);
+    //    line(width/2, 220, width/2, height);
+    //    line(width*.75, 220, width*.75, height);
+    //
     imageMode(CORNER);
-//    if (selection == 1) {
-//      fill(40);
-//      rect(0, 220, width/4, height-220);
-//      noTint();
-//      noStroke();
-//      image(totImage, 0, 220, width/4, height-220);
-//    } else {
-//      fill(40);
-//      rect(0, 220, width/4, height-220);
-//      tint(60);
-//      image(totImage, 0, 220, width/4, height-220);
-//      noTint();
-//    }
-//    if (selection == 2) {
-//      tint(60);
-//      rect(width/4, 220, width/4, height-220);
-//      noTint();
-//    }
-//    if (selection == 3) {
-//      tint(60);
-//      rect(width/2, 220, width/4, height-220);
-//      noTint();
-//    }
-//    if (selection == 4) {
-//      tint(60);
-//      rect(width*.75, 220, width/4, height-220);
-//      fill(255);
-//      textAlign(CENTER);
-//      text("Sub-Menu", width*.875, height/2);
-//      textAlign(LEFT);
-//      noTint();
-//    } else {
-//      noTint();
-//      textAlign(CENTER);
-//      fill(255);
-//      text("Sub-Menu", width*.875, height/2);
-//      textAlign(LEFT);
-//    }
+//        if (selection == 1) {
+//          fill(40);
+//          rect(0, 220, width/4, height-220);
+          noTint();
+          noStroke();
+          fill(150);
+          rect(0,0,kinectWidth/2, kinectHeight/2);
+          image(menuImage1, 0, 0, kinectWidth/2, kinectHeight/2);
+          
+          rect(kinectWidth/2,0,kinectWidth/2, kinectHeight/2);
+          image(menuImage2, kinectWidth/2, 0, kinectWidth/2, kinectHeight/2);
+          
+          rect(kinectWidth/2,kinectHeight/2,kinectWidth/2, kinectHeight/2);
+          image(menuImage4, kinectWidth/2, kinectHeight/2, kinectWidth/2, kinectHeight/2);
+//        } 
+    //else {
+    //      fill(40);
+    //      rect(0, 220, width/4, height-220);
+    //      tint(60);
+    //      image(totImage, 0, 220, width/4, height-220);
+    //      noTint();
+    //    }
+    //    if (selection == 2) {
+    //      tint(60);
+    //      rect(width/4, 220, width/4, height-220);
+    //      noTint();
+    //    }
+    //    if (selection == 3) {
+    //      tint(60);
+    //      rect(width/2, 220, width/4, height-220);
+    //      noTint();
+    //    }
+    //    if (selection == 4) {
+    //      tint(60);
+    //      rect(width*.75, 220, width/4, height-220);
+    //      fill(255);
+    //      textAlign(CENTER);
+    //      text("Sub-Menu", width*.875, height/2);
+    //      textAlign(LEFT);
+    //      noTint();
+    //    } else {
+    //      noTint();
+    //      textAlign(CENTER);
+    //      fill(255);
+    //      text("Sub-Menu", width*.875, height/2);
+    //      textAlign(LEFT);
+    //    }
 
     stroke(0);
     noTint();
     popMatrix();
-    
   }
 
   public boolean isInSubMenu() {
@@ -279,7 +381,7 @@ class GameManager {
 
 
     rect(width/6, (height/8)*5, 125, 125);
-    
+
     if (SHOWINTROS) {
       line(width/6, (height/8)*5, width/6+125, (height/8)*5+125);
       line(width/6+125, (height/8)*5, width/6, (height/8)*5+125);
@@ -303,17 +405,17 @@ class GameManager {
 
     popMatrix();
   }
-  
-  
+
+
   void addUser(int id) {
     if (gameMode == 1) {
       game1.addUser(id);
     }
   }
-  
+
   void lostUser(int id) {
     if (gameMode == 1) {
-     game1.lostUser(id);
+      game1.lostUser(id);
     }
   }
 }

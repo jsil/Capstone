@@ -159,6 +159,28 @@ class Hands {
     }
   }
 
+  int getQuadrantSelection2(int handId) {
+    if (getXPos(handId) >= 100) {
+      if (getYPos(handId) >= 100) {
+        return 2;
+      } else if (getYPos(handId) <= -100) {
+        return 4;
+      } else {
+        return -1;
+      }
+    } else if (getXPos(handId) <= -100) {
+      if (getYPos(handId) >= 0) {
+        return 1;
+      } else if (getYPos(handId) <= -100) {
+        return 3;
+      } else {
+        return -1;
+      }
+    } else {
+      return -1;
+    }
+  }
+
   float getXPos(int handId) {
     ArrayList<PVector> vecList = getHand(handId).getVectorList();
     return vecList.get(0).x;
