@@ -177,7 +177,8 @@ class GameManager {
       paused = false;
     } else if (mode == 3) {
       this.setGameMode(mode);
-      game2 = new RhythmTweet(3);
+      game2 = new RhythmTweet();
+      hands.limitOne(true);
 
       paused = false;
     }
@@ -274,14 +275,13 @@ class GameManager {
   }
 
 
-  private void drawMainMenu() {
+  private void drawMainMenu() {    
     pushMatrix();
     background(48, 55, 95);
     imageMode(CENTER);
     image(title, width/2, 130);
     noFill();
     //320,430
-
 
     translate(width*.2, 220, 0);
     
@@ -352,6 +352,7 @@ class GameManager {
     stroke(0);
     noTint();
     popMatrix();
+    
   }
 
   public boolean isInSubMenu() {

@@ -5,6 +5,8 @@ class Hands {
   //  Map<Integer, ArrayList<PVector>>  handPathList = new HashMap<Integer, ArrayList<PVector>>();
   ArrayList<Hand> handList = new ArrayList<Hand>();
 
+  boolean limitOne = false;
+
   color[]       userClr = new color[] { 
     color(255, 0, 0), 
     color(0, 255, 0), 
@@ -18,6 +20,7 @@ class Hands {
   } 
 
   void doHands() {
+//    println("trying to draw hands");
     for (int i=0; i<handList.size (); i++) {
       int handId = handList.get(i).getHandId();
       ArrayList<PVector> vecList = handList.get(i).getVectorList();
@@ -84,6 +87,7 @@ class Hands {
     //      }
     //    }
     //    strokeWeight(1);
+//    println("drew hands");
   }
 
   int size() {
@@ -101,13 +105,14 @@ class Hands {
   }
 
   void newHand(int handId, PVector pos) {
+    if (!limitOne || handList.size() == 0) {
+      ArrayList<PVector> vecList = new ArrayList<PVector>();
+      vecList.add(pos);
 
-    ArrayList<PVector> vecList = new ArrayList<PVector>();
-    vecList.add(pos);
-
-    //    handPathList.put(handId, vecList);
-    handList.add(new Hand(handId, vecList));
-    gm.addUser(handId);
+      //    handPathList.put(handId, vecList);
+      handList.add(new Hand(handId, vecList));
+      gm.addUser(handId);
+    }
   }
 
   void trackedHand(int handId, PVector pos) {
@@ -122,14 +127,14 @@ class Hands {
   }
 
   void lostHand(int handId) {
-    println("removing hand");
+//    println("removing hand");
     for (int i=0; i<handList.size (); i++) {
       if (handList.get(i).getHandId() == handId) {
-        println("found hand");
+//        println("found hand");
         handList.remove(i);
-        println("removed hand");
+//        println("removed hand");
         gm.lostUser(handId);
-        println("removed from gm");
+//        println("removed from gm");
         break;
       }
     }
@@ -141,6 +146,10 @@ class Hands {
     } else {
       return false;
     }
+  }
+
+  int getTrinarySelection(int handId) {
+    return 1;
   }
 
   int getQuadrantSelection(int handId) {
@@ -197,6 +206,10 @@ class Hands {
       returnedHands.add(handList.get(i).getHandId());
     } 
     return returnedHands;
+  }
+  
+  void limitOne(boolean set) {
+     limitOne = set; 
   }
 }
 

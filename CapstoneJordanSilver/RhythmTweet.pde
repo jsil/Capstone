@@ -4,10 +4,12 @@ class RhythmTweet {
 
   TweetSort tweetSort = new TweetSort();
   Queue<Tweet> tweetQueue = new PriorityQueue(100, tweetSort);
+  
+  int laneNum = 3;
 
   int time;
 
-  RhythmTweet(int laneNum) {
+  RhythmTweet() {
     for (int i=0; i<laneNum; i++) {
       lanes.add(new TweetLane(i));
       println("creating lane " + i);
@@ -23,12 +25,13 @@ class RhythmTweet {
     pushMatrix();
     moveTweets();
     //    camera(width/2.0, 0, (height/2.0) / tan(PI*30.0 / 180.0), width/2.0, height/2.0, 0, 0, 1, 0);
-    translate(400, 100);
+//    translate(width/3, 100);
+    translate(0,height/2,-300);
     for (int i=0; i<lanes.size (); i++) {
+
+      translate(width/4,0);
+      
       pushMatrix();
-
-      translate(100, width/(i+1));
-
       lanes.get(i).draw();
       popMatrix();
     } 
@@ -47,7 +50,7 @@ class RhythmTweet {
   void moveTweets() {
     Tweet newTweet = tweetQueue.poll();
     if (newTweet != null) {
-      int lane = (int)random(lanes.size()-1);
+      int lane = (int)random(laneNum);
 
       println("adding tweet to lane " + lane);
       lanes.get(lane).addTweet(newTweet);

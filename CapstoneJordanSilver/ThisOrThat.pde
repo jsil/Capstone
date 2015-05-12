@@ -307,6 +307,8 @@ class ThisOrThat {
   public void finalResults() {
     fill(255);
     text("Game Over", width/2, height/2);
+    //to do: add gap
+    gm.loadGameMode(0);
   }
 
   public void loadWords() {

@@ -20,6 +20,8 @@ class TweetLane {
 
   float xPos;
   int laneNum;
+  
+  int angle = 45;
 
   TweetLane(int laneNumSet) {
     laneNum = laneNumSet;
@@ -29,10 +31,13 @@ class TweetLane {
     
     
     pushMatrix();
+    text(laneNum,0,-100);
+    rotateX(radians(-angle));
     for(int i=0;i<activeTweets.size();i++) {
         pushMatrix();
         translate(0,0,i*15);
-        activeTweets.get(i).draw();
+        rotateX(radians(angle));
+        activeTweets.get(i).drawSmall();
         popMatrix();
     }
     popMatrix();

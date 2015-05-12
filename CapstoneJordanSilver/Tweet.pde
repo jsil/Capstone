@@ -11,6 +11,10 @@ class Tweet {
 
   private float w = 350;
   private float h;
+
+  float w2 = 100;
+  float h2 = 100;
+
   private int lineLength = 30;
 
   //non-negative when tweet is in a queue
@@ -28,11 +32,29 @@ class Tweet {
 
   private int bgMode = 0;
 
+  PImage img;
+
+  boolean goodOrBad;
+
   Tweet(Status statusSet) {
     status = statusSet;
 
     textFont(font);
     h = (textAscent() + textDescent()) * 6 + 50;
+    getPicture();
+
+    if ((int)random(2) == 1) {
+      goodOrBad = true;
+    } else {
+      goodOrBad = false;
+    }
+  }
+
+  void getPicture() {
+    User user = status.getUser(); 
+    String url = user.getProfileImageURL();
+    img = loadImage(url, "jpg");
+    println("url: " + url);
   }
 
   public void draw() {
@@ -40,18 +62,18 @@ class Tweet {
 
     float opacity;
     if (drawTime < 12) {
-//      opacity = map(drawTime % 24, 0, 24, 0, 255);
+      //      opacity = map(drawTime % 24, 0, 24, 0, 255);
       drawTime++;
     } else if (drawTime > drawLength - 12 && (position <= 0)) {
       float rand = random(100);
-//      if (rand >= 80) {
-//        if(rand >= 95) {
-//          sampleSend(4);
-//        }
-//        else {
-//          sampleSend(3); 
-//        }
-//      }
+      //      if (rand >= 80) {
+      //        if(rand >= 95) {
+      //          sampleSend(4);
+      //        }
+      //        else {
+      //          sampleSend(3); 
+      //        }
+      //      }
       opacity = map(drawTime % 24, 0, 24, 255, 0);
       drawTime++;
     } else {
@@ -65,8 +87,8 @@ class Tweet {
     }
 
     //translate(350, 350);
-//    drawBG(opacity);
-      drawBG();
+    //    drawBG(opacity);
+    drawBG();
     //fill(47, 66, 120, opacity);
     //stroke(255, opacity);
     //rect(0, 0, w, h);
@@ -82,6 +104,38 @@ class Tweet {
     text("@"+status.getUser().getScreenName(), 15, h-15);//print username
 
     stroke(0);
+    popMatrix();
+
+    if (drawTime >= drawLength && position <= 0) {
+      isDone = true;
+    }
+  }
+
+
+  public void drawSmall() {
+    pushMatrix();
+
+    if (drawTime >= 18 && position <= 0 && !hasExecuted) {
+      execute();
+    }
+
+    rectMode(CENTER);
+    imageMode(CENTER);
+
+    stroke(255);
+    if (goodOrBad) {
+      fill(0, 255, 0);
+    } else {
+      fill(255, 0, 0);
+    }
+    rect(0, 0, w2+20, h2+20);
+    image(img, 0, 0, w2, h2);
+
+    stroke(0);
+
+    rectMode(CORNER);
+    imageMode(CORNER);
+
     popMatrix();
 
     if (drawTime >= drawLength && position <= 0) {
@@ -218,9 +272,9 @@ class Tweet {
   boolean isPositioned() {
     return isPositioned;
   }
-  
+
   void setColor(color col) {
-     bgColor = col; 
+    bgColor = col;
   }
 
   //to do: figure out how to post a tweet despite using tweetStream

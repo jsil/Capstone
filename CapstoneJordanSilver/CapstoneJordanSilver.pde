@@ -4,7 +4,12 @@
 /*
 TO DO:
  take/save picture
- 3-lane game
+ 
+ figure out why kinect isn't working
+ add basic sound
+ integrate pd tempo to tweet beat
+ make tweet beat tweets move
+ 
  post a tweet
  3rd game 
  */
@@ -25,7 +30,7 @@ PFont defaultFont;
 
 boolean installation = false;
 boolean DEBUG = false;
-boolean KINECT = false;
+boolean KINECT = true;
 
 Hands hands;
 

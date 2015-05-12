@@ -24,26 +24,36 @@ void doKinect() {
   kinect.startGesture(SimpleOpenNI.GESTURE_WAVE);
 //  kinect.startGesture(SimpleOpenNI.GESTURE_CLICK);
 
-  didKinect = true;
+  if(kinect.isInit()) {
+    didKinect = true;
+  }
+  else {
+     println("KINECT NOT LOADED"); 
+  }
 }
 
 void drawKinect(int mode) {
   if (didKinect) {
     kinect.update();
-
+//    println("drawing kinect");
     pushMatrix();
     if(mode == 0) {
       translate(width*.2, 220, 0);
       scale((width*.6)/kinect.depthWidth(), 1.04);
     }
-    if(mode == 1) {
+    else if(mode == 1) {
     translate(250, 150, 0);
+    }
+    else {
+      
     }
 //    scale(1+((4/3)-(16/9)),1);
     tint(255, 140);
+    println("drawing depth");
     image(kinect.depthImage(), 0, 0); 
+//    println("drew depth");
     noTint();    
-
+//    println("about to do hands");
     hands.doHands();
     imageMode(CORNER);
 //    translate(-width/2, -height/2, 0);
