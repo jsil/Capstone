@@ -325,48 +325,54 @@ class GameManager {
 
     rect(kinectWidth/2, 0, kinectWidth/2, kinectHeight/2);
     image(menuImage2, kinectWidth/2, 0, kinectWidth/2, kinectHeight/2);
-    
+
     rect(0, kinectHeight/2, kinectWidth/2, kinectHeight/2);
     image(menuImage3, 0, kinectHeight/2, kinectWidth/2, kinectHeight/2);
 
     rect(kinectWidth/2, kinectHeight/2, kinectWidth/2, kinectHeight/2);
     image(menuImage4, kinectWidth/2, kinectHeight/2, kinectWidth/2, kinectHeight/2);
-    //        } 
-    //else {
-    //      fill(40);
-    //      rect(0, 220, width/4, height-220);
-    //      tint(60);
-    //      image(totImage, 0, 220, width/4, height-220);
-    //      noTint();
-    //    }
-    //    if (selection == 2) {
-    //      tint(60);
-    //      rect(width/4, 220, width/4, height-220);
-    //      noTint();
-    //    }
-    //    if (selection == 3) {
-    //      tint(60);
-    //      rect(width/2, 220, width/4, height-220);
-    //      noTint();
-    //    }
-    //    if (selection == 4) {
-    //      tint(60);
-    //      rect(width*.75, 220, width/4, height-220);
-    //      fill(255);
-    //      textAlign(CENTER);
-    //      text("Sub-Menu", width*.875, height/2);
-    //      textAlign(LEFT);
-    //      noTint();
-    //    } else {
-    //      noTint();
-    //      textAlign(CENTER);
-    //      fill(255);
-    //      text("Sub-Menu", width*.875, height/2);
-    //      textAlign(LEFT);
-    //    }
+
 
     stroke(0);
     noTint();
+
+    popMatrix();
+
+    drawInfoBox();
+  }
+
+  void drawInfoBox() {
+    pushMatrix();
+    textFont(defaultFont);
+    if (currentSelection == 1) {
+      fill(100);
+      rect(0, 0, 250, 80);
+      fill(255);
+      text("1-4 players compete by estimating if \nTHIS word or THAT word is more\nfrequently tweeted!", 15, 25);
+    } else if (currentSelection == 2) {
+      fill(100);
+      rect(0, 0, 250, 80);
+      fill(255);
+      text("1 player builds a mosaic of profile pics\nby hitting green 'notes' and avoiding\nred 'notes'!", 15, 25);
+    } else if (currentSelection == 3) {
+      fill(100);
+      rect(0, 0, 250, 80);
+      fill(255);
+      text("1-4 players work cooperatively to tag as\nmany red hashtags as they can during\nthe time limit!", 15, 25);
+    }
+    else if (currentSelection == 4) {
+      fill(100);
+      rect(0, 0, 250, 80);
+      fill(255);
+      text("Change Settings in this menu.", 15, 25);
+    }
+    else if(hands.getAllHands().size() == 0) {
+      fill(100);
+      rect(0, 0, 250, 80);
+      fill(255);
+      text("Wave at the Kinect to begin!", 15, 25);
+    }
+
     popMatrix();
   }
 

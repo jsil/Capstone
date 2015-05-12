@@ -9,9 +9,7 @@ TO DO:
  now-11:
  improve this or that display 
  fix background crash 
- figure out layering on menu pie text
  finish hash tag game
- kinect compatibility with sub-menu
  
  11:30-1:30:
  clean up code
@@ -21,6 +19,8 @@ TO DO:
  
  
 FUTURE GOALS:
+ kinect compatibility with sub-menu
+ figure out layering on menu pie text
  post a tweet
  take/save picture
  */
@@ -34,14 +34,13 @@ OscP5 oscP5;
 NetAddress pureData;   
 
 Debug debug;
-//Visualization vis;
 GameManager gm;
 
 PFont defaultFont;
 
 boolean installation = false;
 boolean DEBUG = false;
-boolean KINECT = false;
+boolean KINECT = true;
 
 Hands hands;
 
@@ -60,7 +59,6 @@ void setup() {
   ControlP5 cp5;
   cp5 = new ControlP5(this);
   debug = new Debug(cp5);
-//  vis = new Visualization();
   oscP5 = new OscP5(this, 9002);
   pureData = new NetAddress("127.0.0.1", 9001);
 

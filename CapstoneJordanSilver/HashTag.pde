@@ -20,8 +20,11 @@ class HashTag {
       if (!tweet.isPositioned()) {
         tweet.setPosition(random(displayWidth - tweet.getWidth()), random(displayHeight - tweet.getHeight()));
       }
-      translate(tweet.getXPosition(), tweet.getYPosition(), tweet.getZPosition());
+      translate(tweet.getXPosition(), tweet.getYPosition(), 0);
       tweet.drawHash(); 
+      if(tweet.isDone()) {
+         tweetList.remove(i); 
+      }
       popMatrix();
     }
   }
@@ -38,6 +41,7 @@ class HashTag {
            if (abs(x-tweet.getXPosition()) < 20) {
              if (abs(y-tweet.getYPosition()) < 20) {
                tweetList.remove(j);
+               theOne = null;
              }
            }
         }

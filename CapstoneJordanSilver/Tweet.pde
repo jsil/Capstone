@@ -73,6 +73,7 @@ class Tweet {
       h = 30;
       xVel = 20 - random(40);
       yVel = 20 - random(40);
+      drawLength = 8*24;
     }
   }
   
@@ -160,13 +161,16 @@ class Tweet {
   }
 
   void drawHash() {
+    textFont(defaultFont);
     float wid = 50 + textWidth(hashtag);
     pushMatrix();
     noStroke();
     if (!theOne) {
       fill(150, 240, 235);
+      translate(0,0,zPosition);
     } else {
       fill(255, 0, 0);
+      translate(0,0,13);
     }  
     rect(0, 0, wid, 30);
     fill(0);
@@ -175,6 +179,10 @@ class Tweet {
     textAlign(LEFT);
     moveVelocity();
     popMatrix();
+    drawTime++;
+    if (drawTime >= drawLength && !theOne) {
+      isDone = true;
+    }
   }
 
   void getPicture() {

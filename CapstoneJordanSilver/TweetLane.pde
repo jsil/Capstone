@@ -27,7 +27,7 @@ class TweetLane {
 //    tint(255, 127);
     pushMatrix();
     translate(0,50,300);
-    box(220,0,900);
+//    box(220,0,900);
     popMatrix();
     for (int i=0; i<activeTweets.size (); i++) {
       pushMatrix();
