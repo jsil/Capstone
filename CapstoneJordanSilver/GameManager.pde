@@ -6,7 +6,7 @@ class GameManager {
 
   private boolean paused = true;
   public boolean SAFEMODE = false;
-  public boolean SHOWINTROS = false;
+  public boolean SHOWINTROS = true;
   private boolean inSubMenu = false;
 
   private int gameMode = 0;
@@ -22,8 +22,14 @@ class GameManager {
   private PImage menuImage3 = loadImage("hashtag.png");
   private PImage menuImage4 = loadImage("optionsmenu.png");
 
-  Intro intro1 = new Intro();
+  Intro intro1 = new Intro(1);
   boolean shownIntro1 = false;
+  
+  Intro intro2 = new Intro(2);
+  boolean shownIntro2 = false;
+  
+  Intro intro3 = new Intro(3);
+  boolean shownIntro3 = false;
 
 
   int selectionTime = 0;
@@ -143,12 +149,26 @@ class GameManager {
     } else if (gameMode == 2) {
       pushMatrix();
       background(15, 23, 30);
-      game2.draw();
+      if (!shownIntro2 && SHOWINTROS) {
+        intro2.draw();
+        if (intro2.isDone()) {
+          shownIntro2 = true;
+        }
+      } else {
+        game2.draw();
+      }
       popMatrix();
     } else if (gameMode == 3) {
       pushMatrix();
       background(255, 222, 222);
-      game3.draw();
+      if (!shownIntro3 && SHOWINTROS) {
+        intro3.draw();
+        if (intro3.isDone()) {
+          shownIntro3 = true;
+        }
+      } else {
+        game3.draw();
+      }
       popMatrix();
     } else {
 
@@ -348,29 +368,29 @@ class GameManager {
       fill(100);
       rect(0, 0, 250, 80);
       fill(255);
-      text("1-4 players compete by estimating if \nTHIS word or THAT word is more\nfrequently tweeted!", 15, 25);
+      text("1-4 players compete by estimating if \nTHIS word or THAT word is more\nfrequently tweeted!", 10, 20);
     } else if (currentSelection == 2) {
       fill(100);
       rect(0, 0, 250, 80);
       fill(255);
-      text("1 player builds a mosaic of profile pics\nby hitting green 'notes' and avoiding\nred 'notes'!", 15, 25);
+      text("1 player builds a mosaic of profile pics\nby hitting green 'notes' and avoiding\nred 'notes'!", 10, 20);
     } else if (currentSelection == 3) {
       fill(100);
       rect(0, 0, 250, 80);
       fill(255);
-      text("1-4 players work cooperatively to tag as\nmany red hashtags as they can during\nthe time limit!", 15, 25);
+      text("1-4 players work cooperatively to tag as\nmany red hashtags as they can during\nthe time limit!", 10, 20);
     }
     else if (currentSelection == 4) {
       fill(100);
       rect(0, 0, 250, 80);
       fill(255);
-      text("Change Settings in this menu.", 15, 25);
+      text("Change Settings in this menu.", 10, 20);
     }
     else if(hands.getAllHands().size() == 0) {
       fill(100);
       rect(0, 0, 250, 80);
       fill(255);
-      text("Wave at the Kinect to begin!", 15, 25);
+      text("Wave at the Kinect to begin!", 10, 20);
     }
 
     popMatrix();

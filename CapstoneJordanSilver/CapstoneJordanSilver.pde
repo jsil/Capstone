@@ -5,20 +5,19 @@
 TO DO:
  add more this or that words
  figure out why everything crashes and burns
-
- now-11:
- improve this or that display 
- fix background crash 
- finish hash tag game
  
- 11:30-1:30:
+ 11:30-1:30: 
+ finish hash tag game
  clean up code
  add intros
  add basic sound
  integrate pd tempo to tweet beat
+ fix background crash
  
  
-FUTURE GOALS:
+ FUTURE GOALS:
+ remake hash tag using vectors
+ improve this or that display 
  kinect compatibility with sub-menu
  figure out layering on menu pie text
  post a tweet
@@ -40,7 +39,7 @@ PFont defaultFont;
 
 boolean installation = false;
 boolean DEBUG = false;
-boolean KINECT = true;
+boolean KINECT = false;
 
 Hands hands;
 
@@ -61,7 +60,6 @@ void setup() {
   debug = new Debug(cp5);
   oscP5 = new OscP5(this, 9002);
   pureData = new NetAddress("127.0.0.1", 9001);
-
   oscP5.send(new OscMessage("/start").add(1), pureData);
 
   startTwitter();
@@ -69,7 +67,8 @@ void setup() {
   hands = new Hands();
   gm = new GameManager();
 
-  defaultFont = loadFont("YeOldFont.vlw");
+  //  defaultFont = loadFont("YeOldFont.vlw");
+  defaultFont = loadFont("Dialog-12.vlw");
 
   gm.loadGameMode(0);
 }

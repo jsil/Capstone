@@ -76,9 +76,32 @@ class Tweet {
       drawLength = 8*24;
     }
   }
-  
+
   boolean isGood() {
-     return goodOrBad; 
+    return goodOrBad;
+  }
+
+  void pushRandom() {
+    xVel += 20 - random(40);
+    yVel += 20 - random(40);
+  }
+
+  void pushX(boolean direction) {
+     if(direction) {
+        xVel += 15;
+     } 
+     else {
+       xVel -= 15;
+     }
+  }
+
+  void pushY(boolean direction) {
+     if(direction) {
+        yVel += 15;
+     } 
+     else {
+       yVel -= 15;
+     }
   }
 
   float getXVel() {
@@ -155,9 +178,9 @@ class Tweet {
   void theOne() {
     theOne = true;
   }
-  
+
   boolean isTheOne() {
-     return theOne; 
+    return theOne;
   }
 
   void drawHash() {
@@ -167,10 +190,10 @@ class Tweet {
     noStroke();
     if (!theOne) {
       fill(150, 240, 235);
-      translate(0,0,zPosition);
+      translate(0, 0, zPosition);
     } else {
       fill(255, 0, 0);
-      translate(0,0,13);
+      translate(0, 0, 13);
     }  
     rect(0, 0, wid, 30);
     fill(0);

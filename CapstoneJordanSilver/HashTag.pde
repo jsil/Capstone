@@ -2,9 +2,11 @@ class HashTag {
 
   private ArrayList<Tweet> tweetList = new ArrayList<Tweet>();
   int tweetLimit = 120;
-  
+
   float timeLimit = 1.5 * 60 * 24;
   float currentTime = 0;
+
+  int points = 0;
 
   Tweet theOne;
 
@@ -12,6 +14,10 @@ class HashTag {
   }
 
   void draw() {
+    pushMatrix();
+//    rect(0,0,70,50);
+    textFont(defaultFont);
+    text(points,25,25);
     currentTime++;
     handleHands();
     for (int i=0; i<tweetList.size (); i++) {
@@ -22,11 +28,12 @@ class HashTag {
       }
       translate(tweet.getXPosition(), tweet.getYPosition(), 0);
       tweet.drawHash(); 
-      if(tweet.isDone()) {
-         tweetList.remove(i); 
+      if (tweet.isDone()) {
+        tweetList.remove(i);
       }
       popMatrix();
     }
+    popMatrix();
   }
 
   void handleHands() {
@@ -37,13 +44,30 @@ class HashTag {
       println("Hand # " + allHands.get(i) + " x: " + x + " y: " + y);
       for (int j=0; j<tweetList.size (); j++) {
         Tweet tweet = tweetList.get(j);
-        if(tweet.isTheOne()) {
-           if (abs(x-tweet.getXPosition()) < 20) {
-             if (abs(y-tweet.getYPosition()) < 20) {
-               tweetList.remove(j);
-               theOne = null;
-             }
-           }
+        if (x-tweet.getXPosition() > 0 && tweet.getXPosition()+tweet.getWidth() - x > 0) {
+          if (y-tweet.getYPosition() > 0 && tweet.getYPosition()+tweet.getHeight() - y > 0) {
+            if (tweet.isTheOne()) {
+              tweetList.remove(j);
+              theOne = null;
+              points++;
+            }
+            else {
+               PVector push = hands.getDirectional(allHands.get(i));
+               if(push.x > 50) {
+                  tweet.pushX(true);
+               }
+               else if(push.x < 50){
+                 tweet.pushX(false);
+               }
+               if(push.y > 50) {
+                  tweet.pushY(false);
+               }
+               else if(push.y < 50){
+                 tweet.pushY(true);
+               }
+//               tweet.pushRandom(); 
+            }
+          }
         }
       }
     }

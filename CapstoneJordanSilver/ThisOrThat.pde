@@ -43,7 +43,7 @@ class ThisOrThat {
 
   private boolean roundEnded = false;
 
-  Intro intro = new Intro();
+//  Intro intro = new Intro();
 
   ThisOrThat() {
     loadWords();
@@ -126,6 +126,7 @@ class ThisOrThat {
   }
 
   void drawScores() {
+    textFont(defaultFont);
     pushMatrix();
     translate(0, height/2, 0);
     fill(40);
@@ -163,10 +164,13 @@ class ThisOrThat {
     rect(width/2+100, 0, width/2-100, 100);
 
     fill(255);
+    
+    textFont(timerFont);
 
-    text(word1, width/4, 50);
-    text(word2, 3*(width/4), 50);
-
+    textAlign(CENTER);
+    text(word1, width/4, 65);
+    text(word2, 3*(width/4), 65);
+    textAlign(LEFT);
     textFont(defaultFont);
 
     pushMatrix();
@@ -191,6 +195,11 @@ class ThisOrThat {
     arc(-50, 35, 80, 80, 0, 2*PI, PIE);
     fill(255);
 
+    if ((timeSinceData < .5 || timeSinceData > (float)(dataInterval*24) - 1) && (roundTime - timeRemaining) > .8) {
+      fill(255, 0, 0);
+//      text("Points awarded", 0, 250);
+    }
+
 
     arc(-50, 35, 80, 80, 0, 2*PI*(1-abs((timeRemaining-roundTime)/roundTime)), PIE);
     strokeWeight(1);
@@ -208,10 +217,7 @@ class ThisOrThat {
       );
       awardPoints();
     }
-    if ((timeSinceData < .5 || timeSinceData > (float)(dataInterval*24) - 1) && (roundTime - timeRemaining) > .8) {
-      fill(255, 0, 0);
-      text("Points awarded", 0, 250);
-    }
+
 
     if (timeRemaining>0) {
       translate(0, 0, 100);
@@ -280,8 +286,8 @@ class ThisOrThat {
     if (endTimeRemaining > 0) {
       endTimeRemaining = endTimeRemaining - 1/frameRate;
       fill(255);
-      text((int)endTimeRemaining, width/2, height/2);
-      text(round + "/" + totalRounds, width/2, height/2+20);
+//      text((int)endTimeRemaining, width/2, height/2);
+//      text(round + "/" + totalRounds, width/2, height/2+20);
     }
     if (endTimeRemaining <= 0) {
       if (round < totalRounds) 
@@ -400,22 +406,22 @@ class ThisOrThat {
       "dad", "sis"
     } 
     );
-//    allWords.add(new String[] {
-//      "black", "white"
-//    } 
-//    );
-//    allWords.add(new String[] {
-//      "husband", "wife"
-//    } 
-//    );
+    //    allWords.add(new String[] {
+    //      "black", "white"
+    //    } 
+    //    );
+    //    allWords.add(new String[] {
+    //      "husband", "wife"
+    //    } 
+    //    );
     //    allWords.add(new String[] {
     //      "aunt", "uncle"
     //    } 
     //    );
-//    allWords.add(new String[] {
-//      "bye", "hello"
-//    } 
-//    );
+    //    allWords.add(new String[] {
+    //      "bye", "hello"
+    //    } 
+    //    );
     allWords.add(new String[] {
       "want", "need"
     } 
@@ -442,5 +448,4 @@ class ThisOrThat {
     );
   }
 }
-
 

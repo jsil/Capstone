@@ -2,6 +2,9 @@
  if URL is unreachable, crashes
  "out of bound index: 0 size: 0"
  
+ ToDo:
+  remove default profile pics
+ 
  */
 
 class RhythmTweet {
@@ -112,6 +115,7 @@ class RhythmTweet {
       fill(255);
       rect(0, 0, 50, 25);
       fill(0);
+      textFont(defaultFont);
       text(points, 15, 15);
       moveTweets();
       int laneSelection = -1;

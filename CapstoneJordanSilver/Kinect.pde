@@ -14,7 +14,7 @@ void doKinect() {
   //  kinect.start();
   kinect.enableDepth();
   kinect.enableRGB();
-//  kinect.isInit();
+  //  kinect.isInit();
   //kinect.enableIR();
   //  kinect.tilt(0); 
   //  kinect.setLEDStatus(LED_OFF);
@@ -22,43 +22,40 @@ void doKinect() {
   kinect.setMirror(true);
   kinect.enableHand();
   kinect.startGesture(SimpleOpenNI.GESTURE_WAVE);
-//  kinect.startGesture(SimpleOpenNI.GESTURE_CLICK);
+  //  kinect.startGesture(SimpleOpenNI.GESTURE_CLICK);
 
-  if(kinect.isInit()) {
+  if (kinect.isInit()) {
     didKinect = true;
-  }
-  else {
-     println("KINECT NOT LOADED"); 
+  } else {
+    println("KINECT NOT LOADED");
   }
 }
 
 void drawKinect(int mode) {
   if (didKinect) {
     kinect.update();
-//    println("drawing kinect");
+    //    println("drawing kinect");
     pushMatrix();
-    if(mode == 0) {
+    if (mode == 0) {
       translate(width*.2, 220, 0);
       scale((width*.6)/kinect.depthWidth(), 1.04);
-    }
-    else if(mode == 1) {
-    translate(250, 150, 0);
-    }
-    else if(mode == 2) {
+    } else if (mode == 1) {
+      translate(width*.06, 120, 0);
+      scale((width*.88)/kinect.depthWidth(), (height*1.01-200)/kinect.depthHeight());
+    } else if (mode == 2) {
       translate(0, height/2, -600);
       scale((width)/kinect.depthWidth(), (height*1.01)/kinect.depthHeight());
+    } else {
+      translate(-20, -20, 0);
+      scale((width*1.05)/kinect.depthWidth(), (height*1.05)/kinect.depthHeight());
     }
-    else {
-      translate(-20, 0, 0);
-      scale((width+40)/kinect.depthWidth(), (height*1.01)/kinect.depthHeight());
-    }
-//    scale(1+((4/3)-(16/9)),1);
+    //    scale(1+((4/3)-(16/9)),1);
     tint(255, 140);
     image(kinect.depthImage(), 0, 0); 
     noTint();    
     hands.doHands();
     imageMode(CORNER);
-//    translate(-width/2, -height/2, 0);
+    //    translate(-width/2, -height/2, 0);
     popMatrix();
   }
 }
@@ -71,7 +68,7 @@ void onNewHand(SimpleOpenNI curContext, int handId, PVector pos)
 
 void onTrackedHand(SimpleOpenNI curContext, int handId, PVector pos)
 {
-//  println("onTrackedHand - handId: " + handId + ", pos: " + pos );
+  //  println("onTrackedHand - handId: " + handId + ", pos: " + pos );
   hands.trackedHand(handId, pos);
 }
 
@@ -97,3 +94,4 @@ void onCompletedGesture(SimpleOpenNI curContext, int gestureType, PVector pos)
 //  kinect.quit();
 //  super.stop();
 //}
+

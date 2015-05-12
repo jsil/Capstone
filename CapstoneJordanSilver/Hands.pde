@@ -187,6 +187,14 @@ class Hands {
     ArrayList<PVector> vecList = getHand(handId).getVectorList();
     return map(vecList.get(0).y,400,-400,0,height);
   }
+  
+  PVector getDirectional(int handId) {
+      ArrayList<PVector> vecList = getHand(handId).getVectorList();
+      PVector current = vecList.get(0);
+      PVector lastOne = vecList.get(1);
+      PVector difference = new PVector(current.x - lastOne.x, current.y - lastOne.y);
+      return difference;
+  }
 
   ArrayList<Integer> getAllHands() {
     ArrayList<Integer> returnedHands = new ArrayList<Integer>();
