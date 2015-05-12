@@ -8,9 +8,11 @@ class TweetLane {
   //  float xPos;
   int laneNum;
 
-  int angle = 45;
-  
+  int angle = 55;
+
   int cooldown = 0;
+  
+  boolean isSelected = false;
 
   TweetLane(int laneNumSet) {
     laneNum = laneNumSet;
@@ -27,13 +29,20 @@ class TweetLane {
       rotateX(radians(angle));
       activeTweets.get(i).drawSmall();
       popMatrix();
-      if(activeTweets.get(i).isDone()) {
-         activeTweets.remove(i); 
+      if (abs(700-activeTweets.get(i).getZPosition())<= 30 && isSelected) {
+        //award points
+        //set background
+        gm.game2.setBackground(activeTweets.get(i).getImage());
+        println("hit tweet!!");
+        activeTweets.remove(i);
+      }
+      if (activeTweets.get(i).isDone()) {
+        activeTweets.remove(i);
       }
     }
     popMatrix();
-    if(cooldown > 0) {
-       cooldown --; 
+    if (cooldown > 0) {
+      cooldown --;
     }
   }
 
@@ -46,6 +55,10 @@ class TweetLane {
     } else {
       return false;
     }
+  }
+  
+  void setSelected(boolean set) {
+     isSelected = set; 
   }
 }
 

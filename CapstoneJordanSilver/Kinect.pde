@@ -45,8 +45,8 @@ void drawKinect(int mode) {
     translate(250, 150, 0);
     }
     else {
-      translate(width*.2, 400, -300);
-      scale((width*.6)/kinect.depthWidth(), 1.04);
+      translate(width*.2, height/2, -600);
+      scale((width*.4)/kinect.depthWidth(), 1.04);
     }
 //    scale(1+((4/3)-(16/9)),1);
     tint(255, 140);
@@ -67,7 +67,7 @@ void onNewHand(SimpleOpenNI curContext, int handId, PVector pos)
 
 void onTrackedHand(SimpleOpenNI curContext, int handId, PVector pos)
 {
-  println("onTrackedHand - handId: " + handId + ", pos: " + pos );
+//  println("onTrackedHand - handId: " + handId + ", pos: " + pos );
   hands.trackedHand(handId, pos);
 }
 

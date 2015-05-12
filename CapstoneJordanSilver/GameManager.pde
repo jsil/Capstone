@@ -1,7 +1,7 @@
 class GameManager {
 
-  private ThisOrThat game1;
-  private RhythmTweet game2;
+  public ThisOrThat game1;
+  public RhythmTweet game2;
 
   private boolean paused = true;
   public boolean SAFEMODE = false;
@@ -25,7 +25,7 @@ class GameManager {
 
 
   int selectionTime = 0;
-  int selectionTimeMax = 4 * 24;
+  float selectionTimeMax = 3.5 * 24;
   int currentSelection;
 
   float kinectWidth = 0;

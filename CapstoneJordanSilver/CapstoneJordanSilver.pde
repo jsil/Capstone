@@ -8,7 +8,6 @@ TO DO:
 
  now-12:
  improve this or that display 
- do hit detection for tweet beat
  make background react to hit detection
  
  12-2:
@@ -49,7 +48,7 @@ PFont defaultFont;
 
 boolean installation = false;
 boolean DEBUG = false;
-boolean KINECT = true;
+boolean KINECT = false;
 
 Hands hands;
 

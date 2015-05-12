@@ -38,7 +38,7 @@ class Tweet {
 
   float zPosition = 0;
   float zMod = 10;
-  float zMax = 500;
+  float zMax = 800;
 
   Tweet(Status statusSet, int mode) {
     status = statusSet;
@@ -115,7 +115,6 @@ class Tweet {
 
     if (drawTime >= drawLength && position <= 0) {
       isDone = true;
-      println("cuprit 1");
     }
   }
 
@@ -150,12 +149,7 @@ class Tweet {
 
     if (zPosition >= zMax) {
       isDone = true;
-      println("culprit 2");
     }
-  }
-
-  float getZPosition() {
-    return zPosition;
   }
 
   private void drawBG() {
@@ -226,6 +220,10 @@ class Tweet {
     hasExecuted = true;
   }
 
+  PImage getImage() {
+     return img; 
+  }
+
   public int getImportance() {
     if (this.isCommand())
       return 1; 
@@ -282,6 +280,10 @@ class Tweet {
 
   float getYPosition() {
     return yPos;
+  }
+  
+  float getZPosition() {
+     return zPosition; 
   }
 
   boolean isPositioned() {
