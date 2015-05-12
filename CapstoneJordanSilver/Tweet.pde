@@ -43,6 +43,9 @@ class Tweet {
   String hashtag;
   boolean theOne = false;
 
+  float xVel = 0;
+  float yVel = 0;
+
   Tweet(Status statusSet, int mode) {
     status = statusSet;
     if (mode == 1) {
@@ -52,10 +55,10 @@ class Tweet {
     if (mode == 2) {
       getPicture();
 
-      if ((int)random(2) == 1) {
-        goodOrBad = true;
-      } else {
+      if ((int)random(3) == 1) {
         goodOrBad = false;
+      } else {
+        goodOrBad = true;
       }
     }
     if (mode == 3) {
@@ -68,26 +71,109 @@ class Tweet {
       }
       w = 50 + textWidth(hashtag);
       h = 30;
+      xVel = 20 - random(40);
+      yVel = 20 - random(40);
+    }
+  }
+  
+  boolean isGood() {
+     return goodOrBad; 
+  }
+
+  float getXVel() {
+    return xVel;
+  }
+
+  float getYVel() {
+    return yVel;
+  }
+
+  void incrementXVel() {
+    if (xVel > 0) {
+      if (xVel > 1) {
+        xVel--;
+      } else {
+        xVel = xVel/2 - 1;
+        if (xVel <= 0) {
+          xVel = 0;
+        }
+      }
+    } else if (xVel < 0) {
+      if (xVel < -1) {
+        xVel++;
+      } else {
+        xVel = xVel/2 + 1;
+        if (xVel >= 0) {
+          xVel = 0;
+        }
+      }
     }
   }
 
-  void isTheOne() {
+  void incrementYVel() {
+    if (yVel > 0) {
+      if (yVel > 1) {
+        yVel--;
+      } else {
+        yVel = yVel/2 - 1;
+        if (yVel <= 0) {
+          yVel = 0;
+        }
+      }
+    } else if (yVel < 0) {
+      if (yVel < -1) {
+        yVel++;
+      } else {
+        yVel = yVel/2 + 1;
+        if (yVel >= 0) {
+          yVel = 0;
+        }
+      }
+    }
+  }
+
+  void moveVelocity() {
+    if (xPos > 0 && xPos < width-w) {
+      xPos += xVel; 
+      incrementXVel();
+    } else {
+      xVel = -xVel;
+      xPos += xVel; 
+      incrementXVel();
+    }
+    if (yPos > 0 && yPos < height-h-50) {
+      yPos += yVel; 
+      incrementYVel();
+    } else {
+      yVel = -yVel;
+      yPos += yVel; 
+      incrementYVel();
+    }
+  }
+
+  void theOne() {
     theOne = true;
+  }
+  
+  boolean isTheOne() {
+     return theOne; 
   }
 
   void drawHash() {
     float wid = 50 + textWidth(hashtag);
     pushMatrix();
+    noStroke();
     if (!theOne) {
       fill(150, 240, 235);
     } else {
-      fill(255,0,0);
+      fill(255, 0, 0);
     }  
     rect(0, 0, wid, 30);
     fill(0);
     textAlign(CENTER);
     text(hashtag, wid/2, 20);
     textAlign(LEFT);
+    moveVelocity();
     popMatrix();
   }
 

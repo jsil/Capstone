@@ -214,6 +214,16 @@ class Hands {
     ArrayList<PVector> vecList = getHand(handId).getVectorList();
     return vecList.get(0).y;
   }
+  
+  float getMappedXPos(int handId) {
+    ArrayList<PVector> vecList = getHand(handId).getVectorList();
+    return map(vecList.get(0).x,-500,500,0,width);
+  }
+  
+  float getMappedYPos(int handId) {
+    ArrayList<PVector> vecList = getHand(handId).getVectorList();
+    return map(vecList.get(0).y,400,-400,0,height);
+  }
 
   ArrayList<Integer> getAllHands() {
     ArrayList<Integer> returnedHands = new ArrayList<Integer>();

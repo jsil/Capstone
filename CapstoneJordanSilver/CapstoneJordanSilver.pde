@@ -6,24 +6,18 @@ TO DO:
  add more this or that words
  figure out why everything crashes and burns
 
- now-12:
+ now-11:
  improve this or that display 
  fix background crash 
- 12-2:
  figure out layering on menu pie text
- hashtag tag game
+ finish hash tag game
  kinect compatibility with sub-menu
  
- 2-4:
+ 11:30-1:30:
+ clean up code
+ add intros
  add basic sound
  integrate pd tempo to tweet beat
- 
- 4-8:30: sleep
- 
- 9-11:30:
- add intros
- 
- 11:30-1:30:
  
  
 FUTURE GOALS:

@@ -44,9 +44,13 @@ void drawKinect(int mode) {
     else if(mode == 1) {
     translate(250, 150, 0);
     }
-    else {
+    else if(mode == 2) {
       translate(width*.2, height/2, -600);
       scale((width*.4)/kinect.depthWidth(), 1.04);
+    }
+    else {
+      translate(0, 0, 0);
+      scale((width)/kinect.depthWidth(), (height*1.01)/kinect.depthHeight());
     }
 //    scale(1+((4/3)-(16/9)),1);
     tint(255, 140);
