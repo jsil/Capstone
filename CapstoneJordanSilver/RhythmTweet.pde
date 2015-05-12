@@ -5,16 +5,26 @@ class RhythmTweet {
   TweetSort tweetSort = new TweetSort();
   Queue<Tweet> tweetQueue = new PriorityQueue(100, tweetSort);
 
-  PImage background;
+  ArrayList<PImage[]> backgroundArr = new ArrayList<PImage[]>();
+  int backgroundX = 28;
+  int backgroundY = 16;
+  
+  int perceivedSize = 100;
 
   int laneNum = 3;
 
   int time;
 
+  int forced = -1;
+
   RhythmTweet() {
     for (int i=0; i<laneNum; i++) {
       lanes.add(new TweetLane(i));
       println("creating lane " + i);
+    }
+
+    for (int i=0; i<backgroundX; i++) {
+      backgroundArr.add(new PImage[backgroundY]);
     }
   }
 
@@ -22,20 +32,48 @@ class RhythmTweet {
     tweetQueue.add(new Tweet(status, 2));
   }
 
+  int getForced() {
+    return forced;
+  }
+
+  void setForced(int set) {
+    forced = set;
+  }
+
+  void drawBackground() {
+    pushMatrix();
+    translate(-655,-410,-701);
+    for (int i=0; i<backgroundArr.size (); i++) {
+      pushMatrix();
+      for(int j=0;j<backgroundY;j++) {
+          PImage image = backgroundArr.get(i)[j];
+          if(image != null) {
+             image(image,0,0);
+          }
+          translate(0,perceivedSize,0);
+      }
+      popMatrix();
+      translate(perceivedSize,0,0);
+    }
+    popMatrix();
+
+    //   if (background != null) {
+    //      println("trying to draw background");
+    //      //       background(background); 
+    //      pushMatrix();
+    //      imageMode(CENTER);
+    //      translate(0, 0, -800);
+    //      image(background, width/2, height/2);
+    //      imageMode(CORNER);
+    //      println("did it");
+    //      popMatrix();
+    //    } else {
+    //    }
+  }
+
 
   void draw() {
-    if (background != null) {
-      println("trying to draw background");
-      //       background(background); 
-      pushMatrix();
-      imageMode(CENTER);
-      translate(0,0,-800);
-      image(background, width/2, height/2);
-      imageMode(CORNER);
-      println("did it");
-      popMatrix();
-    } else {
-    }
+    drawBackground();
     //    println("trying to draw rhythm");
     pushMatrix();
     moveTweets();
@@ -44,9 +82,12 @@ class RhythmTweet {
       laneSelection = hands.getTrinarySelection(hands.getFirstHand().getHandId());
       //      println("lane selection: " + laneSelection);
     } else {
-      println("hand lost");
+//      println("hand lost");
     }
 
+    if (getForced() != -1) {
+      laneSelection = getForced();
+    }
     pushMatrix();
     translate(width/4, height*.9, 0);
 
@@ -141,9 +182,17 @@ class RhythmTweet {
     }
   }
 
-  void setBackground(PImage set) {
-    background = set; 
-//    background.resize(width/2, height/2);
+  void addToBackground(PImage set) {
+    int x = (int)random(backgroundX);
+    int y = (int)random(backgroundY);
+    println("x: " + x + " y: " + y);
+    if ( backgroundArr.get(x)[y] == null) {
+      set.resize(100,100);
+      backgroundArr.get(x)[y] = set;
+    } else {
+      addToBackground(set);
+    }
+    //    background.resize(width/2, height/2);
   }
 }
 

@@ -2,6 +2,7 @@ class GameManager {
 
   public ThisOrThat game1;
   public RhythmTweet game2;
+  public HashTag game3;
 
   private boolean paused = true;
   public boolean SAFEMODE = false;
@@ -18,6 +19,7 @@ class GameManager {
   private PImage title = loadImage("title.png");
   private PImage menuImage1 = loadImage("thisorthat.png");
   private PImage menuImage2 = loadImage("tweetbeat.png");
+  private PImage menuImage3 = loadImage("hashtag.png");
   private PImage menuImage4 = loadImage("optionsmenu.png");
 
   Intro intro1 = new Intro();
@@ -57,38 +59,36 @@ class GameManager {
     noFill();
     arc(0, 0, 80, 80, 0, 2*PI, PIE);
     fill(255);
-    
+
     int selectionTimeFixed = 1;
     String selectionTimeFixed2;
-    if(selectionTime == 0) {
-       selectionTimeFixed = 1; 
-       selectionTimeFixed2 = "0";
+    if (selectionTime == 0) {
+      selectionTimeFixed = 1; 
+      selectionTimeFixed2 = "0";
+    } else {
+      selectionTimeFixed = selectionTime; 
+      //       if(selectionTime <= 24) {
+      //         selectionTimeFixed2 = "1";
+      //       }
+      //       else {
+      selectionTimeFixed2 = nf(((float)selectionTime/24)/4, 0, 2) + "%";
+      //       }
     }
-    else {
-       selectionTimeFixed = selectionTime; 
-//       if(selectionTime <= 24) {
-//         selectionTimeFixed2 = "1";
-//       }
-//       else {
-         selectionTimeFixed2 = nf(((float)selectionTime/24)/4,0,2) + "%";
-//       }
-    }
-//    println("time: " + selectionTime + " out of " + selectionTimeMax + " = " + (float)selectionTimeFixed/selectionTimeMax);
+    //    println("time: " + selectionTime + " out of " + selectionTimeMax + " = " + (float)selectionTimeFixed/selectionTimeMax);
     arc(0, 0, 80, 80, 0, (float)2*PI/((float)selectionTimeMax/selectionTimeFixed), PIE);
     popMatrix();
     fill(0);
     println("time " + selectionTimeFixed2);
-    textFont(defaultFont,20);
+    textFont(defaultFont, 20);
     textAlign(CENTER);
-//    translate(0,0,3);
-    text((selectionTimeFixed2),0,0);
+    //    translate(0,0,3);
+    text((selectionTimeFixed2), 0, 0);
     textAlign(LEFT);
-//    text("time " + (selectionTimeFixed2),215,255);
+    //    text("time " + (selectionTimeFixed2),215,255);
     noFill();
     strokeWeight(1);
     popMatrix();
     println("time " + selectionTimeFixed2);
-    
   }
 
   void handleHands() {
@@ -109,8 +109,7 @@ class GameManager {
           }
           drawSelectionCircle(selection);
         }
-      }
-      else {
+      } else {
         currentSelection = -1;
         selectionTime = 0;
       }
@@ -119,8 +118,8 @@ class GameManager {
 
   public void draw() {
     beginCamera();
-//    camera(0.0, 0.0, 100.0, 0.0, 0.0, 0.0, 
-//       0.0, 1.0, 0.0);
+    //    camera(0.0, 0.0, 100.0, 0.0, 0.0, 0.0, 
+    //       0.0, 1.0, 0.0);
     if (gameMode == 0) {
       if (!inSubMenu) {
         drawMainMenu();
@@ -146,12 +145,17 @@ class GameManager {
       background(15, 23, 30);
       game2.draw();
       popMatrix();
+    } else if (gameMode == 3) {
+      pushMatrix();
+      background(255, 222, 222);
+      game3.draw();
+      popMatrix();
     } else {
 
       pushMatrix();
       textFont(defaultFont);
       translate(0, 0, -150);
-//      vis.draw();
+      //      vis.draw();
 
       popMatrix();
     }
@@ -180,11 +184,11 @@ class GameManager {
       this.setGameMode(mode);
       game2 = new RhythmTweet();
       hands.limitOne(true);
-      
+
       paused = false;
     } else if (mode == 3) {
       this.setGameMode(mode);
-
+      game3 = new HashTag();
       paused = false;
     }
   }
@@ -208,14 +212,17 @@ class GameManager {
   }
 
   public void addTweet(Status status) {
-    if ((SAFEMODE && !isVulgar(status)) || !SAFEMODE) {
-      if (this.getGameMode() == 1 && game1.isActive()) {
+
+    if (this.getGameMode() == 1 && game1.isActive()) {
+      if ((SAFEMODE && !isVulgar(status)) || !SAFEMODE) {
         game1.addTweet(status);
-      } else if (this.getGameMode() == 2) {
-//        println("adding tweet to tweet beat");
-        game2.addToQueue(status);
-      } else if (this.getGameMode() == 3) {
-//        game2.addToQueue(status);
+      }
+    } else if (this.getGameMode() == 2) {
+      //        println("adding tweet to tweet beat");
+      game2.addToQueue(status);
+    } else if (this.getGameMode() == 3) {
+      if ((SAFEMODE && !isVulgar(status)) || !SAFEMODE) {
+        game3.addTweet(status);
       }
     } else {
       if (DEBUG)
@@ -225,7 +232,7 @@ class GameManager {
 
   public boolean isVulgar(Status status) {
     String message = status.getText();
-    if (message.indexOf("fuck") != -1 || message.indexOf("shit") != -1 || message.indexOf("nigg") != -1) {
+    if (message.indexOf("fuck") != -1 || message.indexOf("shit") != -1 || message.indexOf("nigg") != -1 || message.indexOf("cunt") != -1) {
       return true;
     } else {
       return false;
@@ -290,12 +297,12 @@ class GameManager {
     //320,430
 
     translate(width*.2, 220, 0);
-    
+
     handleHands();
-    
+
     kinectWidth = width*.6;
     kinectHeight = height-300;
-    
+
     rect(0, 0, kinectWidth, kinectHeight);
 
     line(kinectWidth/2, 0, kinectWidth/2, kinectHeight);
@@ -307,21 +314,24 @@ class GameManager {
     //    line(width*.75, 220, width*.75, height);
     //
     imageMode(CORNER);
-//        if (selection == 1) {
-//          fill(40);
-//          rect(0, 220, width/4, height-220);
-          noTint();
-          noStroke();
-          fill(150);
-          rect(0,0,kinectWidth/2, kinectHeight/2);
-          image(menuImage1, 0, 0, kinectWidth/2, kinectHeight/2);
-          
-          rect(kinectWidth/2,0,kinectWidth/2, kinectHeight/2);
-          image(menuImage2, kinectWidth/2, 0, kinectWidth/2, kinectHeight/2);
-          
-          rect(kinectWidth/2,kinectHeight/2,kinectWidth/2, kinectHeight/2);
-          image(menuImage4, kinectWidth/2, kinectHeight/2, kinectWidth/2, kinectHeight/2);
-//        } 
+    //        if (selection == 1) {
+    //          fill(40);
+    //          rect(0, 220, width/4, height-220);
+    noTint();
+    noStroke();
+    fill(150);
+    rect(0, 0, kinectWidth/2, kinectHeight/2);
+    image(menuImage1, 0, 0, kinectWidth/2, kinectHeight/2);
+
+    rect(kinectWidth/2, 0, kinectWidth/2, kinectHeight/2);
+    image(menuImage2, kinectWidth/2, 0, kinectWidth/2, kinectHeight/2);
+    
+    rect(0, kinectHeight/2, kinectWidth/2, kinectHeight/2);
+    image(menuImage3, 0, kinectHeight/2, kinectWidth/2, kinectHeight/2);
+
+    rect(kinectWidth/2, kinectHeight/2, kinectWidth/2, kinectHeight/2);
+    image(menuImage4, kinectWidth/2, kinectHeight/2, kinectWidth/2, kinectHeight/2);
+    //        } 
     //else {
     //      fill(40);
     //      rect(0, 220, width/4, height-220);
@@ -358,7 +368,6 @@ class GameManager {
     stroke(0);
     noTint();
     popMatrix();
-    
   }
 
   public boolean isInSubMenu() {

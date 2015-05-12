@@ -108,7 +108,7 @@ class Hands {
     if (handList.size() > 0) {
       return handList.get(0);
     } else {
-      println("tried to get first hand and failed");
+//      println("tried to get first hand and failed");
       return null;
     }
   }

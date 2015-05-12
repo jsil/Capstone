@@ -8,8 +8,7 @@ TO DO:
 
  now-12:
  improve this or that display 
- make background react to hit detection
- 
+ fix background crash 
  12-2:
  figure out layering on menu pie text
  hashtag tag game

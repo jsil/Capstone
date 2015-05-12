@@ -32,7 +32,7 @@ class TweetLane {
       if (abs(700-activeTweets.get(i).getZPosition())<= 30 && isSelected) {
         //award points
         //set background
-        gm.game2.setBackground(activeTweets.get(i).getImage());
+        gm.game2.addToBackground(activeTweets.get(i).getImage());
         println("hit tweet!!");
         activeTweets.remove(i);
       }
@@ -48,7 +48,7 @@ class TweetLane {
 
   boolean addTweet(Tweet newTweet) {
     if (activeTweets.size() < tweetNum && cooldown == 0) {
-      println("trying to add tweet");
+//      println("trying to add tweet");
       activeTweets.add(newTweet);
       cooldown = 24;
       return true;

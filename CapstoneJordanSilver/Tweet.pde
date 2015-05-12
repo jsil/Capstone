@@ -40,6 +40,9 @@ class Tweet {
   float zMod = 10;
   float zMax = 800;
 
+  String hashtag;
+  boolean theOne = false;
+
   Tweet(Status statusSet, int mode) {
     status = statusSet;
     if (mode == 1) {
@@ -55,13 +58,44 @@ class Tweet {
         goodOrBad = false;
       }
     }
+    if (mode == 3) {
+      zPosition = random(12);
+      HashtagEntity[] tags = status.getHashtagEntities();
+      if (tags.length != 0 && tags[0].getText().indexOf(' ') != 1) {
+        hashtag = "#" + tags[0].getText();
+      } else {
+        println("no tag broken");
+      }
+      w = 50 + textWidth(hashtag);
+      h = 30;
+    }
+  }
+
+  void isTheOne() {
+    theOne = true;
+  }
+
+  void drawHash() {
+    float wid = 50 + textWidth(hashtag);
+    pushMatrix();
+    if (!theOne) {
+      fill(150, 240, 235);
+    } else {
+      fill(255,0,0);
+    }  
+    rect(0, 0, wid, 30);
+    fill(0);
+    textAlign(CENTER);
+    text(hashtag, wid/2, 20);
+    textAlign(LEFT);
+    popMatrix();
   }
 
   void getPicture() {
     User user = status.getUser(); 
     String url = user.getProfileImageURL();
     img = loadImage(url, "jpg");
-//    println("url: " + url);
+    //    println("url: " + url);
   }
 
   public void draw() {
@@ -221,7 +255,7 @@ class Tweet {
   }
 
   PImage getImage() {
-     return img; 
+    return img;
   }
 
   public int getImportance() {
@@ -281,9 +315,9 @@ class Tweet {
   float getYPosition() {
     return yPos;
   }
-  
+
   float getZPosition() {
-     return zPosition; 
+    return zPosition;
   }
 
   boolean isPositioned() {

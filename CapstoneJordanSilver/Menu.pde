@@ -14,42 +14,42 @@ void doMenu() {
   topButton = new Menu("Mode");
 
   //create all the Menu Items and add the menuListener to check their state.
-  MenuShortcut ms1 = new MenuShortcut(KeyEvent.VK_2, false);
+  MenuShortcut ms1 = new MenuShortcut(KeyEvent.VK_1, false);
   
-  item1 = new MenuItem("This/That");
+  item1 = new MenuItem("Menu");
   item1.setShortcut(ms1);
   item1.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
-      gm.loadGameMode(1);
-    }
-  }
-  );
-  
-  MenuShortcut ms2 = new MenuShortcut(KeyEvent.VK_3, false);
-
-  item2 = new MenuItem("Debug");
-  item2.setShortcut(ms2);
-  item2.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
-      gm.loadGameMode(2);
-    }
-  }
-  );
-  
-  MenuShortcut ms3 = new MenuShortcut(KeyEvent.VK_1, false);
-  
-  item3 = new MenuItem("Menu");
-  item3.setShortcut(ms3);
-  item3.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {
       gm.loadGameMode(0);
     }
   }
   );
   
+  MenuShortcut ms2 = new MenuShortcut(KeyEvent.VK_2, false);
+
+  item2 = new MenuItem("This or That");
+  item2.setShortcut(ms2);
+  item2.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+      gm.loadGameMode(1);
+    }
+  }
+  );
+  
+  MenuShortcut ms3 = new MenuShortcut(KeyEvent.VK_3, false);
+  
+  item3 = new MenuItem("Tweet Beat");
+  item3.setShortcut(ms3);
+  item3.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+      gm.loadGameMode(2);
+    }
+  }
+  );
+  
   MenuShortcut ms4 = new MenuShortcut(KeyEvent.VK_4, false);
   
-  item4 = new MenuItem("TweetLane");
+  item4 = new MenuItem("Hash-Tag");
   item4.setShortcut(ms4);
   item4.addActionListener(new ActionListener() {
     public void actionPerformed(ActionEvent e) {

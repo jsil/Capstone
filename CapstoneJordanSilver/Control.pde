@@ -57,7 +57,7 @@ void controlEvent(ControlEvent theEvent) {
 
 void sampleSend(int selection) {
   oscP5.send(new OscMessage("/sample").add(selection), pureData);
-  println("Playing Sample #" + selection); 
+  println("Playing Sample #" + selection);
 }
 
 
@@ -68,32 +68,36 @@ void keyPressed() {
         ;
       } 
       if (keyCode == LEFT) { 
-//        vis.accelerateY(-1);
-        if(gm.getGameMode() == 0 && !gm.isInSubMenu()) {
-           gm.incrementSelection(false); 
+        //        vis.accelerateY(-1);
+        if (gm.getGameMode() == 0 && !gm.isInSubMenu()) {
+          gm.incrementSelection(false);
         }
       } 
       if (keyCode == RIGHT) {
-//        vis.accelerateY(1);
-        if(gm.getGameMode() == 0 && !gm.isInSubMenu()) {
-           gm.incrementSelection(true); 
+        //        vis.accelerateY(1);
+        if (gm.getGameMode() == 0 && !gm.isInSubMenu()) {
+          gm.incrementSelection(true);
         }
       }
       if (keyCode == UP) { 
-        if(gm.getGameMode() == 0 && gm.isInSubMenu()) {
-           gm.incrementSelection(false); 
+        if (gm.getGameMode() == 0 && gm.isInSubMenu()) {
+          gm.incrementSelection(false);
         }
       } 
       if (keyCode == DOWN) {
-        if(gm.getGameMode() == 0 && gm.isInSubMenu()) {
-           gm.incrementSelection(true); 
+        if (gm.getGameMode() == 0 && gm.isInSubMenu()) {
+          gm.incrementSelection(true);
         }
       }
     } else {
       if (key == 'z') {
-//        vis.zoomIn();
+        //        vis.zoomIn();
+        gm.game2.setForced(1);
       } else if (key == 'x') {
-//        vis.zoomOut();
+        //        vis.zoomOut();
+        gm.game2.setForced(2);
+      } else if (key == 'c') {
+        gm.game2.setForced(3);
       } else if (key == 'p') {
         paused = !paused;
       } else if (key == '1') {
@@ -101,16 +105,16 @@ void keyPressed() {
       } else if (key == '2') {
         sampleSend(2);
       } else if (key == 'k') {
-        if(!kinect.isInit()) {
+        if (!kinect.isInit()) {
           println("retrying");
           doKinect();
         }
       }
       if (keyCode == ENTER) {
-        gm.makeSelection(); 
+        gm.makeSelection();
       }
       if (keyCode == DELETE || keyCode == BACKSPACE) {
-        gm.backMenu(); 
+        gm.backMenu();
       }
     }
   }
@@ -121,13 +125,14 @@ void mouseClicked() {
 }
 
 void mousePressed() {
-//  vis.dragOn();
+  //  vis.dragOn();
 }
 
 void mouseReleased() {
-//  vis.dragOff();
+  //  vis.dragOff();
 }
 
 void mouseDragged() {
-//  vis.drag(mouseX, mouseY);
+  //  vis.drag(mouseX, mouseY);
 }
+
