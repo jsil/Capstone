@@ -69,8 +69,7 @@ class ThisOrThat {
       if (postStats.size() > 1) {
         diff1 = postStats.get(postStats.size()-1)[0] - postStats.get(postStats.size()-2)[0];
         diff2 = postStats.get(postStats.size()-1)[1] - postStats.get(postStats.size()-2)[1];
-      }
-      else {
+      } else {
         diff1 = postStats.get(0)[0];
         diff2 = postStats.get(0)[1];
       }
@@ -116,7 +115,7 @@ class ThisOrThat {
   }
 
   public void addTweet(Status status) {
-    Tweet tweet = new Tweet(status);
+    Tweet tweet = new Tweet(status, 1);
     tweetList.add(tweet);
     if (tweet.contains(word1)) {
       count1++;
@@ -311,59 +310,6 @@ class ThisOrThat {
     gm.loadGameMode(0);
   }
 
-  public void loadWords() {
-    allWords.add(new String[] {
-      "dad", "sis"
-    } 
-    );
-    allWords.add(new String[] {
-      "black", "white"
-    } 
-    );
-    allWords.add(new String[] {
-      "husband", "wife"
-    } 
-    );
-//    allWords.add(new String[] {
-//      "aunt", "uncle"
-//    } 
-//    );
-    allWords.add(new String[] {
-      "bye", "hello"
-    } 
-    );
-    allWords.add(new String[] {
-      "want", "need"
-    } 
-    );
-    allWords.add(new String[] {
-      "any", "help"
-    } 
-    );
-    allWords.add(new String[] {
-      "change", "stay"
-    } 
-    );
-    allWords.add(new String[] {
-      "wait", "stop"
-    } 
-    );
-    allWords.add(new String[] {
-      "movie", "song"
-    } 
-    );
-  }
-
-  public void generateNewWords() {
-    if (allWords.size() > 0) {
-      int rand = (int)random(allWords.size());
-      word1 = allWords.get(rand)[0];
-      word2 = allWords.get(rand)[1];
-      allWords.remove(rand);
-    } else {
-      println("Error! No more words! Words not updated");
-    }
-  }
 
   public boolean isActive() {
     return active;
@@ -437,5 +383,64 @@ class ThisOrThat {
     stroke(0);
     popMatrix();
   }
+
+  public void generateNewWords() {
+    if (allWords.size() > 0) {
+      int rand = (int)random(allWords.size());
+      word1 = allWords.get(rand)[0];
+      word2 = allWords.get(rand)[1];
+      allWords.remove(rand);
+    } else {
+      println("Error! No more words! Words not updated");
+    }
+  }
+
+  public void loadWords() {
+    allWords.add(new String[] {
+      "dad", "sis"
+    } 
+    );
+//    allWords.add(new String[] {
+//      "black", "white"
+//    } 
+//    );
+//    allWords.add(new String[] {
+//      "husband", "wife"
+//    } 
+//    );
+    //    allWords.add(new String[] {
+    //      "aunt", "uncle"
+    //    } 
+    //    );
+//    allWords.add(new String[] {
+//      "bye", "hello"
+//    } 
+//    );
+    allWords.add(new String[] {
+      "want", "need"
+    } 
+    );
+    allWords.add(new String[] {
+      "any", "help"
+    } 
+    );
+    allWords.add(new String[] {
+      "change", "stay"
+    } 
+    );
+    allWords.add(new String[] {
+      "wait", "stop"
+    } 
+    );
+    allWords.add(new String[] {
+      "movie", "song"
+    } 
+    );
+    allWords.add(new String[] {
+      "thanks", "come"
+    } 
+    );
+  }
 }
+
 

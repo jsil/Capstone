@@ -3,15 +3,34 @@
 
 /*
 TO DO:
- take/save picture
+ add more this or that words
+ figure out why everything crashes and burns
+
+ now-12:
+ improve this or that display 
+ do hit detection for tweet beat
+ make background react to hit detection
  
- figure out why kinect isn't working
+ 12-2:
+ figure out layering on menu pie text
+ hashtag tag game
+ kinect compatibility with sub-menu
+ 
+ 2-4:
  add basic sound
  integrate pd tempo to tweet beat
- make tweet beat tweets move
  
+ 4-8:30: sleep
+ 
+ 9-11:30:
+ add intros
+ 
+ 11:30-1:30:
+ 
+ 
+FUTURE GOALS:
  post a tweet
- 3rd game 
+ take/save picture
  */
 
 import oscP5.*;//sends messages to pure data
@@ -23,7 +42,7 @@ OscP5 oscP5;
 NetAddress pureData;   
 
 Debug debug;
-Visualization vis;
+//Visualization vis;
 GameManager gm;
 
 PFont defaultFont;
@@ -49,7 +68,7 @@ void setup() {
   ControlP5 cp5;
   cp5 = new ControlP5(this);
   debug = new Debug(cp5);
-  vis = new Visualization();
+//  vis = new Visualization();
   oscP5 = new OscP5(this, 9002);
   pureData = new NetAddress("127.0.0.1", 9001);
 

@@ -17,7 +17,7 @@ HashMap<Character, Integer> hm = new HashMap<Character, Integer>();
 HashMap<Character, Integer> letters = new HashMap<Character, Integer>();
 HashMap<Character, Integer> notes = new HashMap<Character, Integer>();
 
-TweetDeck tweetDeck;
+//TweetDeck tweetDeck;
 boolean startedTwitter;
 
 TwitterStream twitterStream;
@@ -35,7 +35,7 @@ void startTwitter() {
   //  twitterInstance = new TwitterFactory(cb.build()
   //    ).getInstance();
 
-  tweetDeck = new TweetDeck();
+//  tweetDeck = new TweetDeck();
 
   startedTwitter = true;
   twitterStream = new TwitterStreamFactory(cb.build()).getInstance();
@@ -103,7 +103,9 @@ void startTwitter() {
     "movie",
     "song",
     "bed",
-    "bath"
+    "bath",
+    "thanks",
+    "come"
 //    "boss",
 //    "player",
 //    "police",
@@ -157,7 +159,7 @@ Tweet currentTweet;
 
 void drawTwitter() {
   pushMatrix();
-  tweetDeck.draw();
+//  tweetDeck.draw();
   popMatrix();
 }
 

@@ -68,13 +68,13 @@ void keyPressed() {
         ;
       } 
       if (keyCode == LEFT) { 
-        vis.accelerateY(-1);
+//        vis.accelerateY(-1);
         if(gm.getGameMode() == 0 && !gm.isInSubMenu()) {
            gm.incrementSelection(false); 
         }
       } 
       if (keyCode == RIGHT) {
-        vis.accelerateY(1);
+//        vis.accelerateY(1);
         if(gm.getGameMode() == 0 && !gm.isInSubMenu()) {
            gm.incrementSelection(true); 
         }
@@ -91,15 +91,20 @@ void keyPressed() {
       }
     } else {
       if (key == 'z') {
-        vis.zoomIn();
+//        vis.zoomIn();
       } else if (key == 'x') {
-        vis.zoomOut();
+//        vis.zoomOut();
       } else if (key == 'p') {
         paused = !paused;
       } else if (key == '1') {
         sampleSend(1);
       } else if (key == '2') {
         sampleSend(2);
+      } else if (key == 'k') {
+        if(!kinect.isInit()) {
+          println("retrying");
+          doKinect();
+        }
       }
       if (keyCode == ENTER) {
         gm.makeSelection(); 
@@ -116,13 +121,13 @@ void mouseClicked() {
 }
 
 void mousePressed() {
-  vis.dragOn();
+//  vis.dragOn();
 }
 
 void mouseReleased() {
-  vis.dragOff();
+//  vis.dragOff();
 }
 
 void mouseDragged() {
-  vis.drag(mouseX, mouseY);
+//  vis.drag(mouseX, mouseY);
 }

@@ -36,17 +36,24 @@ class Tweet {
 
   boolean goodOrBad;
 
-  Tweet(Status statusSet) {
+  float zPosition = 0;
+  float zMod = 10;
+  float zMax = 500;
+
+  Tweet(Status statusSet, int mode) {
     status = statusSet;
+    if (mode == 1) {
+      textFont(font);
+      h = (textAscent() + textDescent()) * 6 + 50;
+    }
+    if (mode == 2) {
+      getPicture();
 
-    textFont(font);
-    h = (textAscent() + textDescent()) * 6 + 50;
-    getPicture();
-
-    if ((int)random(2) == 1) {
-      goodOrBad = true;
-    } else {
-      goodOrBad = false;
+      if ((int)random(2) == 1) {
+        goodOrBad = true;
+      } else {
+        goodOrBad = false;
+      }
     }
   }
 
@@ -54,7 +61,7 @@ class Tweet {
     User user = status.getUser(); 
     String url = user.getProfileImageURL();
     img = loadImage(url, "jpg");
-    println("url: " + url);
+//    println("url: " + url);
   }
 
   public void draw() {
@@ -108,6 +115,7 @@ class Tweet {
 
     if (drawTime >= drawLength && position <= 0) {
       isDone = true;
+      println("cuprit 1");
     }
   }
 
@@ -138,9 +146,16 @@ class Tweet {
 
     popMatrix();
 
-    if (drawTime >= drawLength && position <= 0) {
+    zPosition += zMod;
+
+    if (zPosition >= zMax) {
       isDone = true;
+      println("culprit 2");
     }
+  }
+
+  float getZPosition() {
+    return zPosition;
   }
 
   private void drawBG() {

@@ -80,7 +80,7 @@ class GameManager {
     println("time " + selectionTimeFixed2);
     textFont(defaultFont,20);
     textAlign(CENTER);
-    translate(0,0,3);
+//    translate(0,0,3);
     text((selectionTimeFixed2),0,0);
     textAlign(LEFT);
 //    text("time " + (selectionTimeFixed2),215,255);
@@ -118,6 +118,9 @@ class GameManager {
   }
 
   public void draw() {
+    beginCamera();
+//    camera(0.0, 0.0, 100.0, 0.0, 0.0, 0.0, 
+//       0.0, 1.0, 0.0);
     if (gameMode == 0) {
       if (!inSubMenu) {
         drawMainMenu();
@@ -138,7 +141,7 @@ class GameManager {
       }
 
       popMatrix();
-    } else if (gameMode == 3) {
+    } else if (gameMode == 2) {
       pushMatrix();
       background(15, 23, 30);
       game2.draw();
@@ -148,10 +151,11 @@ class GameManager {
       pushMatrix();
       textFont(defaultFont);
       translate(0, 0, -150);
-      vis.draw();
+//      vis.draw();
 
       popMatrix();
     }
+    endCamera();
     drawKinect(gameMode);
   }
 
@@ -174,11 +178,12 @@ class GameManager {
       paused = false;
     } else if (mode == 2) {
       this.setGameMode(mode);
+      game2 = new RhythmTweet();
+      hands.limitOne(true);
+      
       paused = false;
     } else if (mode == 3) {
       this.setGameMode(mode);
-      game2 = new RhythmTweet();
-      hands.limitOne(true);
 
       paused = false;
     }
@@ -207,9 +212,10 @@ class GameManager {
       if (this.getGameMode() == 1 && game1.isActive()) {
         game1.addTweet(status);
       } else if (this.getGameMode() == 2) {
-        tweetDeck.addToQueue(status);
-      } else if (this.getGameMode() == 3) {
+//        println("adding tweet to tweet beat");
         game2.addToQueue(status);
+      } else if (this.getGameMode() == 3) {
+//        game2.addToQueue(status);
       }
     } else {
       if (DEBUG)

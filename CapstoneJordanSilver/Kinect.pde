@@ -45,15 +45,13 @@ void drawKinect(int mode) {
     translate(250, 150, 0);
     }
     else {
-      
+      translate(width*.2, 400, -300);
+      scale((width*.6)/kinect.depthWidth(), 1.04);
     }
 //    scale(1+((4/3)-(16/9)),1);
     tint(255, 140);
-    println("drawing depth");
     image(kinect.depthImage(), 0, 0); 
-//    println("drew depth");
     noTint();    
-//    println("about to do hands");
     hands.doHands();
     imageMode(CORNER);
 //    translate(-width/2, -height/2, 0);
@@ -69,7 +67,7 @@ void onNewHand(SimpleOpenNI curContext, int handId, PVector pos)
 
 void onTrackedHand(SimpleOpenNI curContext, int handId, PVector pos)
 {
-//  println("onTrackedHand - handId: " + handId + ", pos: " + pos );
+  println("onTrackedHand - handId: " + handId + ", pos: " + pos );
   hands.trackedHand(handId, pos);
 }
 

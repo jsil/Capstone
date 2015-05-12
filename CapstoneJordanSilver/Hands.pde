@@ -20,7 +20,7 @@ class Hands {
   } 
 
   void doHands() {
-//    println("trying to draw hands");
+    //    println("trying to draw hands");
     for (int i=0; i<handList.size (); i++) {
       int handId = handList.get(i).getHandId();
       ArrayList<PVector> vecList = handList.get(i).getVectorList();
@@ -87,7 +87,7 @@ class Hands {
     //      }
     //    }
     //    strokeWeight(1);
-//    println("drew hands");
+    //    println("drew hands");
   }
 
   int size() {
@@ -102,6 +102,14 @@ class Hands {
       }
     }
     return null;
+  }
+
+  Hand getFirstHand() {
+    if (handList.size() > 0) {
+      return handList.get(0);
+    } else {
+      return null;
+    }
   }
 
   void newHand(int handId, PVector pos) {
@@ -127,14 +135,14 @@ class Hands {
   }
 
   void lostHand(int handId) {
-//    println("removing hand");
+    //    println("removing hand");
     for (int i=0; i<handList.size (); i++) {
       if (handList.get(i).getHandId() == handId) {
-//        println("found hand");
+        //        println("found hand");
         handList.remove(i);
-//        println("removed hand");
+        //        println("removed hand");
         gm.lostUser(handId);
-//        println("removed from gm");
+        //        println("removed from gm");
         break;
       }
     }
@@ -149,7 +157,13 @@ class Hands {
   }
 
   int getTrinarySelection(int handId) {
-    return 1;
+    if (getXPos(handId) <= -166.66) {
+      return 1;
+    } else if (getXPos(handId) <= 166.66) {
+      return 2;
+    } else {
+      return 3;
+    }
   }
 
   int getQuadrantSelection(int handId) {
@@ -207,9 +221,9 @@ class Hands {
     } 
     return returnedHands;
   }
-  
+
   void limitOne(boolean set) {
-     limitOne = set; 
+    limitOne = set;
   }
 }
 
